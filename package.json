@@ -1,0 +1,27 @@
+{
+  "name": "unizapp",
+  "version": "1.0.0",
+  "description": "unizapp",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/STW-Enjoyers/backend.git"
+  },
+  "author": "STW-enjoyers",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/STW-Enjoyers/backend/issues"
+  },
+  "homepage": "https://github.com/STW-Enjoyers/backend#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.2",
+    "cors": "^2.8.5",
+    "express": "^4.17.3",
+    "mogoose": "^0.0.1-security",
+    "mongoose": "^6.2.8"
+  }
+}
