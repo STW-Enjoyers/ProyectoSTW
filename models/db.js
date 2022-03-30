@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-mongoose.connect(process.env.MONGODB_URI, (err) => {
+mongoose.connect(process.env.MONGODB_URI, { autoIndex: true }, (err) => {
   if (!err) {
     console.log("Connected to Mongo");
   } else {
