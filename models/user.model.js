@@ -44,7 +44,9 @@ userSchema.methods.verifyPassword = function (pwd) {
 };
 
 userSchema.methods.jwtGen = function () {
-  return jwt.sign({ _id: this._id }, process.env.JWT_SECRET);
+  return jwt.sign({ _id: this._id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXP,
+  });
 };
 
 mongoose.model("User", userSchema);

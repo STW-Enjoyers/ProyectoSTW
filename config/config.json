@@ -2,10 +2,13 @@
   "development": {
     "PORT": 3000,
     "MONGODB_URI": "mongodb://localhost:27017/UnizApp",
-    "JWT_SECRET": "NOMEHACKEEEEEES#345678"
+    "JWT_SECRET": "NOMEHACKEEEEEES#345678",
+    "JWT_EXP": "1h"
   },
   "production": {
     "PORT": 80,
-    "MONGODB_URI": "mongodb://xxxxx/UnizApp"
+    "MONGODB_URI": "mongodb://xxxxx/UnizApp",
+    "JWT_SECRET": "NOMEHACKEEEEEES#345678",
+    "JWT_EXP": "1h"
   }
 }
