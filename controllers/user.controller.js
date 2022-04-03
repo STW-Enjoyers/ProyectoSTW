@@ -32,19 +32,18 @@ module.exports.login = (req, res, next) => {
 module.exports.profile = (req, res, next) => {
   console.log("AAAAAAAAAAAAA " + req._id);
   const myid = new ObjectId(req._id);
-  User.findOne({ _id: myid }),
-    (err, user) => {
-      console.log("No tamo");
-      if (!user) {
-        console.log("Tamo mal");
-        return res
-          .status(404)
-          .json({ status: false, message: "No se encontró el usuario :C" });
-      } else {
-        console.log("Tamo bien");
-        return res
-          .status(200)
-          .json({ status: true, user: _.pick(user, ["username", "email"]) });
-      }
-    };
+  User.findOne({ _id: myid }, (err, user) => {
+    console.log("No tamo");
+    if (!user) {
+      console.log("Tamo mal");
+      return res
+        .status(404)
+        .json({ status: false, message: "No se encontró el usuario :C" });
+    } else {
+      console.log("Tamo bien");
+      return res
+        .status(200)
+        .json({ status: true, user: _.pick(user, ["username", "email"]) });
+    }
+  });
 };
