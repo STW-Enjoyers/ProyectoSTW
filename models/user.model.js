@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const { body, validationResult } = require("express-validator");
 
 var userSchema = new mongoose.Schema({
@@ -36,5 +37,14 @@ userSchema.pre("save", function (next) {
     });
   });
 });
+
+//Method to verify the password
+userSchema.methods.verifyPassword = function (pwd) {
+  return bcrypt.compareSync(pwd, this.password);
+};
+
+userSchema.methods.jwtGen = function () {
+  return jwt.sign({ _id: this._id }, process.env.JWT_SECRET);
+};
 
 mongoose.model("User", userSchema);

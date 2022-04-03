@@ -1,7 +1,8 @@
 {
   "development": {
     "PORT": 3000,
-    "MONGODB_URI": "mongodb://localhost:27017/UnizApp"
+    "MONGODB_URI": "mongodb://localhost:27017/UnizApp",
+    "JWT_SECRET": "NOMEHACKEEEEEES#345678"
   },
   "production": {
     "PORT": 80,

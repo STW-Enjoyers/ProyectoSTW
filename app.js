@@ -1,9 +1,11 @@
 require("./config/config");
 require("./models/db");
+require("./config/passport");
 
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const passport = require("passport");
 
 const rIndex = require("./routes/index.router");
 
@@ -13,6 +15,7 @@ var app = express();
 app.use(bodyParser.json());
 app.use(cors());
 app.use("/api", rIndex);
+app.use(passport.initialize());
 
 //error
 app.use((err, req, res, next) => {
