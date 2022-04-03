@@ -31,7 +31,8 @@ module.exports.login = (req, res, next) => {
 
 module.exports.profile = (req, res, next) => {
   console.log("AAAAAAAAAAAAA " + req._id);
-  User.findOne({ _id: req._id }),
+  const myid = new ObjectId(req._id);
+  User.findOne({ _id: myid }),
     (err, user) => {
       console.log("No tamo");
       if (!user) {
