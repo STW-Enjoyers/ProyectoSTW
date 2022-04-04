@@ -1,4 +1,5 @@
 const axios = require('axios')
+const cron = require('node-cron');
 
 const admissionGradesURL = 'https://zaguan.unizar.es/search?p=DS003&of=recjson&jrec=1&rg=1';
 const NOTA_CORTE_DEFINITIVA_1 = "NOTA_CORTE_DEFINITIVA_1"
@@ -6,6 +7,13 @@ const NOTA_CORTE_DEFINITIVA_2 = "NOTA_CORTE_DEFINITIVA_2"
 const NOTA_CORTE_ADJUDICACION_1 = "NOTA_CORTE_ADJUDICACION_1"
 const NOTA_CORTE_ADJUDICACION_2 = "NOTA_CORTE_ADJUDICACION_2"
 var admissionGradesJSON = ""
+
+cron.schedule('* * * * *', () => {
+  (async () => {
+    jsonURL = await getLatestJsonUrl(admissionGradesURL);
+    console.log('Ultimo JSON: ' + jsonURL);
+  })()
+});
 
 const getGrades = function(req, res, next) {
     (async () => {
