@@ -8,12 +8,12 @@ const NOTA_CORTE_ADJUDICACION_1 = "NOTA_CORTE_ADJUDICACION_1"
 const NOTA_CORTE_ADJUDICACION_2 = "NOTA_CORTE_ADJUDICACION_2"
 var admissionGradesJSON = ""
 
-cron.schedule('* * * * *', () => {
+/*cron.schedule('* * * * *', () => {
   (async () => {
     jsonURL = await getLatestJsonUrl(admissionGradesURL);
     console.log('Ultimo JSON: ' + jsonURL);
   })()
-});
+});*/
 
 const getGrades = function(req, res, next) {
     (async () => {
