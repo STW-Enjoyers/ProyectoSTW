@@ -1,3 +1,5 @@
+require("./config/passport");
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -6,9 +8,15 @@ var logger = require('morgan');
 // Documentacion Swager 
 var swaggerJSDoc = require('swagger-jsdoc');
 // Moongose
-var mongoose = require("mongoose")
+var mongoose = require("mongoose");
+var bodyParser = require("body-parser");
+var cors = require("cors");
+var passport = require("passport");
+
 
 var gradesRouter = require('./app_server/routes/grades');
+var usersRouter = require("./app_server/routes/users");
+
 
 const dbURI = // TODO: ADD 
 mongoose.connect(dbURI, {useNewUrlParser: true});
@@ -60,11 +68,16 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use(cookieParser());
+app.use(bodyParser.json());
+app.use(cors()); // TODO: Necesario
+app.use(passport.initialize());
+
 // Define el directorio statico, lo que hay dentro se sirve tal cual
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Peticiones sobre notascorte 
 app.use('/api/grades', gradesRouter);
+app.use('/api', usersRouter)
 
 app.use(express.static('public'));
 
