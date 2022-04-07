@@ -1,55 +1,51 @@
 const axios = require('axios')
 const cron = require('node-cron');
-const Grades = require('../models/gradeSchema')
+
 const admissionGradesURL = 'https://zaguan.unizar.es/search?p=DS003&of=recjson&jrec=1&rg=1';
+const NOTA_CORTE_DEFINITIVA_1 = "NOTA_CORTE_DEFINITIVA_1"
+const NOTA_CORTE_DEFINITIVA_2 = "NOTA_CORTE_DEFINITIVA_2"
+const NOTA_CORTE_ADJUDICACION_1 = "NOTA_CORTE_ADJUDICACION_1"
+const NOTA_CORTE_ADJUDICACION_2 = "NOTA_CORTE_ADJUDICACION_2"
+var admissionGradesJSON = ""
+
+/*cron.schedule('* * * * *', () => {
+  (async () => {
+    jsonURL = await getLatestJsonUrl(admissionGradesURL);
+    console.log('Ultimo JSON: ' + jsonURL);
+  })()
+});*/
 
 const getGrades = function(req, res, next) {
     (async () => {
-      results = await Grades.find({lastOne : true},{_id :0, __v:0}) 
-      if(!results.length) {
-        jsonURL = await getLatestJsonUrl(admissionGradesURL);
-        jsonContent = await getJsonContent(jsonURL);
-        await Grades.insertMany(jsonContent);
-        res.send(jsonContent);
-      } else {
-        res.send(results);
-      }
-      res.status(200);    
+      jsonURL = await getLatestJsonUrl(admissionGradesURL)
+      res.status(200);
+      res.send(await getJson(jsonURL));
     })()
 };
-
 
 async function getLatestJsonUrl(url) {
   const response = await axios.get(url)
   return response.data[0].files.find(t=>t.description ==='JSON').url
 }
 
-async function getJsonContent(url) {
+async function getJson(url) {
   const response = await axios.get(url)
   
-  gradesArr = [];
+  grades = [];
   for (let k in response.data.datos) {
     maxGrade = Math.max(response.data.datos[k]["NOTA_CORTE_DEFINITIVA_1"],
                         response.data.datos[k]["NOTA_CORTE_DEFINITIVA_2"],
                         response.data.datos[k]["NOTA_CORTE_ADJUDICACION_1"],
                         response.data.datos[k]["NOTA_CORTE_ADJUDICACION_2"])
-
-    currentDegree = {nota: maxGrade, 
-                    centro: response.data.datos[k]["CENTRO"],
-                    estudio : response.data.datos[k]["ESTUDIO"],
-                    localidad :response.data.datos[k]["LOCALIDAD"],
-                    cupo: response.data.datos[k]["CUPO_ADJUDICACION"],
-                    curso: response.data.datos[k]["CURSO_ACADEMICO"] }
-    gradesArr.push({...currentDegree})
+    currentDegree = {"nota": maxGrade, 
+                     "centro": response.data.datos[k]["CENTRO"],
+                     "estudio" : response.data.datos[k]["ESTUDIO"],
+                     "localidad" :response.data.datos[k]["LOCALIDAD"],
+                     "cupo": response.data.datos[k]["CUPO_ADJUDICACION"]}
+    grades.push({...currentDegree})
   }
-  return gradesArr
+  return grades
 }
-
-/*cron.schedule('* * * * *', () => {
-  (async () => {
-    console.log('Ultimo JSON: ');
-  })()
-})*/
 
 module.exports = {
   getGrades

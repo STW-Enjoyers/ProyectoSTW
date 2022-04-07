@@ -5,19 +5,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 // Documentacion Swager 
 var swaggerJSDoc = require('swagger-jsdoc');
-// Moongose
-var mongoose = require("mongoose")
 
 var gradesRouter = require('./app_server/routes/grades');
-
-const dbURI = // TODO: ADD 
-mongoose.connect(dbURI, {useNewUrlParser: true});
-mongoose.connection.on("error", err => {
-  console.log("err", err)
-})
-mongoose.connection.on("connected", (err, res) => {
-  console.log("mongoose is connected")
-})
 
 var app = express();
 
