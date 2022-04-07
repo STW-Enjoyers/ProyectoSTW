@@ -1,32 +1,20 @@
 require("./config/passport");
+require("./app_server/models/db")
 var config = require("./config/config.json");
-process.env.JWT_SECRET = config.development.JWT_SECRET;
-process.env.JWT_EXP = config.development.JWT_EXP;
-
 var createError = require("http-errors");
 var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-// Documentacion Swager
-var swaggerJSDoc = require("swagger-jsdoc");
-// Moongose
-var mongoose = require("mongoose");
+var swaggerJSDoc = require("swagger-jsdoc"); // Documentacion Swager
 var bodyParser = require("body-parser");
 var cors = require("cors");
 var passport = require("passport");
+process.env.JWT_SECRET = config.development.JWT_SECRET;
+process.env.JWT_EXP = config.development.JWT_EXP;
 
 var gradesRouter = require("./app_server/routes/grades");
 var usersRouter = require("./app_server/routes/users");
-
-const dbURI = config.development.MONGODB_URI;
-mongoose.connect(dbURI, { useNewUrlParser: true });
-mongoose.connection.on("error", (err) => {
-  console.log("err", err);
-});
-mongoose.connection.on("connected", (err, res) => {
-  console.log("mongoose is connected");
-});
 
 var app = express();
 
