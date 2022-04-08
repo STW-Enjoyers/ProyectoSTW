@@ -112,7 +112,7 @@ cron.schedule('* * * * *', () => {
     }
     // Find new grades
     jsonURL = await getJsonUrl(admissionURL.replace("-YYYY",""));
-    if (lastYearUrl != jsonURL) {
+    if (lastYear == null || lastYearUrl != jsonURL) {
       console.log('There is a new year!')
       results = await getNewYearGrades(jsonURL);
       Grades.insertMany(results);
