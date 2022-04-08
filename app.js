@@ -1,16 +1,16 @@
+const createError = require("http-errors");
+const express = require("express");
+const path = require("path");
+const cookieParser = require("cookie-parser");
+const logger = require("morgan");
+const swaggerJSDoc = require("swagger-jsdoc"); // Documentacion Swager
+const bodyParser = require("body-parser");
+const cors = require("cors");
+const passport = require("passport");
+const apiRouter = require('./app_api/routes/index');
 require("./config/passport");
-require("./app_server/models/db")
-var createError = require("http-errors");
-var express = require("express");
-var path = require("path");
-var cookieParser = require("cookie-parser");
-var logger = require("morgan");
-var swaggerJSDoc = require("swagger-jsdoc"); // Documentacion Swager
-var bodyParser = require("body-parser");
-var cors = require("cors");
-var passport = require("passport");
-var gradesRouter = require("./app_server/routes/grades");
-var usersRouter = require("./app_server/routes/users");
+require('./app_api/models/db');
+
 
 var app = express();
 
@@ -59,9 +59,8 @@ app.use(passport.initialize());
 // Define el directorio statico, lo que hay dentro se sirve tal cual
 app.use(express.static(path.join(__dirname, "public")));
 
-// Peticiones sobre notascorte
-app.use("/api/grades", gradesRouter);
-app.use("/api", usersRouter);
+// Peticiones sobre api
+app.use("/api", apiRouter);
 
 app.use(express.static("public"));
 

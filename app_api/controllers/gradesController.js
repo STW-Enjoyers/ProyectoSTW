@@ -1,5 +1,4 @@
 const axios = require('axios');
-const { last } = require('lodash');
 const cron = require('node-cron');
 const Grades = require('../models/gradeSchema')
 const admissionURL = 'https://zaguan.unizar.es/search?p=DS003-YYYY&of=recjson&jrec=1&rg=1';
@@ -25,13 +24,14 @@ const getLastYear = function(req, res, next) {
 const getYear = function(req, res, next) {
   try {  
     (async () => {
-      if(req.body.year && req.body.year instanceof Number) {
-        results = await Grades.find({curso : req.body.year},{_id :0, __v:0})
+      const year = req.params.year;
+      if(year && !isNaN(year)) {
+        results = await Grades.find({curso : year},{_id :0, __v:0})
         if (results.length) {
           res.status(200).send(results)
           return
         } else {
-          jsonURL = await getJsonUrl(admissionURL.replace("YYYY",req.body.year));
+          jsonURL = await getJsonUrl(admissionURL.replace("YYYY",year));
           if (jsonURL != null) {
             results = await getNewYearGrades(jsonURL);
             await Grades.insertMany(results); 
@@ -47,7 +47,9 @@ const getYear = function(req, res, next) {
   } 
 };
 
-
+const httpNotImplemented = function (req, res) {
+  res.status(501).json('Operation not implemented');   
+};
 
 
 async function getJsonUrl(url) {
@@ -121,7 +123,11 @@ cron.schedule('* * * * *', () => {
   })()
 })
 
+
+
+
 module.exports = {
   getLastYear,
-  getYear
+  getYear,
+  httpNotImplemented
 };

@@ -1,7 +1,6 @@
-const mongoose = require("mongoose");
 const passport = require("passport");
 const _ = require("lodash");
-const User =  require('../models/userShema')
+const User =  require('../models/userSchema')
 
 const register = function(req, res, next) {
   console.log("Registrando");
