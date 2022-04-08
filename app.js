@@ -1,6 +1,5 @@
 require("./config/passport");
 require("./app_server/models/db")
-var config = require("./config/config.json");
 var createError = require("http-errors");
 var express = require("express");
 var path = require("path");
@@ -10,9 +9,6 @@ var swaggerJSDoc = require("swagger-jsdoc"); // Documentacion Swager
 var bodyParser = require("body-parser");
 var cors = require("cors");
 var passport = require("passport");
-process.env.JWT_SECRET = config.development.JWT_SECRET;
-process.env.JWT_EXP = config.development.JWT_EXP;
-
 var gradesRouter = require("./app_server/routes/grades");
 var usersRouter = require("./app_server/routes/users");
 
