@@ -1,6 +1,8 @@
 const request = require('request');
 const cron = require('node-cron');
-const Grades = require('../models/gradeSchema')
+const Grades = require('../models/gradeSchema');
+const { hash } = require('bcryptjs');
+const  crypto = require('crypto');
 const admissionURL = '/search?p=DS003-YYYY&of=recjson&jrec=1&rg=1';
 const serverOptions = {
   server : 'https://zaguan.unizar.es'
@@ -142,7 +144,8 @@ function processGrades(data) {
                      estudio :   data[k]["ESTUDIO"],
                      localidad : data[k]["LOCALIDAD"],
                      cupo:       data[k]["CUPO_ADJUDICACION"],
-                     curso:      data[k]["CURSO_ACADEMICO"] }
+                     curso:      data[k]["CURSO_ACADEMICO"],
+                     idCarrera:  generateHashGrade(data[k]["ESTUDIO"],data[k]["CENTRO"])}
     gradesArr.push({...currentDegree})
   }
   return gradesArr;
@@ -160,10 +163,16 @@ async function updateCurrentYearGrades(data) {
                             estudio :   data[k]["ESTUDIO"],
                             localidad : data[k]["LOCALIDAD"],
                             cupo:       data[k]["CUPO_ADJUDICACION"],
-                            curso:      data[k]["CURSO_ACADEMICO"] },
+                            curso:      data[k]["CURSO_ACADEMICO"],
+                            idCarrera:  generateHashGrade(data[k]["ESTUDIO"],data[k]["CENTRO"]) },
           {$set: {nota : maxGrade}});
   }
 }
+
+function generateHashGrade(degree, school) {
+  return crypto.createHash('md5').update(degree + school).digest("hex");
+}
+
 
 
 cron.schedule('* 23 * * *', () => {
