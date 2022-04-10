@@ -71,7 +71,7 @@ const getYear = function (req, res) {
 };
 
 const httpNotImplemented = function (req, res) {
-  res.status(501).json('Operation not implemented');   
+  res.status(501).json("Operation not implemented");
 };
 
 function getJsonUrl(res, query){
@@ -145,7 +145,7 @@ function processGrades(data) {
                      curso:      data[k]["CURSO_ACADEMICO"] }
     gradesArr.push({...currentDegree})
   }
-  return gradesArr
+  return gradesArr;
 }
 
 
@@ -166,7 +166,7 @@ async function updateCurrentYearGrades(data) {
 }
 
 
-cron.schedule('* * * * *', () => {
+cron.schedule('* 23 * * *', () => {
   console.log('Updating admission data..');
   const requestOptions = {
     url : serverOptions.server + admissionURL.replace("YYYY",""),
@@ -212,5 +212,5 @@ cron.schedule('* * * * *', () => {
 module.exports = {
   getLastYear,
   getYear,
-  httpNotImplemented
+  httpNotImplemented,
 };
