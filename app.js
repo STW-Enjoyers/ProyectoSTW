@@ -23,7 +23,7 @@ var swaggerDefinition = {
   },
   host: "unizapp-backend-dev.herokuapp.com", // Tiene que coincidir con puerto del servidor
   basePath: "/api/",
-  schemes: ["http"],
+  schemes: ["https"],
 };
 // options for the swagger docs
 var options = {
