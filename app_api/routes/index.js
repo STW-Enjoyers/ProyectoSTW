@@ -14,7 +14,11 @@ const jwtHelper = require("../../config/jwtHelper");
 *       description: Get last year admission grades
 *       responses:
 *           200:
-*               description: Returns last year admission grades for Unizar
+*               description: An array of admission grades
+*           404: 
+*               description: Data for last year was not found
+*           500:
+*               description: Internal server error
 */
 router
     .route('/grades/last')
@@ -23,15 +27,25 @@ router
     .delete(ctrlGrades.httpNotImplemented)
     .put(ctrlGrades.httpNotImplemented)
 
-/* GET all admisison grades. */
+/* GET ${year} admisison grades. */
 /**
 * @openapi
-* /grades/year:
+* /grades/{year}:
 *   get:
 *       description: Get admission grades for a certain year
+*       parameters:
+*         - in: path  
+*           name: year
+*           required: true
+*           description: The year of the admission grades to retrieve
+*           type: integer   
 *       responses:
 *           200:
-*               description: Returns admission grades for a certain year at Unizar
+*               description: An array of {year} admission grades
+*           404: 
+*               description: Data for {year} was not found
+*           500:
+*               description: Internal server error   
 */
 router
     .route('/grades/:year')
