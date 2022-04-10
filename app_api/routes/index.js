@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 const ctrlGrades = require('../controllers/gradesController');
+const ctrlErasmus = require('../controllers/erasmusController');
 const controlUser = require("../controllers/userController");
 const jwtHelper = require("../../config/jwtHelper");
 
@@ -53,6 +54,15 @@ router
     .post(ctrlGrades.httpNotImplemented)
     .delete(ctrlGrades.httpNotImplemented)
     .put(ctrlGrades.httpNotImplemented)
+
+
+router
+    .route('/erasmus/in')
+    .get(ctrlErasmus.getIn)
+    .post(ctrlErasmus.httpNotImplemented)
+    .delete(ctrlErasmus.httpNotImplemented)
+    .put(ctrlErasmus.httpNotImplemented)
+
 
 
 router.post("/register", controlUser.register);
