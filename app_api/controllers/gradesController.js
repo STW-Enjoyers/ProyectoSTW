@@ -1,130 +1,213 @@
-const axios = require('axios');
+const request = require('request');
 const cron = require('node-cron');
 const Grades = require('../models/gradeSchema')
-const admissionURL = 'https://zaguan.unizar.es/search?p=DS003-YYYY&of=recjson&jrec=1&rg=1';
-
-const getLastYear = function(req, res, next) {
-  try {  
-    (async () => {
-      lastYear = await getLastYearSaved();
-      if (lastYear != null) {
-        results = await Grades.find({curso : lastYear},{_id :0, __v:0})
-      } else { 
-          jsonURL = await getJsonUrl(admissionURL.replace("-YYYY",""));
-          results = await getNewYearGrades(jsonURL);
-          await Grades.insertMany(results);       
-      }
-      res.status(200).send(results)
-    })()
-  } catch (error) {
-      res.status(500).send('Server Error');
-  } 
+const admissionURL = '/search?p=DS003-YYYY&of=recjson&jrec=1&rg=1';
+const serverOptions = {
+  server : 'https://zaguan.unizar.es'
 };
 
-const getYear = function(req, res, next) {
-  try {  
-    (async () => {
-      const year = req.params.year;
-      if(year && !isNaN(year)) {
-        results = await Grades.find({curso : year},{_id :0, __v:0})
-        if (results.length) {
-          res.status(200).send(results)
-          return
-        } else {
-          jsonURL = await getJsonUrl(admissionURL.replace("YYYY",year));
-          if (jsonURL != null) {
-            results = await getNewYearGrades(jsonURL);
-            await Grades.insertMany(results); 
-            res.status(200).send(results)
-            return;  
+const getLastYear = function(req, res) {
+  Grades
+    .findOne({})
+    .sort('-curso')
+    .exec((err, year) => {
+      if (err) {
+        res
+          .status(404)
+          .json(err);
+        return;
+      } else {
+          if (year != null) {
+            Grades
+              .find({curso : year.curso},{_id :0, __v:0})
+              .exec((err, lastYear) => {
+                if (err) {
+                  res
+                    .status(404)
+                    .json(err);
+                } else {
+                  res
+                    .status(200)
+                    .json(lastYear);
+                }
+              });
+            return;
           } 
-        } 
-      } 
-      res.status(404).send("Year not found")
-    })()
-  } catch (error) {
-      res.status(500).send('Server Error');
-  } 
+          getJsonUrl(res,admissionURL.replace("YYYY",""))  
+      }
+    });
+};
+
+
+
+const getYear = function (req, res) {
+  const year = req.params.year;
+  if(year && !isNaN(year)) {
+      Grades
+        .find({curso : year},{_id :0, __v:0})
+        .exec((err, grades) => {
+          if (err) {
+            res
+              .status(404)
+              .json(err);
+            return;
+          } else {
+            if (grades.length) {
+              res
+                .status(200)
+                .json(grades)
+              return;
+            } 
+            getJsonUrl(res,admissionURL.replace("YYYY",year));
+          }
+        });
+  } else {
+    res
+      .status(404)
+      .json({
+        "year": "Not found, year required"
+    });
+  }
 };
 
 const httpNotImplemented = function (req, res) {
   res.status(501).json('Operation not implemented');   
 };
 
-
-async function getJsonUrl(url) {
-  const response = await axios.get(url)
-  if(response.data != '') {
-    return response.data[0].files.find(t=>t.description ==='JSON').url
-  } return null
+function getJsonUrl(res, query){
+  const requestOptions = {
+    url : serverOptions.server + query,
+    method : 'GET',
+    json : {},
+  };
+  request(
+    requestOptions,
+    (err, response, body) => {
+      console.log(response.statusCode)
+      if (response.statusCode === 200 && body != null) {
+        jsonUrl = body[0].files.find(t=>t.description ==='JSON').url
+        getJsonContent(res,jsonUrl)
+        return;
+      } else if(response.statusCode === 200 && body == null) {
+          res
+            .status(404)
+            .json({
+              "message": "Year not saved"
+            });
+          return;
+      } 
+      res
+        .status(500)
+        .json({
+          "message": "There was an error while querying Zaguan"
+        });
+    });
 }
 
-async function getNewYearGrades(url) {
-  const response = await axios.get(url)
+function getJsonContent(res, jsonUrl){
+  const requestOptions = {
+    url : jsonUrl,
+    method : 'GET',
+    json : {},
+  };
+  request(
+    requestOptions,
+    (err, response, body) => {
+      if (response.statusCode === 200 && body != null) {
+         gradesProc = processGrades(body.datos)
+         res
+          .status(200)
+          .json(gradesProc);
+         Grades.insertMany(gradesProc); 
+         return;
+      } 
+      res
+        .status(500)
+        .json({
+          "message": "There was an error while querying Zaguan"
+        });
+    });
+}
+
+
+function processGrades(data) {
   gradesArr = [];
-  for (let k in response.data.datos) {
-    maxGrade = Math.max(response.data.datos[k]["NOTA_CORTE_DEFINITIVA_1"],
-                        response.data.datos[k]["NOTA_CORTE_DEFINITIVA_2"],
-                        response.data.datos[k]["NOTA_CORTE_ADJUDICACION_1"],
-                        response.data.datos[k]["NOTA_CORTE_ADJUDICACION_2"])
-    currentDegree = {nota: maxGrade, 
-                     centro: response.data.datos[k]["CENTRO"],
-                     estudio : response.data.datos[k]["ESTUDIO"],
-                     localidad :response.data.datos[k]["LOCALIDAD"],
-                     cupo: response.data.datos[k]["CUPO_ADJUDICACION"],
-                     curso: response.data.datos[k]["CURSO_ACADEMICO"] }
+  for (let k in data) {
+    maxGrade = Math.max(data[k]["NOTA_CORTE_DEFINITIVA_1"],
+                        data[k]["NOTA_CORTE_DEFINITIVA_2"],
+                        data[k]["NOTA_CORTE_ADJUDICACION_1"],
+                        data[k]["NOTA_CORTE_ADJUDICACION_2"])
+    currentDegree = {nota:       maxGrade, 
+                     centro:     data[k]["CENTRO"],
+                     estudio :   data[k]["ESTUDIO"],
+                     localidad : data[k]["LOCALIDAD"],
+                     cupo:       data[k]["CUPO_ADJUDICACION"],
+                     curso:      data[k]["CURSO_ACADEMICO"] }
     gradesArr.push({...currentDegree})
   }
   return gradesArr
 }
 
 
-async function getLastYearSaved() {
-  yearGrade = await Grades.findOne({}).sort('-curso');
-  if (yearGrade)  return yearGrade.curso
-  return null
-}
-
-async function updateCurrentYearGrades(url) {
-  const response = await axios.get(url)
-  for (let k in response.data.datos) {
-    maxGrade = Math.max(response.data.datos[k]["NOTA_CORTE_DEFINITIVA_1"],
-                        response.data.datos[k]["NOTA_CORTE_DEFINITIVA_2"],
-                        response.data.datos[k]["NOTA_CORTE_ADJUDICACION_1"],
-                        response.data.datos[k]["NOTA_CORTE_ADJUDICACION_2"]);
-    await Grades.updateOne({estudio :response.data.datos[k]["ESTUDIO"], 
-                            centro: response.data.datos[k]["CENTRO"],
-                            estudio : response.data.datos[k]["ESTUDIO"],
-                            localidad :response.data.datos[k]["LOCALIDAD"],
-                            cupo: response.data.datos[k]["CUPO_ADJUDICACION"],
-                            curso: response.data.datos[k]["CURSO_ACADEMICO"] },
+async function updateCurrentYearGrades(data) {
+  for (let k in data) {
+    maxGrade = Math.max(data[k]["NOTA_CORTE_DEFINITIVA_1"],
+                        data[k]["NOTA_CORTE_DEFINITIVA_2"],
+                        data[k]["NOTA_CORTE_ADJUDICACION_1"],
+                        data[k]["NOTA_CORTE_ADJUDICACION_2"]);
+    await Grades.updateOne({estudio :   data[k]["ESTUDIO"], 
+                            centro:     data[k]["CENTRO"],
+                            estudio :   data[k]["ESTUDIO"],
+                            localidad : data[k]["LOCALIDAD"],
+                            cupo:       data[k]["CUPO_ADJUDICACION"],
+                            curso:      data[k]["CURSO_ACADEMICO"] },
           {$set: {nota : maxGrade}});
   }
 }
 
 
 cron.schedule('* * * * *', () => {
-  (async () => {
-    console.log('Updating admission data..');
-    // Update last saved year
-    lastYear = await getLastYearSaved()
-    if (lastYear != null) {
-      lastYearUrl = await getJsonUrl(admissionURL.replace("YYYY",lastYear))
-      updateCurrentYearGrades(lastYearUrl)
-    }
-    // Find new grades
-    jsonURL = await getJsonUrl(admissionURL.replace("-YYYY",""));
-    if (lastYear == null || lastYearUrl != jsonURL) {
-      console.log('There is a new year!')
-      results = await getNewYearGrades(jsonURL);
-      Grades.insertMany(results);
-    }
-    console.log('Admission data updated');
-  })()
+  console.log('Updating admission data..');
+  const requestOptions = {
+    url : serverOptions.server + admissionURL.replace("YYYY",""),
+    method : 'GET',
+    json : {},
+  };
+  request(
+    requestOptions,
+    (err, response, body) => {
+      if (response.statusCode === 200 && body != null) {
+        jsonUrl = body[0].files.find(t=>t.description ==='JSON').url
+        const secondRequestOptions = {
+          url : jsonUrl,
+          method : 'GET',
+          json : {},
+        };
+        request(
+          secondRequestOptions,
+          (secondErr, secondResponse, secondBody) => {
+            if (secondResponse.statusCode === 200 && secondBody != null) {
+              Grades
+                .findOne({})
+                .sort('-curso')
+                .exec((err, year) => {
+                  if (!err && (year == null ||
+                      secondResponse.body.datos[0]["CURSO_ACADEMICO"] != year.curso)) {
+                      console.log("New data!")
+                      gradesProc = processGrades(secondResponse.body.datos)
+                      Grades.insertMany(gradesProc); 
+                  } else if(!err && year != null && 
+                            secondResponse.body.datos[0]["CURSO_ACADEMICO"] == year.curso) {
+                      console.log("Updated data!")
+                      updateCurrentYearGrades(secondResponse.body.datos)
+                  }
+               });
+            } 
+          });
+      } 
+    });
+  console.log('Admission data updated');
 })
-
-
-
 
 module.exports = {
   getLastYear,

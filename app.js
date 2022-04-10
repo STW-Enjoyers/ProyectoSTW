@@ -21,7 +21,7 @@ var swaggerDefinition = {
     version: "1.0.0",
     description: "Descripción del API del servicio de UnizApp",
   },
-  host: "localhost:3000", // Tiene que coincidir con puerto del servidor
+  host: "unizapp-backend-dev", // Tiene que coincidir con puerto del servidor
   basePath: "/api/",
   schemes: ["http"],
 };
@@ -30,7 +30,7 @@ var options = {
   // import swaggerDefinitions
   swaggerDefinition: swaggerDefinition,
   // path to the API docs
-  apis: ["./app_server/routes/*.js"], // Coincide con ruta a routes
+  apis: ["./app_api/routes/*.js"], // Coincide con ruta a routes
 };
 // initialize swagger-jsdoc
 var swaggerSpec = swaggerJSDoc(options);
