@@ -7,12 +7,13 @@ const controlUser = require("../controllers/userController");
 const jwtHelper = require("../../config/jwtHelper");
 
 
-/* GET all admisison grades. */
+/* GET all admission grades. */
 /**
 * @openapi
 * /grades/last:
 *   get:
 *       description: Get last year admission grades
+*       tag: admission grades
 *       responses:
 *           200:
 *               description: An array of admission grades
@@ -28,12 +29,13 @@ router
     .delete(ctrlGrades.httpNotImplemented)
     .put(ctrlGrades.httpNotImplemented)
 
-/* GET ${year} admisison grades. */
+/* GET ${year} admission grades. */
 /**
 * @openapi
 * /grades/{year}:
 *   get:
 *       description: Get admission grades for a certain year
+*       tag: admission grades
 *       parameters:
 *         - in: path  
 *           name: year
@@ -61,6 +63,7 @@ router
 * /erasmus/in:
 *   get:
 *       description: Get number of Erasmus offers for studying at Unizar this year
+*       tag: Erasmus
 *       responses:
 *           200:
 *               description: An array of Erasmus offers
@@ -83,6 +86,7 @@ router
 * /erasmus/out:
 *   get:
 *       description: Get number of Erasmus offers for Unizar students for studying abroad
+*       tag: Erasmus
 *       responses:
 *           200:
 *               description: An array of Erasmus offers
