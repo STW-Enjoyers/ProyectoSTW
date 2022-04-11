@@ -13,7 +13,8 @@ const jwtHelper = require("../../config/jwtHelper");
 * /grades/last:
 *   get:
 *       description: Get last year admission grades
-*       tag: admission grades
+*       tags: 
+*         - admission 
 *       responses:
 *           200:
 *               description: An array of admission grades
@@ -35,7 +36,8 @@ router
 * /grades/{year}:
 *   get:
 *       description: Get admission grades for a certain year
-*       tag: admission grades
+*       tags: 
+*         - admission 
 *       parameters:
 *         - in: path  
 *           name: year
@@ -63,7 +65,8 @@ router
 * /erasmus/in:
 *   get:
 *       description: Get number of Erasmus offers for studying at Unizar this year
-*       tag: Erasmus
+*       tags: 
+*         - Erasmus 
 *       responses:
 *           200:
 *               description: An array of Erasmus offers
@@ -86,7 +89,8 @@ router
 * /erasmus/out:
 *   get:
 *       description: Get number of Erasmus offers for Unizar students for studying abroad
-*       tag: Erasmus
+*       tags: 
+*         - Erasmus 
 *       responses:
 *           200:
 *               description: An array of Erasmus offers
