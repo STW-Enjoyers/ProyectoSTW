@@ -2,16 +2,19 @@ var express = require('express');
 var router = express.Router();
 
 const ctrlGrades = require('../controllers/gradesController');
+const ctrlErasmus = require('../controllers/erasmusController');
 const controlUser = require("../controllers/userController");
 const jwtHelper = require("../../config/jwtHelper");
 
 
-/* GET all admisison grades. */
+/* GET all admission grades. */
 /**
 * @openapi
 * /grades/last:
 *   get:
 *       description: Get last year admission grades
+*       tags: 
+*         - admission 
 *       responses:
 *           200:
 *               description: An array of admission grades
@@ -27,12 +30,14 @@ router
     .delete(ctrlGrades.httpNotImplemented)
     .put(ctrlGrades.httpNotImplemented)
 
-/* GET ${year} admisison grades. */
+/* GET ${year} admission grades. */
 /**
 * @openapi
 * /grades/{year}:
 *   get:
 *       description: Get admission grades for a certain year
+*       tags: 
+*         - admission 
 *       parameters:
 *         - in: path  
 *           name: year
@@ -53,6 +58,53 @@ router
     .post(ctrlGrades.httpNotImplemented)
     .delete(ctrlGrades.httpNotImplemented)
     .put(ctrlGrades.httpNotImplemented)
+
+/* GET number of Erasmus offers for studying at Unizar. */
+/**
+* @openapi
+* /erasmus/in:
+*   get:
+*       description: Get number of Erasmus offers for studying at Unizar this year
+*       tags: 
+*         - Erasmus 
+*       responses:
+*           200:
+*               description: An array of Erasmus offers
+*           404: 
+*               description: Data for the latest year was not found
+*           500:
+*               description: Internal server error
+*/
+router
+    .route('/erasmus/in')
+    .get(ctrlErasmus.getIn)
+    .post(ctrlErasmus.httpNotImplemented)
+    .delete(ctrlErasmus.httpNotImplemented)
+    .put(ctrlErasmus.httpNotImplemented)
+
+
+/* GET number of Erasmus offers for Unizar students for studying abroad. */
+/**
+* @openapi
+* /erasmus/out:
+*   get:
+*       description: Get number of Erasmus offers for Unizar students for studying abroad
+*       tags: 
+*         - Erasmus 
+*       responses:
+*           200:
+*               description: An array of Erasmus offers
+*           404: 
+*               description: Data for the latest year was not found
+*           500:
+*               description: Internal server error
+*/
+router
+    .route('/erasmus/out')
+    .get(ctrlErasmus.getOut)
+    .post(ctrlErasmus.httpNotImplemented)
+    .delete(ctrlErasmus.httpNotImplemented)
+    .put(ctrlErasmus.httpNotImplemented)
 
 
 router.post("/register", controlUser.register);
