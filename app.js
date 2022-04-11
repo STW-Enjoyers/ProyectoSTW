@@ -21,7 +21,7 @@ var swaggerDefinition = {
     version: "1.0.0",
     description: "Descripción del API del servicio de UnizApp",
   },
-  host: "unizapp-backend-dev.herokuapp.com", // Tiene que coincidir con puerto del servidor
+  host: "unizapp-backend.herokuapp.com", // Tiene que coincidir con puerto del servidor
   basePath: "/api/",
   schemes: ["https"],
 };
