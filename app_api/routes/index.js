@@ -55,7 +55,20 @@ router
     .delete(ctrlGrades.httpNotImplemented)
     .put(ctrlGrades.httpNotImplemented)
 
-
+/* GET number of Erasmus offers for studying at Unizar. */
+/**
+* @openapi
+* /erasmus/in:
+*   get:
+*       description: Get number of Erasmus offers for studying at Unizar this year
+*       responses:
+*           200:
+*               description: An array of Erasmus offers
+*           404: 
+*               description: Data for the latest year was not found
+*           500:
+*               description: Internal server error
+*/
 router
     .route('/erasmus/in')
     .get(ctrlErasmus.getIn)
@@ -63,6 +76,27 @@ router
     .delete(ctrlErasmus.httpNotImplemented)
     .put(ctrlErasmus.httpNotImplemented)
 
+
+/* GET number of Erasmus offers for Unizar students for studying abroad. */
+/**
+* @openapi
+* /erasmus/out:
+*   get:
+*       description: Get number of Erasmus offers for Unizar students for studying abroad
+*       responses:
+*           200:
+*               description: An array of Erasmus offers
+*           404: 
+*               description: Data for the latest year was not found
+*           500:
+*               description: Internal server error
+*/
+router
+    .route('/erasmus/out')
+    .get(ctrlErasmus.getOut)
+    .post(ctrlErasmus.httpNotImplemented)
+    .delete(ctrlErasmus.httpNotImplemented)
+    .put(ctrlErasmus.httpNotImplemented)
 
 
 router.post("/register", controlUser.register);

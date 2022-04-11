@@ -175,7 +175,7 @@ function generateHashGrade(degree, school) {
 
 
 
-cron.schedule('* 23 * * *', () => {
+cron.schedule('59 23 * * *', () => {
   console.log('Updating admission data..');
   const requestOptions = {
     url : serverOptions.server + admissionURL.replace("YYYY",""),
