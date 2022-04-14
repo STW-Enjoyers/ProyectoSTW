@@ -1,8 +1,8 @@
 const passport = require("passport");
 const _ = require("lodash");
-const User =  require('../models/userSchema')
+const User = require("../models/userSchema");
 
-const register = function(req, res, next) {
+const register = function (req, res, next) {
   console.log("Registrando");
   var user = new User();
   user.username = req.body.username;
@@ -19,7 +19,7 @@ const register = function(req, res, next) {
   });
 };
 
-const login = function(req, res, next)  {
+const login = function (req, res, next) {
   passport.authenticate("local", (err, user, info) => {
     if (err) return res.status(400).json(err);
     else if (user) return res.status(200).json({ token: user.jwtGen() });
@@ -27,7 +27,7 @@ const login = function(req, res, next)  {
   })(req, res);
 };
 
-const profile = function(req, res, next)  {
+const profile = function (req, res, next) {
   User.findOne({ _id: req._id }, (err, user) => {
     if (!user)
       return res
@@ -40,8 +40,13 @@ const profile = function(req, res, next)  {
   });
 };
 
+const httpNotImplemented = function (req, res) {
+  res.status(501).json("Operation not implemented");
+};
+
 module.exports = {
-    register,
-    login,
-    profile
-  };
+  register,
+  login,
+  profile,
+  httpNotImplemented,
+};
