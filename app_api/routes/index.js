@@ -117,6 +117,8 @@ router
  *               description: An array of Erasmus offers
  *           404:
  *               description: Data for the latest year was not found
+ *           422:
+ *               description: Duplicate email address
  *           500:
  *               description: Internal server error
  */
@@ -130,11 +132,11 @@ router
 /* POST logged user */
 /**
  * @openapi
- * /register:
+ * /login:
  *   post:
- *       description: Post new registered User.
+ *       description: Post user email and passworts and get the token.
  *       tags:
- *         - Register
+ *         - Login
  *       responses:
  *           200:
  *               description: jwt Token
@@ -150,6 +152,22 @@ router
   .delete(controlUser.httpNotImplemented)
   .put(controlUser.httpNotImplemented);
 
+/* GET user profile */
+/**
+ * @openapi
+ * /profile:
+ *   get:
+ *       description: Get user profile given a token.
+ *       tags:
+ *         - Login
+ *       responses:
+ *           200:
+ *               description: User profile data
+ *           404:
+ *               description: User not found
+ *           500:
+ *               description: Internal server error
+ */
 router
   .route("/profile")
   .get(jwtHelper.verifyJwtToken, controlUser.profile)
