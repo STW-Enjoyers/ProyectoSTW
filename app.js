@@ -7,10 +7,9 @@ const swaggerJSDoc = require("swagger-jsdoc"); // Documentacion Swager
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const passport = require("passport");
-const apiRouter = require('./app_api/routes/index');
+const apiRouter = require("./app_api/routes/index");
 require("./config/passport");
-require('./app_api/models/db');
-
+require("./app_api/models/db");
 
 var app = express();
 

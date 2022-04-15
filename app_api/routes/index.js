@@ -4,6 +4,7 @@ var router = express.Router();
 const ctrlGrades = require("../controllers/gradesController");
 const ctrlErasmus = require("../controllers/erasmusController");
 const controlUser = require("../controllers/userController");
+const ctrlGradeProfile = require("../controllers/gradeProfileController");
 const jwtHelper = require("../../config/jwtHelper");
 
 /* GET all admission grades. */
@@ -174,5 +175,12 @@ router
   .post(controlUser.httpNotImplemented)
   .delete(controlUser.httpNotImplemented)
   .put(controlUser.httpNotImplemented);
+
+router
+  .route("/gradeProfile")
+  .get(ctrlGradeProfile.gradeProfile)
+  .post(ctrlGradeProfile.httpNotImplemented)
+  .delete(ctrlGradeProfile.httpNotImplemented)
+  .put(ctrlGradeProfile.httpNotImplemented);
 
 module.exports = router;

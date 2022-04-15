@@ -7,26 +7,26 @@
   },
   "engines": {
     "node": ">=10.0.0",
-    "npm" : ">=6.2.0"
+    "npm": ">=6.2.0"
   },
   "dependencies": {
-    "request": "^2.88.2",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.2",
     "cookie-parser": "~1.4.4",
+    "cors": "^2.8.5",
     "debug": "~2.6.9",
     "express": "~4.16.1",
+    "express-validator": "^6.14.0",
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.21",
     "mongoose": "^6.2.9",
     "morgan": "~1.9.1",
     "node-cron": "^3.0.0",
-    "bcryptjs": "^2.4.3",
-    "swagger-jsdoc": "^6.1.0",
-    "body-parser": "^1.19.2", 
-    "cors": "^2.8.5",
-    "express-validator": "^6.14.0",
-    "jsonwebtoken": "^8.5.1",
-    "lodash": "^4.17.21",
     "passport": "^0.5.2",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "request": "^2.88.2",
+    "swagger-jsdoc": "^6.1.0"
   }
 }
