@@ -17,8 +17,8 @@ const gradeProfile = function (req, res, next) {
         console.log("No esta");
         Grade.findOne(
           {
-            "grade.centro": req.query.centro,
-            "grade.estudio": req.query.estudio,
+            centro: req.query.centro,
+            estudio: req.query.estudio,
           },
           (err, grade) => {
             console.log(req.query._id);
