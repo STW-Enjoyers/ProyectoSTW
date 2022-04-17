@@ -3,6 +3,7 @@ const request = require("request");
 const GradeProfile = require("../models/gradeProfileSchema");
 const Graduated = require("../models/graduatedSchema");
 const Grade = require("../models/gradeSchema");
+const User = require("../models/userSchema");
 const graduatedURL = "/search?p=DS007-&of=recjson&jrec=1&rg=1";
 
 const serverOptions = {
@@ -140,7 +141,44 @@ function processGraduates(data, city, gradeProfile, res, next) {
   return;
 }
 
+const comment = function (req, res, next) {
+  commentInsert = {
+    username: "",
+    upvotes: 0,
+    visible: true,
+    responses: [],
+  };
+  User.findOne({ _id: req._id }, (err, user) => {
+    if (!user)
+      return res.status(404).json({
+        status: false,
+        message: "No se encontró el usuario (o no hay token) :C",
+      });
+    else commentInsert.username = user.username;
+  });
+  GradeProfile.findOne(
+    { "grade.centro": req.query.centro, "grade.estudio": req.query.estudio },
+    (err, gradeProfile) => {
+      if (!gradeProfile) {
+        return res.status(404).json({
+          status: false,
+          message: "No se encontró el perfil del grado :C",
+        });
+      } else {
+        gradeProfile.responses.push({ ...commentInsert });
+        res.send(gradeProfile);
+      }
+    }
+  );
+};
+
+const reply = function (req, res, next) {
+  return;
+};
+
 module.exports = {
   gradeProfile,
+  comment,
+  reply,
   httpNotImplemented,
 };

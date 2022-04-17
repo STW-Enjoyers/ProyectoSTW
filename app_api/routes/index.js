@@ -183,4 +183,18 @@ router
   .delete(ctrlGradeProfile.httpNotImplemented)
   .put(ctrlGradeProfile.httpNotImplemented);
 
+router
+  .route("/comment")
+  .get(controlUser.httpNotImplemented)
+  .post(jwtHelper.verifyJwtToken, ctrlGradeProfile.comment)
+  .delete(controlUser.httpNotImplemented)
+  .put(controlUser.httpNotImplemented);
+
+router
+  .route("/reply")
+  .get(controlUser.httpNotImplemented)
+  .post(jwtHelper.verifyJwtToken, ctrlGradeProfile.reply)
+  .delete(controlUser.httpNotImplemented)
+  .put(controlUser.httpNotImplemented);
+
 module.exports = router;
