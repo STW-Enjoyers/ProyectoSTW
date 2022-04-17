@@ -33,7 +33,7 @@ const commentSchema = new Mongoose.Schema({
 });
 
 const gradeProfileSchema = new Mongoose.Schema({
-  grade: gradeSchema,
+  grade: { type: gradeSchema, unique: true },
   graduated: graduatedSchema,
   comments: [commentSchema],
 });
