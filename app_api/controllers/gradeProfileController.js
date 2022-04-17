@@ -146,6 +146,7 @@ const comment = function (req, res, next) {
     username: "",
     upvotes: 0,
     visible: true,
+    body: req.query.cuerpo,
     responses: [],
   };
   User.findOne({ _id: req._id }, (err, user) => {
@@ -165,7 +166,11 @@ const comment = function (req, res, next) {
           message: "No se encontró el perfil del grado :C",
         });
       } else {
-        gradeProfile.responses.push({ ...commentInsert });
+        gradeProfile.comments = gradeProfile.comments || [];
+        console.log(commentInsert);
+        gradeProfile.comments.push(commentInsert);
+        console.log(gradeProfile);
+        gradeProfile.save();
         res.send(gradeProfile);
       }
     }

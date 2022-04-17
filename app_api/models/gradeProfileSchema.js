@@ -23,6 +23,7 @@ const responseSchema = new Mongoose.Schema({
   username: String,
   upvotes: Number,
   visible: Boolean,
+  body: String,
   date: { type: Date, default: Date.now },
 });
 
@@ -30,6 +31,7 @@ const commentSchema = new Mongoose.Schema({
   username: String,
   upvotes: Number,
   visible: Boolean,
+  body: String,
   date: { type: Date, default: Date.now },
   responses: [responseSchema],
 });
