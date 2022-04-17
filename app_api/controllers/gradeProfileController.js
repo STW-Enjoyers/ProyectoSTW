@@ -27,7 +27,7 @@ const gradeProfile = function (req, res, next) {
               console.log("Grade:" + grade);
               var gP = new GradeProfile();
               gP.grade = grade;
-              gP.graduated = getJsonUrlgetJsonUrl(
+              gP.graduated = getJsonUrl(
                 res,
                 graduatedURL,
                 grade.localidad,
