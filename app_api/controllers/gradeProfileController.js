@@ -14,7 +14,7 @@ const gradeProfile = function (req, res, next) {
     { "grade.centro": req.query.centro, "grade.estudio": req.query.estudio },
     (err, gradeProfile) => {
       if (!gradeProfile) {
-        console.log("No esta");
+        console.log("Nuevo perfil");
         Grade.findOne(
           {
             centro: req.query.centro,
@@ -37,7 +37,7 @@ const gradeProfile = function (req, res, next) {
           }
         );
       } else {
-        console.log("Si esta");
+        console.log("Perfil existente");
         getJsonUrl(
           res,
           graduatedURL,
@@ -46,7 +46,6 @@ const gradeProfile = function (req, res, next) {
           res,
           next
         );
-        console.log("CAMBIO : " + gradeProfile);
         return;
       }
     }
@@ -64,10 +63,8 @@ function getJsonUrl(res, query, city, gradeProfile, res, next) {
     json: {},
   };
   request(requestOptions, (err, response, body) => {
-    console.log(response.statusCode);
     if (response.statusCode === 200 && body != null) {
       jsonUrl = body[0].files.find((t) => t.description === "JSON").url;
-      console.log("JSONURL: " + jsonUrl);
       getJsonContent(res, jsonUrl, city, gradeProfile, res, next);
       return;
     }
@@ -91,7 +88,6 @@ function getJsonContent(res, jsonUrl, city, gradeProfile, res, next) {
 }
 
 function processGraduates(data, city, gradeProfile, res, next) {
-  console.log(gradeProfile);
   gradesArr = [];
   for (let k in data) {
     if (
@@ -103,8 +99,6 @@ function processGraduates(data, city, gradeProfile, res, next) {
         graduated: data[k]["ALUMNOS_GRADUADOS"],
         changed: data[k]["ALUMNOS_TRASLADAN_OTRA_UNIV"],
         abandoned: data[k]["ALUMNOS_INTERRUMPEN_ESTUDIOS"],
-        type: data[k]["TIPO_EGRESO"],
-        sexo: data[k]["SEXO"],
       };
       gradesArr.push({ ...currentData });
     }
@@ -135,10 +129,9 @@ function processGraduates(data, city, gradeProfile, res, next) {
   gradeStats.average =
     (grad1 / gradeStats.graduated) * avg1 +
     (grad2 / gradeStats.graduated) * avg2;
-  console.log(gradeStats);
+  console.log(gradeProfile);
   gradeProfile.graduated = gradeStats;
   gradeProfile.save((err, doc) => {
-    console.log(doc);
     if (!err) res.send(doc);
     else {
       res.send(gradeProfile);
