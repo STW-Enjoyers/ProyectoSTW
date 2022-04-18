@@ -197,4 +197,11 @@ router
   .delete(controlUser.httpNotImplemented)
   .put(controlUser.httpNotImplemented);
 
+router
+  .route("/upVote")
+  .get(controlUser.httpNotImplemented)
+  .post(jwtHelper.verifyJwtToken, ctrlGradeProfile.upVote)
+  .delete(controlUser.httpNotImplemented)
+  .put(controlUser.httpNotImplemented);
+
 module.exports = router;

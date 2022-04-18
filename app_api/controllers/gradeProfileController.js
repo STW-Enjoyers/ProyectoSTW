@@ -246,10 +246,69 @@ const upVote = function (req, res, next) {
           message: "No se encontró el perfil del grado :C",
         });
       } else {
-        if (!req.query._id) {
+        cIndex = -1;
+        for (let k in gradeProfile.comments) {
+          if (gradeProfile.comments[k]["_id"] == req.query.idcom) {
+            cIndex = k;
+            break;
+          }
+        }
+        if (cIndex == -1) {
+          return res.status(404).json({
+            status: false,
+            message: "Comentario no encontrado",
+          });
+        }
+        if (!req.query.idrep) {
           console.log("Es comentario");
+          if (
+            !userHasUpvoted(req._id, gradeProfile.comments[cIndex].upvotedUsers)
+          ) {
+            gradeProfile.comments[cIndex].upvotes++;
+            gradeProfile.comments[cIndex].upvotedUsers.push(req._id);
+          } else {
+            return res.status(404).json({
+              status: false,
+              message: "El usuario ya ha votado",
+            });
+          }
+          console.log(gradeProfile.comments[cIndex]);
         } else {
+          found = false;
           console.log("Es respuesta");
+          for (let k in gradeProfile.comments[cIndex].responses) {
+            if (
+              gradeProfile.comments[cIndex].responses[k]["_id"] ==
+              req.query.idrep
+            ) {
+              if (
+                !userHasUpvoted(
+                  req._id,
+                  gradeProfile.comments[cIndex].responses[k].upvotedUsers
+                )
+              ) {
+                gradeProfile.comments[cIndex].responses[k].upvotes++;
+                gradeProfile.comments[cIndex].responses[k].upvotedUsers.push(
+                  req._id
+                );
+              } else {
+                return res.status(404).json({
+                  status: false,
+                  message: "El usuario ya ha votado",
+                });
+              }
+              console.log(
+                "AAAAAAAAAAAAAAAA " + gradeProfile.comments[cIndex].responses[k]
+              );
+              found = true;
+              break;
+            }
+          }
+          if (!found)
+            return res.status(404).json({
+              status: false,
+              message: "Respuesta no encontrada",
+            });
         }
         console.log(gradeProfile);
         gradeProfile.save();
@@ -258,6 +317,17 @@ const upVote = function (req, res, next) {
     }
   );
 };
+
+function userHasUpvoted(id, upvotedUsersArray) {
+  for (let k in upvotedUsersArray) {
+    if (upvotedUsersArray[k] == id) {
+      console.log("Ya ha votado");
+      return true;
+    }
+  }
+  console.log("Nuevo voto");
+  return false;
+}
 
 module.exports = {
   gradeProfile,
