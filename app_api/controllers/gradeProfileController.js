@@ -178,7 +178,52 @@ const comment = function (req, res, next) {
 };
 
 const reply = function (req, res, next) {
-  return;
+  replyInsert = {
+    username: "",
+    upvotes: 0,
+    visible: true,
+    body: req.query.cuerpo,
+  };
+  User.findOne({ _id: req._id }, (err, user) => {
+    if (!user)
+      return res.status(404).json({
+        status: false,
+        message: "No se encontró el usuario (o no hay token) :C",
+      });
+    else replyInsert.username = user.username;
+  });
+  GradeProfile.findOne(
+    { "grade.centro": req.query.centro, "grade.estudio": req.query.estudio },
+    (err, gradeProfile) => {
+      if (!gradeProfile) {
+        return res.status(404).json({
+          status: false,
+          message: "No se encontró el perfil del grado :C",
+        });
+      } else {
+        done = false;
+        for (let k in gradeProfile.comments) {
+          if (gradeProfile.comments[k]["_id"] == req.query._id) {
+            gradeProfile.comments[k].responses =
+              gradeProfile.comments[k].responses || [];
+            gradeProfile.comments[k].responses.push(replyInsert);
+            console.log(replyInsert);
+            done = true;
+            break;
+          }
+        }
+        if (!done) {
+          return res.status(404).json({
+            status: false,
+            message: "No se encontró el comentario solicitado :C",
+          });
+        }
+        console.log(gradeProfile);
+        gradeProfile.save();
+        res.send(gradeProfile);
+      }
+    }
+  );
 };
 
 module.exports = {
