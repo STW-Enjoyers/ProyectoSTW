@@ -183,6 +183,7 @@ const reply = function (req, res, next) {
     upvotes: 0,
     visible: true,
     body: req.query.cuerpo,
+    commentId: req.query._id,
   };
   User.findOne({ _id: req._id }, (err, user) => {
     if (!user)
@@ -226,9 +227,42 @@ const reply = function (req, res, next) {
   );
 };
 
+const upVote = function (req, res, next) {
+  username = "";
+  User.findOne({ _id: req._id }, (err, user) => {
+    if (!user)
+      return res.status(404).json({
+        status: false,
+        message: "No se encontró el usuario (o no hay token) :C",
+      });
+    else username = user.username;
+  });
+  GradeProfile.findOne(
+    { "grade.centro": req.query.centro, "grade.estudio": req.query.estudio },
+    (err, gradeProfile) => {
+      if (!gradeProfile) {
+        return res.status(404).json({
+          status: false,
+          message: "No se encontró el perfil del grado :C",
+        });
+      } else {
+        if (!req.query._id) {
+          console.log("Es comentario");
+        } else {
+          console.log("Es respuesta");
+        }
+        console.log(gradeProfile);
+        gradeProfile.save();
+        res.send(gradeProfile);
+      }
+    }
+  );
+};
+
 module.exports = {
   gradeProfile,
   comment,
   reply,
+  upVote,
   httpNotImplemented,
 };

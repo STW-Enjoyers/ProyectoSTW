@@ -22,14 +22,17 @@ const graduatedSchema = new Mongoose.Schema({
 const responseSchema = new Mongoose.Schema({
   username: String,
   upvotes: Number,
+  upvotedUsers: [String],
   visible: Boolean,
   body: String,
+  commentId: String,
   date: { type: Date, default: Date.now },
 });
 
 const commentSchema = new Mongoose.Schema({
   username: String,
   upvotes: Number,
+  upvotedUsers: [String],
   visible: Boolean,
   body: String,
   date: { type: Date, default: Date.now },
