@@ -27,7 +27,6 @@ const gradeProfile = function (req, res, next) {
             idCarrera: req.query.idCarrera,
           },
           (err, grade) => {
-            console.log(req.query._id);
             if (!grade) {
               return res
                 .status(404)
@@ -35,10 +34,10 @@ const gradeProfile = function (req, res, next) {
             } else {
               console.log("Grade:" + grade);
               var gP = new GradeProfile();
-              gp.idCarrera = grade.idCarrera;
+              gP.idCarrera = grade.idCarrera;
               gP.graduated = null;
               gP.comments = [];
-              getJsonUrl(res, graduatedURL, gP, res, next);
+              getJsonUrl(res, graduatedURL, gP, next);
             }
           }
         );
@@ -57,7 +56,7 @@ const httpNotImplemented = function (req, res) {
   res.status(501).json("Operation not implemented");
 };
 
-function getJsonUrl(res, query, gradeProfile, res, next) {
+function getJsonUrl(res, query, gradeProfile, next) {
   const requestOptions = {
     url: serverOptions.server + query,
     method: "GET",
@@ -66,14 +65,14 @@ function getJsonUrl(res, query, gradeProfile, res, next) {
   request(requestOptions, (err, response, body) => {
     if (response.statusCode === 200 && body != null) {
       jsonUrl = body[0].files.find((t) => t.description === "JSON").url;
-      getJsonContent(res, jsonUrl, gradeProfile, res, next);
+      getJsonContent(res, jsonUrl, gradeProfile, next);
       return;
     }
     return null;
   });
 }
 
-function getJsonContent(res, jsonUrl, gradeProfile, res, next) {
+function getJsonContent(res, jsonUrl, gradeProfile, next) {
   const requestOptions = {
     url: jsonUrl,
     method: "GET",
