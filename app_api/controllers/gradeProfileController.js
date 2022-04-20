@@ -157,7 +157,7 @@ const comment = function (req, res, next) {
     else commentInsert.username = user.username;
   });
   GradeProfile.findOne(
-    { "grade.centro": req.query.centro, "grade.estudio": req.query.estudio },
+    { "grade.idCarrera": req.query.idCarrera },
     (err, gradeProfile) => {
       if (!gradeProfile) {
         return res.status(404).json({
@@ -193,7 +193,7 @@ const reply = function (req, res, next) {
     else replyInsert.username = user.username;
   });
   GradeProfile.findOne(
-    { "grade.centro": req.query.centro, "grade.estudio": req.query.estudio },
+    { "grade.idCarrera": req.query.idCarrera },
     (err, gradeProfile) => {
       if (!gradeProfile) {
         return res.status(404).json({
@@ -237,7 +237,7 @@ const upVote = function (req, res, next) {
     else username = user.username;
   });
   GradeProfile.findOne(
-    { "grade.centro": req.query.centro, "grade.estudio": req.query.estudio },
+    { "grade.idCarrera": req.query.idCarrera },
     (err, gradeProfile) => {
       if (!gradeProfile) {
         return res.status(404).json({
