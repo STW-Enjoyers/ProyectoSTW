@@ -12,14 +12,13 @@ const serverOptions = {
 
 const gradeProfile = function (req, res, next) {
   GradeProfile.findOne(
-    { "grade.centro": req.query.centro, "grade.estudio": req.query.estudio },
+    { "grade.idCarrera": req.query.idCarrera },
     (err, gradeProfile) => {
       if (!gradeProfile) {
         console.log("Nuevo perfil");
         Grade.findOne(
           {
-            centro: req.query.centro,
-            estudio: req.query.estudio,
+            idCarrera: req.query.idCarrera,
           },
           (err, grade) => {
             console.log(req.query._id);
