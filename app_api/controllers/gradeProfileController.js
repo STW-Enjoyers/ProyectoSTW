@@ -5,6 +5,7 @@ const Graduated = require("../models/graduatedSchema");
 const Grade = require("../models/gradeSchema");
 const User = require("../models/userSchema");
 const graduatedURL = "/search?p=DS007-&of=recjson&jrec=1&rg=1";
+const GradesController = require("./gradesController")
 
 const serverOptions = {
   server: "https://zaguan.unizar.es",
@@ -12,9 +13,14 @@ const serverOptions = {
 
 const gradeProfile = function (req, res, next) {
   GradeProfile.findOne(
-    { "grade.idCarrera": req.query.idCarrera },
+    { idCarrera: req.query.idCarrera },
     (err, gradeProfile) => {
-      if (!gradeProfile) {
+      if (err) {
+        res
+          .status(404)
+          .json(err);
+        return;
+      } else if (!gradeProfile) {
         console.log("Nuevo perfil");
         Grade.findOne(
           {
@@ -29,23 +35,18 @@ const gradeProfile = function (req, res, next) {
             } else {
               console.log("Grade:" + grade);
               var gP = new GradeProfile();
-              gP.grade = grade;
+              gp.idCarrera = grade.idCarrera;
               gP.graduated = null;
               gP.comments = [];
-              getJsonUrl(res, graduatedURL, grade.localidad, gP, res, next);
+              getJsonUrl(res, graduatedURL, gP, res, next);
             }
           }
         );
       } else {
         console.log("Perfil existente");
-        getJsonUrl(
-          res,
-          graduatedURL,
-          gradeProfile.grade.localidad,
-          gradeProfile,
-          res,
-          next
-        );
+        res
+          .status(200)
+          .json(gradeProfile);
         return;
       }
     }
@@ -56,7 +57,7 @@ const httpNotImplemented = function (req, res) {
   res.status(501).json("Operation not implemented");
 };
 
-function getJsonUrl(res, query, city, gradeProfile, res, next) {
+function getJsonUrl(res, query, gradeProfile, res, next) {
   const requestOptions = {
     url: serverOptions.server + query,
     method: "GET",
@@ -65,14 +66,14 @@ function getJsonUrl(res, query, city, gradeProfile, res, next) {
   request(requestOptions, (err, response, body) => {
     if (response.statusCode === 200 && body != null) {
       jsonUrl = body[0].files.find((t) => t.description === "JSON").url;
-      getJsonContent(res, jsonUrl, city, gradeProfile, res, next);
+      getJsonContent(res, jsonUrl, gradeProfile, res, next);
       return;
     }
     return null;
   });
 }
 
-function getJsonContent(res, jsonUrl, city, gradeProfile, res, next) {
+function getJsonContent(res, jsonUrl, gradeProfile, res, next) {
   const requestOptions = {
     url: jsonUrl,
     method: "GET",
@@ -80,19 +81,19 @@ function getJsonContent(res, jsonUrl, city, gradeProfile, res, next) {
   };
   request(requestOptions, (err, response, body) => {
     if (response.statusCode === 200 && body != null) {
-      processGraduates(body.datos, city, gradeProfile, res, next);
+      processGraduates(body.datos, gradeProfile, res, next);
       return;
     }
     return null;
   });
 }
 
-function processGraduates(data, city, gradeProfile, res, next) {
+function processGraduates(data, gradeProfile, res, next) {
   gradesArr = [];
   for (let k in data) {
-    if (
-      data[k]["LOCALIDAD"] == city &&
-      data[k]["ESTUDIO"] == gradeProfile.grade.estudio
+    if ( 
+      GradesController.generateHashGrade(
+        data[k]["ESTUDIO"],data[k]["LOCALIDAD"]) == gradeProfile.idCarrera
     ) {
       currentData = {
         average: data[k]["DURACION_MEDIA_GRADUADOS"],
@@ -157,7 +158,7 @@ const comment = function (req, res, next) {
     else commentInsert.username = user.username;
   });
   GradeProfile.findOne(
-    { "grade.idCarrera": req.query.idCarrera },
+    { idCarrera: req.query.idCarrera },
     (err, gradeProfile) => {
       if (!gradeProfile) {
         return res.status(404).json({
@@ -193,7 +194,7 @@ const reply = function (req, res, next) {
     else replyInsert.username = user.username;
   });
   GradeProfile.findOne(
-    { "grade.idCarrera": req.query.idCarrera },
+    { idCarrera: req.query.idCarrera },
     (err, gradeProfile) => {
       if (!gradeProfile) {
         return res.status(404).json({
@@ -237,7 +238,7 @@ const upVote = function (req, res, next) {
     else username = user.username;
   });
   GradeProfile.findOne(
-    { "grade.idCarrera": req.query.idCarrera },
+    { idCarrera: req.query.idCarrera },
     (err, gradeProfile) => {
       if (!gradeProfile) {
         return res.status(404).json({
