@@ -1,16 +1,4 @@
 const Mongoose = require("mongoose");
-const Grade = require("./gradeSchema");
-
-//Lo he copiado tal cual porque explotaba si usaba Grade
-const gradeSchema = new Mongoose.Schema({
-  nota: { type: Number, min: 0, max: 14 },
-  centro: { type: String },
-  estudio: { type: String },
-  localidad: { type: String },
-  cupo: { type: String },
-  curso: { type: Number },
-  idCarrera: { type: String },
-});
 
 const graduatedSchema = new Mongoose.Schema({
   average: Number,
@@ -40,7 +28,7 @@ const commentSchema = new Mongoose.Schema({
 });
 
 const gradeProfileSchema = new Mongoose.Schema({
-  grade: { type: gradeSchema, unique: true },
+  idCarrera: String,
   graduated: graduatedSchema,
   comments: [commentSchema],
 });

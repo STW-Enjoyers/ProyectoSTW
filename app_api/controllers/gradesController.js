@@ -145,7 +145,7 @@ function processGrades(data) {
                      localidad : data[k]["LOCALIDAD"],
                      cupo:       data[k]["CUPO_ADJUDICACION"],
                      curso:      data[k]["CURSO_ACADEMICO"],
-                     idCarrera:  generateHashGrade(data[k]["ESTUDIO"],data[k]["CENTRO"])}
+                     idCarrera:  generateHashGrade(data[k]["ESTUDIO"],data[k]["LOCALIDAD"])}
     gradesArr.push({...currentDegree})
   }
   return gradesArr;
@@ -164,7 +164,7 @@ async function updateCurrentYearGrades(data) {
                             localidad : data[k]["LOCALIDAD"],
                             cupo:       data[k]["CUPO_ADJUDICACION"],
                             curso:      data[k]["CURSO_ACADEMICO"],
-                            idCarrera:  generateHashGrade(data[k]["ESTUDIO"],data[k]["CENTRO"]) },
+                            idCarrera:  generateHashGrade(data[k]["ESTUDIO"],data[k]["LOCALIDAD"]) },
           {$set: {nota : maxGrade}});
   }
 }
@@ -222,4 +222,5 @@ module.exports = {
   getLastYear,
   getYear,
   httpNotImplemented,
+  generateHashGrade
 };

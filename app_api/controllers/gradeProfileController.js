@@ -5,6 +5,8 @@ const Graduated = require("../models/graduatedSchema");
 const Grade = require("../models/gradeSchema");
 const User = require("../models/userSchema");
 const graduatedURL = "/search?p=DS007-&of=recjson&jrec=1&rg=1";
+const GradesController = require("./gradesController")
+const cron = require('node-cron');
 
 const serverOptions = {
   server: "https://zaguan.unizar.es",
@@ -12,16 +14,20 @@ const serverOptions = {
 
 const gradeProfile = function (req, res, next) {
   GradeProfile.findOne(
-    { "grade.idCarrera": req.query.idCarrera },
+    { idCarrera: req.query.idCarrera },
     (err, gradeProfile) => {
-      if (!gradeProfile) {
+      if (err) {
+        res
+          .status(404)
+          .json(err);
+        return;
+      } else if (!gradeProfile) {
         console.log("Nuevo perfil");
         Grade.findOne(
           {
             idCarrera: req.query.idCarrera,
           },
           (err, grade) => {
-            console.log(req.query._id);
             if (!grade) {
               return res
                 .status(404)
@@ -29,23 +35,18 @@ const gradeProfile = function (req, res, next) {
             } else {
               console.log("Grade:" + grade);
               var gP = new GradeProfile();
-              gP.grade = grade;
+              gP.idCarrera = grade.idCarrera;
               gP.graduated = null;
               gP.comments = [];
-              getJsonUrl(res, graduatedURL, grade.localidad, gP, res, next);
+              getJsonUrl(res, graduatedURL, gP, next);
             }
           }
         );
       } else {
         console.log("Perfil existente");
-        getJsonUrl(
-          res,
-          graduatedURL,
-          gradeProfile.grade.localidad,
-          gradeProfile,
-          res,
-          next
-        );
+        res
+          .status(200)
+          .json(gradeProfile);
         return;
       }
     }
@@ -56,7 +57,7 @@ const httpNotImplemented = function (req, res) {
   res.status(501).json("Operation not implemented");
 };
 
-function getJsonUrl(res, query, city, gradeProfile, res, next) {
+function getJsonUrl(res, query, gradeProfile, next) {
   const requestOptions = {
     url: serverOptions.server + query,
     method: "GET",
@@ -65,14 +66,14 @@ function getJsonUrl(res, query, city, gradeProfile, res, next) {
   request(requestOptions, (err, response, body) => {
     if (response.statusCode === 200 && body != null) {
       jsonUrl = body[0].files.find((t) => t.description === "JSON").url;
-      getJsonContent(res, jsonUrl, city, gradeProfile, res, next);
+      getJsonContent(res, jsonUrl, gradeProfile, next);
       return;
     }
     return null;
   });
 }
 
-function getJsonContent(res, jsonUrl, city, gradeProfile, res, next) {
+function getJsonContent(res, jsonUrl, gradeProfile, next) {
   const requestOptions = {
     url: jsonUrl,
     method: "GET",
@@ -80,19 +81,19 @@ function getJsonContent(res, jsonUrl, city, gradeProfile, res, next) {
   };
   request(requestOptions, (err, response, body) => {
     if (response.statusCode === 200 && body != null) {
-      processGraduates(body.datos, city, gradeProfile, res, next);
+      processGraduates(body.datos, gradeProfile, res, next);
       return;
     }
     return null;
   });
 }
 
-function processGraduates(data, city, gradeProfile, res, next) {
+function processGraduates(data, gradeProfile, res, next) {
   gradesArr = [];
   for (let k in data) {
-    if (
-      data[k]["LOCALIDAD"] == city &&
-      data[k]["ESTUDIO"] == gradeProfile.grade.estudio
+    if ( 
+      GradesController.generateHashGrade(
+        data[k]["ESTUDIO"],data[k]["LOCALIDAD"]) == gradeProfile.idCarrera
     ) {
       currentData = {
         average: data[k]["DURACION_MEDIA_GRADUADOS"],
@@ -157,7 +158,7 @@ const comment = function (req, res, next) {
     else commentInsert.username = user.username;
   });
   GradeProfile.findOne(
-    { "grade.idCarrera": req.query.idCarrera },
+    { idCarrera: req.query.idCarrera },
     (err, gradeProfile) => {
       if (!gradeProfile) {
         return res.status(404).json({
@@ -193,7 +194,7 @@ const reply = function (req, res, next) {
     else replyInsert.username = user.username;
   });
   GradeProfile.findOne(
-    { "grade.idCarrera": req.query.idCarrera },
+    { idCarrera: req.query.idCarrera },
     (err, gradeProfile) => {
       if (!gradeProfile) {
         return res.status(404).json({
@@ -237,7 +238,7 @@ const upVote = function (req, res, next) {
     else username = user.username;
   });
   GradeProfile.findOne(
-    { "grade.idCarrera": req.query.idCarrera },
+    { idCarrera: req.query.idCarrera },
     (err, gradeProfile) => {
       if (!gradeProfile) {
         return res.status(404).json({
@@ -326,6 +327,102 @@ function userHasUpvoted(id, upvotedUsersArray) {
   console.log("Nuevo voto");
   return false;
 }
+
+async function processGraduates(data, gradeProfile) {
+  gradesArr = [];
+  for (let k in data) {
+    if ( 
+      GradesController.generateHashGrade(
+        data[k]["ESTUDIO"],data[k]["LOCALIDAD"]) == gradeProfile.idCarrera
+    ) {
+      currentData = {
+        average: data[k]["DURACION_MEDIA_GRADUADOS"],
+        graduated: data[k]["ALUMNOS_GRADUADOS"],
+        changed: data[k]["ALUMNOS_TRASLADAN_OTRA_UNIV"],
+        abandoned: data[k]["ALUMNOS_INTERRUMPEN_ESTUDIOS"],
+      };
+      gradesArr.push({ ...currentData });
+    }
+  }
+  gradeStats = new Graduated();
+  gradeStats = {
+    average: 0,
+    graduated: 0,
+    changed: 0,
+    abandoned: 0,
+  };
+  (avg1 = 0), (avg2 = 0), (grad1 = 0), (grad2 = 0);
+  for (let k in gradesArr) {
+    gradeStats.changed += gradesArr[k]["changed"];
+    gradeStats.graduated += gradesArr[k]["graduated"];
+    gradeStats.abandoned += gradesArr[k]["abandoned"];
+    //Siempre hay dos entradas que contienen la media, si una de ellas
+    //ha dejado de ser 0, se mete en la otra.
+    if (avg1 == 0) {
+      avg1 += gradesArr[k]["average"];
+      grad1 += gradesArr[k]["graduated"];
+    } else {
+      avg2 += gradesArr[k]["average"];
+      grad2 += gradesArr[k]["graduated"];
+    }
+  }
+  //Formula suma de medias por el porcentaje
+  gradeStats.average = 
+    (grad1 / gradeStats.graduated) * avg1 +
+    (grad2 / gradeStats.graduated) * avg2 ;
+  await GradeProfile.updateOne({ idCarrera : gradeProfile.idCarrera },
+                          {$set: {graduated : gradeStats }})
+}
+
+
+
+function updateExistingGradeProfiles(data) {
+  for (let k in data) {
+    hash = GradesController.generateHashGrade(
+      data[k]["ESTUDIO"],data[k]["LOCALIDAD"])
+    GradeProfile
+      .findOne( { idCarrera: hash})
+      .exec((err, profile) => {
+      if (!err && profile != null) {
+        processGraduates(data,profile)
+      } 
+    });
+  }
+  console.log("Updated data!")
+}
+
+
+
+
+cron.schedule('59 23 * * *', () => {
+  console.log('Updating gradeProfile data..');
+  const requestOptions = {
+    url : serverOptions.server + graduatedURL,
+    method : 'GET',
+    json : {},
+  };
+  request(
+    requestOptions,
+    (err, response, body) => {
+      if (response.statusCode === 200 && body != null) {
+        jsonUrl = body[0].files.find(t=>t.description ==='JSON').url
+        const secondRequestOptions = {
+          url : jsonUrl,
+          method : 'GET',
+          json : {},
+        };
+        request(
+          secondRequestOptions,
+          (secondErr, secondResponse, secondBody) => {
+            if (secondResponse.statusCode === 200 && secondBody != null) {
+              updateExistingGradeProfiles(secondResponse.body.datos)
+            } 
+          });
+      } 
+    });
+  console.log('gradeProfile data updated');
+})
+
 
 module.exports = {
   gradeProfile,
