@@ -259,63 +259,62 @@ const upVote = function (req, res, next) {
           });
         }
         if (!req.query.idrep) {
-          console.log("Es comentario");
-          if (
-            !userHasUpvoted(req._id, gradeProfile.comments[cIndex].upvotedUsers)
-          ) {
-            gradeProfile.comments[cIndex].upvotes++;
-            gradeProfile.comments[cIndex].upvotedUsers.push(req._id);
-          } else {
-            return res.status(404).json({
-              status: false,
-              message: "El usuario ya ha votado",
-            });
-          }
-          console.log(gradeProfile.comments[cIndex]);
+          handleUpVoteComment(req, res, gradeProfile);
         } else {
-          found = false;
-          console.log("Es respuesta");
-          for (let k in gradeProfile.comments[cIndex].responses) {
-            if (
-              gradeProfile.comments[cIndex].responses[k]["_id"] ==
-              req.query.idrep
-            ) {
-              if (
-                !userHasUpvoted(
-                  req._id,
-                  gradeProfile.comments[cIndex].responses[k].upvotedUsers
-                )
-              ) {
-                gradeProfile.comments[cIndex].responses[k].upvotes++;
-                gradeProfile.comments[cIndex].responses[k].upvotedUsers.push(
-                  req._id
-                );
-              } else {
-                return res.status(404).json({
-                  status: false,
-                  message: "El usuario ya ha votado",
-                });
-              }
-              console.log(
-                "AAAAAAAAAAAAAAAA " + gradeProfile.comments[cIndex].responses[k]
-              );
-              found = true;
-              break;
-            }
-          }
-          if (!found)
-            return res.status(404).json({
-              status: false,
-              message: "Respuesta no encontrada",
-            });
+          handleUpVoteReply(req, res, gradeProfile);
         }
-        console.log(gradeProfile);
-        gradeProfile.save();
-        res.send(gradeProfile);
       }
     }
   );
 };
+
+function handleUpVoteComment(req, res, gradeProfile) {
+  console.log("Es comentario");
+  if (!userHasUpvoted(req._id, gradeProfile.comments[cIndex].upvotedUsers)) {
+    gradeProfile.comments[cIndex].upvotes++;
+    gradeProfile.comments[cIndex].upvotedUsers.push(req._id);
+  } else {
+    return res.status(404).json({
+      status: false,
+      message: "El usuario ya ha votado",
+    });
+  }
+  console.log(gradeProfile.comments[cIndex]);
+  gradeProfile.save();
+  res.send(gradeProfile);
+}
+
+function handleUpVoteReply(req, res, gradeProfile) {
+  found = false;
+  console.log("Es respuesta");
+  for (let k in gradeProfile.comments[cIndex].responses) {
+    if (gradeProfile.comments[cIndex].responses[k]["_id"] == req.query.idrep) {
+      if (
+        !userHasUpvoted(
+          req._id,
+          gradeProfile.comments[cIndex].responses[k].upvotedUsers
+        )
+      ) {
+        gradeProfile.comments[cIndex].responses[k].upvotes++;
+        gradeProfile.comments[cIndex].responses[k].upvotedUsers.push(req._id);
+      } else {
+        return res.status(404).json({
+          status: false,
+          message: "El usuario ya ha votado",
+        });
+      }
+      found = true;
+      break;
+    }
+  }
+  if (!found)
+    return res.status(404).json({
+      status: false,
+      message: "Respuesta no encontrada",
+    });
+  gradeProfile.save();
+  res.send(gradeProfile);
+}
 
 function userHasUpvoted(id, upvotedUsersArray) {
   for (let k in upvotedUsersArray) {
