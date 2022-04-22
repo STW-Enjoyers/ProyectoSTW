@@ -223,7 +223,7 @@ router
  *         - name: idCarrera
  *           in: query
  *           description: Id of the grade to get the profile.
- *           required: false
+ *           required: true
  *           type: string
  *       responses:
  *           200:
@@ -240,6 +240,35 @@ router
   .delete(ctrlGradeProfile.httpNotImplemented)
   .put(ctrlGradeProfile.httpNotImplemented);
 
+/* Post comment on grade profile forum */
+/**
+ * @openapi
+ * /comment:
+ *   post:
+ *       description: Post comment on grade profile given an id and comment body.
+ *       tags:
+ *         - Comment
+ *       security:
+ *         - bearerAuth: []
+ *       parameters:
+ *         - name: idCarrera
+ *           in: query
+ *           description: Id of the grade to comment on.
+ *           required: true
+ *           type: string
+ *         - name: cuerpo
+ *           in: query
+ *           description: Body of the new comment.
+ *           required: true
+ *           type: string
+ *       responses:
+ *           200:
+ *               description: Grade profile data with the new comment in its forum
+ *           404:
+ *               description: Grade not found
+ *           500:
+ *               description: Internal server error
+ */
 router
   .route("/comment")
   .get(controlUser.httpNotImplemented)
@@ -247,6 +276,40 @@ router
   .delete(controlUser.httpNotImplemented)
   .put(controlUser.httpNotImplemented);
 
+/* Post reply to a comment on a grade profile forum */
+/**
+ * @openapi
+ * /reply:
+ *   post:
+ *       description: Post reply to a comment on grade profile given an grade id, comment id and reply body.
+ *       tags:
+ *         - Reply
+ *       security:
+ *         - bearerAuth: []
+ *       parameters:
+ *         - name: idCarrera
+ *           in: query
+ *           description: Id of the grade to reply on.
+ *           required: true
+ *           type: string
+ *         - name: cuerpo
+ *           in: query
+ *           description: Body of the new reply.
+ *           required: true
+ *           type: string
+ *         - name: _id
+ *           in: query
+ *           description: Id of the comment to reply.
+ *           required: true
+ *           type: string
+ *       responses:
+ *           200:
+ *               description: Grade profile data with the new reply in its forum
+ *           404:
+ *               description: Grade or comment not found
+ *           500:
+ *               description: Internal server error
+ */
 router
   .route("/reply")
   .get(controlUser.httpNotImplemented)
@@ -254,6 +317,40 @@ router
   .delete(controlUser.httpNotImplemented)
   .put(controlUser.httpNotImplemented);
 
+/* Post upVote to a comment or reply */
+/**
+ * @openapi
+ * /upVote:
+ *   post:
+ *       description: Post upVote to a comment or reply on grade profile given an grade id, comment id (and reply id if you want to upVote a reply).
+ *       tags:
+ *         - Upvote
+ *       security:
+ *         - bearerAuth: []
+ *       parameters:
+ *         - name: idCarrera
+ *           in: query
+ *           description: Id of the grade to reply on.
+ *           required: true
+ *           type: string
+ *         - name: idcom
+ *           in: query
+ *           description: Id of the comment to upvote.
+ *           required: true
+ *           type: string
+ *         - name: idrep
+ *           in: query
+ *           description: Id of the reply to upvote (optional).
+ *           required: false
+ *           type: string
+ *       responses:
+ *           200:
+ *               description: Grade profile data with the new upvote
+ *           404:
+ *               description: Grade, comment, or reply not found
+ *           500:
+ *               description: Internal server error
+ */
 router
   .route("/upVote")
   .get(controlUser.httpNotImplemented)
