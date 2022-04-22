@@ -113,9 +113,27 @@ router
  *       description: Post new registered User.
  *       tags:
  *         - Register
+ *       parameters:
+ *         - in: body
+ *           name: user
+ *           required: true
+ *           description: User to create
+ *           schema:
+ *              type: object
+ *              required:
+ *                - username
+ *                - email
+ *                - password
+ *              properties:
+ *                username:
+ *                  type: string
+ *                email:
+ *                  type: string
+ *                password:
+ *                  type: string
  *       responses:
  *           200:
- *               description: An array of Erasmus offers
+ *               description: Token and user from database
  *           404:
  *               description: Data for the latest year was not found
  *           422:
@@ -135,14 +153,29 @@ router
  * @openapi
  * /login:
  *   post:
- *       description: Post user email and passworts and get the token.
+ *       description: Post user email and password and get the token.
  *       tags:
  *         - Login
+ *       parameters:
+ *         - in: body
+ *           name: user
+ *           required: true
+ *           description: User to create
+ *           schema:
+ *              type: object
+ *              required:
+ *                - email
+ *                - password
+ *              properties:
+ *                email:
+ *                  type: string
+ *                password:
+ *                  type: string
  *       responses:
  *           200:
  *               description: jwt Token
  *           404:
- *               description: User not found
+ *               description: User not found or Incorrect pwd
  *           500:
  *               description: Internal server error
  */
@@ -161,6 +194,8 @@ router
  *       description: Get user profile given a token.
  *       tags:
  *         - Login
+ *       security:
+ *         - bearerAuth: []
  *       responses:
  *           200:
  *               description: User profile data
@@ -176,6 +211,28 @@ router
   .delete(controlUser.httpNotImplemented)
   .put(controlUser.httpNotImplemented);
 
+/* GET grade profile */
+/**
+ * @openapi
+ * /gradeProfile:
+ *   get:
+ *       description: Get grade profile given an id.
+ *       tags:
+ *         - Grade Profile
+ *       parameters:
+ *         - name: idCarrera
+ *           in: query
+ *           description: Id of the grade to get the profile.
+ *           required: false
+ *           type: string
+ *       responses:
+ *           200:
+ *               description: Grade profile data (comments included)
+ *           404:
+ *               description: User not found
+ *           500:
+ *               description: Internal server error
+ */
 router
   .route("/gradeProfile")
   .get(ctrlGradeProfile.gradeProfile)
