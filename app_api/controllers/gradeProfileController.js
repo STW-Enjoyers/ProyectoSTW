@@ -5,8 +5,8 @@ const Graduated = require("../models/graduatedSchema");
 const Grade = require("../models/gradeSchema");
 const User = require("../models/userSchema");
 const graduatedURL = "/search?p=DS007-&of=recjson&jrec=1&rg=1";
-const GradesController = require("./gradesController")
-const cron = require('node-cron');
+const GradesController = require("./gradesController");
+const cron = require("node-cron");
 
 const serverOptions = {
   server: "https://zaguan.unizar.es",
@@ -17,9 +17,7 @@ const gradeProfile = function (req, res, next) {
     { idCarrera: req.query.idCarrera },
     (err, gradeProfile) => {
       if (err) {
-        res
-          .status(404)
-          .json(err);
+        res.status(404).json(err);
         return;
       } else if (!gradeProfile) {
         console.log("Nuevo perfil");
@@ -44,9 +42,7 @@ const gradeProfile = function (req, res, next) {
         );
       } else {
         console.log("Perfil existente");
-        res
-          .status(200)
-          .json(gradeProfile);
+        res.status(200).json(gradeProfile);
         return;
       }
     }
@@ -81,19 +77,21 @@ function getJsonContent(res, jsonUrl, gradeProfile, next) {
   };
   request(requestOptions, (err, response, body) => {
     if (response.statusCode === 200 && body != null) {
-      processGraduates(body.datos, gradeProfile, res, next);
+      processGraduatesOne(body.datos, gradeProfile, res, next);
       return;
     }
     return null;
   });
 }
 
-function processGraduates(data, gradeProfile, res, next) {
+function processGraduatesOne(data, gradeProfile, res, next) {
   gradesArr = [];
   for (let k in data) {
-    if ( 
+    if (
       GradesController.generateHashGrade(
-        data[k]["ESTUDIO"],data[k]["LOCALIDAD"]) == gradeProfile.idCarrera
+        data[k]["ESTUDIO"],
+        data[k]["LOCALIDAD"]
+      ) == gradeProfile.idCarrera
     ) {
       currentData = {
         average: data[k]["DURACION_MEDIA_GRADUADOS"],
@@ -331,9 +329,11 @@ function userHasUpvoted(id, upvotedUsersArray) {
 async function processGraduates(data, gradeProfile) {
   gradesArr = [];
   for (let k in data) {
-    if ( 
+    if (
       GradesController.generateHashGrade(
-        data[k]["ESTUDIO"],data[k]["LOCALIDAD"]) == gradeProfile.idCarrera
+        data[k]["ESTUDIO"],
+        data[k]["LOCALIDAD"]
+      ) == gradeProfile.idCarrera
     ) {
       currentData = {
         average: data[k]["DURACION_MEDIA_GRADUADOS"],
@@ -367,62 +367,54 @@ async function processGraduates(data, gradeProfile) {
     }
   }
   //Formula suma de medias por el porcentaje
-  gradeStats.average = 
+  gradeStats.average =
     (grad1 / gradeStats.graduated) * avg1 +
-    (grad2 / gradeStats.graduated) * avg2 ;
-  await GradeProfile.updateOne({ idCarrera : gradeProfile.idCarrera },
-                          {$set: {graduated : gradeStats }})
+    (grad2 / gradeStats.graduated) * avg2;
+  await GradeProfile.updateOne(
+    { idCarrera: gradeProfile.idCarrera },
+    { $set: { graduated: gradeStats } }
+  );
 }
-
-
 
 function updateExistingGradeProfiles(data) {
   for (let k in data) {
     hash = GradesController.generateHashGrade(
-      data[k]["ESTUDIO"],data[k]["LOCALIDAD"])
-    GradeProfile
-      .findOne( { idCarrera: hash})
-      .exec((err, profile) => {
+      data[k]["ESTUDIO"],
+      data[k]["LOCALIDAD"]
+    );
+    GradeProfile.findOne({ idCarrera: hash }).exec((err, profile) => {
       if (!err && profile != null) {
-        processGraduates(data,profile)
-      } 
+        processGraduates(data, profile);
+      }
     });
   }
-  console.log("Updated data!")
+  console.log("Updated data!");
 }
 
-
-
-
-cron.schedule('59 23 * * *', () => {
-  console.log('Updating gradeProfile data..');
+cron.schedule("59 23 * * *", () => {
+  console.log("Updating gradeProfile data..");
   const requestOptions = {
-    url : serverOptions.server + graduatedURL,
-    method : 'GET',
-    json : {},
+    url: serverOptions.server + graduatedURL,
+    method: "GET",
+    json: {},
   };
-  request(
-    requestOptions,
-    (err, response, body) => {
-      if (response.statusCode === 200 && body != null) {
-        jsonUrl = body[0].files.find(t=>t.description ==='JSON').url
-        const secondRequestOptions = {
-          url : jsonUrl,
-          method : 'GET',
-          json : {},
-        };
-        request(
-          secondRequestOptions,
-          (secondErr, secondResponse, secondBody) => {
-            if (secondResponse.statusCode === 200 && secondBody != null) {
-              updateExistingGradeProfiles(secondResponse.body.datos)
-            } 
-          });
-      } 
-    });
-  console.log('gradeProfile data updated');
-})
-
+  request(requestOptions, (err, response, body) => {
+    if (response.statusCode === 200 && body != null) {
+      jsonUrl = body[0].files.find((t) => t.description === "JSON").url;
+      const secondRequestOptions = {
+        url: jsonUrl,
+        method: "GET",
+        json: {},
+      };
+      request(secondRequestOptions, (secondErr, secondResponse, secondBody) => {
+        if (secondResponse.statusCode === 200 && secondBody != null) {
+          updateExistingGradeProfiles(secondResponse.body.datos);
+        }
+      });
+    }
+  });
+  console.log("gradeProfile data updated");
+});
 
 module.exports = {
   gradeProfile,
