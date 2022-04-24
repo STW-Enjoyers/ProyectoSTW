@@ -194,8 +194,12 @@ router
  *       description: Get user profile given a token.
  *       tags:
  *         - Login
- *       security:
- *         - bearerAuth: []
+ *       parameters:
+ *         - name: Authorization
+ *           in: header
+ *           type: string
+ *           required: true
+ *           description: Don't forget the Bearer
  *       responses:
  *           200:
  *               description: User profile data
@@ -248,9 +252,12 @@ router
  *       description: Post comment on grade profile given an id and comment body.
  *       tags:
  *         - Comment
- *       security:
- *         - bearerAuth: []
  *       parameters:
+ *         - name: Authorization
+ *           in: header
+ *           type: string
+ *           required: true
+ *           description: Don't forget the Bearer
  *         - name: idCarrera
  *           in: query
  *           description: Id of the grade to comment on.
@@ -284,9 +291,12 @@ router
  *       description: Post reply to a comment on grade profile given an grade id, comment id and reply body.
  *       tags:
  *         - Reply
- *       security:
- *         - bearerAuth: []
  *       parameters:
+ *         - name: Authorization
+ *           in: header
+ *           type: string
+ *           required: true
+ *           description: Don't forget the Bearer
  *         - name: idCarrera
  *           in: query
  *           description: Id of the grade to reply on.
@@ -325,9 +335,12 @@ router
  *       description: Post upVote to a comment or reply on grade profile given an grade id, comment id (and reply id if you want to upVote a reply).
  *       tags:
  *         - Upvote
- *       security:
- *         - bearerAuth: []
  *       parameters:
+ *         - name: Authorization
+ *           in: header
+ *           type: string
+ *           required: true
+ *           description: Don't forget the Bearer
  *         - name: idCarrera
  *           in: query
  *           description: Id of the grade to reply on.
