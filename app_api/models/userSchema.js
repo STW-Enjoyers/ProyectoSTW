@@ -17,6 +17,10 @@ const userSchema = new mongoose.Schema({
     required: "Password can't be empty!",
     minlength: [5, "Password must have at least 5 characters!"],
   },
+  banned: {
+    type: Boolean,
+    default: false,
+  },
   saltSecret: String,
 });
 
@@ -48,4 +52,4 @@ userSchema.methods.jwtGen = function () {
   });
 };
 
-module.exports =  mongoose.model("User", userSchema);
+module.exports = mongoose.model("User", userSchema);

@@ -7,10 +7,9 @@ const swaggerJSDoc = require("swagger-jsdoc"); // Documentacion Swager
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const passport = require("passport");
-const apiRouter = require('./app_api/routes/index');
+const apiRouter = require("./app_api/routes/index");
 require("./config/passport");
-require('./app_api/models/db');
-
+require("./app_api/models/db");
 
 var app = express();
 
@@ -21,7 +20,7 @@ var swaggerDefinition = {
     version: "1.0.0",
     description: "Descripción del API del servicio de UnizApp",
   },
-  host: "unizapp-backend.herokuapp.com", // Tiene que coincidir con puerto del servidor
+  host: "unizapp-backend-dev.herokuapp.com", // Tiene que coincidir con puerto del servidor
   basePath: "/api/",
   schemes: ["https"],
 };
