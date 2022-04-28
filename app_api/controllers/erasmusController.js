@@ -1,5 +1,6 @@
 const request = require('request');
 const cron = require('node-cron');
+const logger = require("../../logger")
 const Erasmus = require('../models/erasmusSchema');
 const erasmusURL = '/search?p=DS009-YYYY&of=recjson&jrec=1&rg=1';
 const serverOptions = {
@@ -105,7 +106,6 @@ function getJsonUrl(res, query,destiny, sum){
     request(
       requestOptions,
       (err, response, body) => {
-        console.log(response.statusCode)
         if (response.statusCode === 200 && body != null) {
           jsonUrl = body[0].files.find(t=>t.description ==='JSON').url
           getJsonContent(res,jsonUrl,destiny, sum)
@@ -179,7 +179,7 @@ function processErasmus(data) {
             {$set: {ofertadas : data[k]["PLAZAS_OFERTADAS_ALUMNOS"], 
                     asignadas : data[k]["PLAZAS_OFERTADAS_ALUMNOS"]}})
     }
-    console.log("Updated data!")
+    logger.info("Erasmus data updated!")
   }
 
 
@@ -188,7 +188,7 @@ const httpNotImplemented = function (req, res) {
 };
 
 cron.schedule('50 23 * * *', () => {
-  console.log('Updating Erasmus data..');
+  logger.info('Updating Erasmus data..');
   const requestOptions = {
     url : serverOptions.server + erasmusURL.replace("YYYY",""),
     method : 'GET',
@@ -214,7 +214,7 @@ cron.schedule('50 23 * * *', () => {
                 .exec((err, year) => {
                   if (!err && (year == null ||
                       secondResponse.body.datos[0]["CURSO_ACADEMICO"] != year.curso)) {
-                      console.log("New data!")
+                        logger.info("New Erasmus data!")
                       gradesProc = processErasmus(secondResponse.body.datos.filter(a => a.NOMBRE_PROGRAMA_MOVILIDAD == "ERASMUS"))
                       Erasmus.insertMany(gradesProc); 
                   } else if(!err && year != null && 
