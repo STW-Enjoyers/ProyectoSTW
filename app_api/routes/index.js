@@ -327,6 +327,52 @@ router
   .delete(controlUser.httpNotImplemented)
   .put(controlUser.httpNotImplemented);
 
+/* Post cancel upVote to a comment or reply */
+/**
+ * @openapi
+ * /cancelUpVote:
+ *   post:
+ *       description: Post cancel upVote to a comment or reply on grade profile given an grade id, comment id (and reply id if you want to upVote a reply).
+ *       tags:
+ *         - CancelUpvote
+ *       parameters:
+ *         - name: Authorization
+ *           in: header
+ *           type: string
+ *           required: true
+ *           description: Don't forget the Bearer
+ *         - name: idCarrera
+ *           in: query
+ *           description: Id of the grade to reply on.
+ *           required: true
+ *           type: string
+ *         - name: idcom
+ *           in: query
+ *           description: Id of the comment to cancel upvote.
+ *           required: true
+ *           type: string
+ *         - name: idrep
+ *           in: query
+ *           description: Id of the reply to cancel upvote (optional).
+ *           required: false
+ *           type: string
+ *       responses:
+ *           200:
+ *               description: Grade profile data with the upvote cancelled
+ *           400:
+ *               description: Comment or reply was not upvoted
+ *           404:
+ *               description: Grade, comment, or reply not found
+ *           500:
+ *               description: Internal server error
+ */
+router
+  .route("/cancelUpVote")
+  .get(controlUser.httpNotImplemented)
+  .post(jwtHelper.verifyJwtToken, ctrlGradeProfile.cancelUpVote)
+  .delete(controlUser.httpNotImplemented)
+  .put(controlUser.httpNotImplemented);
+
 /* Post upVote to a comment or reply */
 /**
  * @openapi
