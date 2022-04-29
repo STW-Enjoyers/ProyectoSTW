@@ -3,13 +3,12 @@ const _ = require("lodash");
 const User = require("../models/userSchema");
 
 const register = function (req, res, next) {
-  console.log("Registrando");
+  logger.info("Registrando");
   var user = new User();
   user.username = req.body.username;
   user.email = req.body.email;
   user.password = req.body.password;
   user.save((err, doc) => {
-    console.log(doc);
     if (!err) {
       passport.authenticate("local", (err, user, info) => {
         if (err) return res.status(400).json(err);

@@ -1,5 +1,6 @@
 const _ = require("lodash");
 const request = require("request");
+const logger = require("../../logger")
 const GradeProfile = require("../models/gradeProfileSchema");
 const Graduated = require("../models/graduatedSchema");
 const Grade = require("../models/gradeSchema");
@@ -20,7 +21,7 @@ const gradeProfile = function (req, res, next) {
         res.status(404).json(err);
         return;
       } else if (!gradeProfile) {
-        console.log("Nuevo perfil");
+        logger.info("Nuevo perfil");
         Grade.findOne(
           {
             idCarrera: req.query.idCarrera,
@@ -31,7 +32,7 @@ const gradeProfile = function (req, res, next) {
                 .status(404)
                 .json({ status: false, message: "No se encontró el grado :C" });
             } else {
-              console.log("Grade:" + grade);
+              logger.info("Grade:" + grade);
               var gP = new GradeProfile();
               gP.idCarrera = grade.idCarrera;
               gP.graduated = null;
@@ -41,7 +42,7 @@ const gradeProfile = function (req, res, next) {
           }
         );
       } else {
-        console.log("Perfil existente");
+        logger.info("Perfil existente");
         res.status(200).json(gradeProfile);
         return;
       }
@@ -128,7 +129,6 @@ function processGraduatesOne(data, gradeProfile, res, next) {
   gradeStats.average =
     (grad1 / gradeStats.graduated) * avg1 +
     (grad2 / gradeStats.graduated) * avg2;
-  console.log(gradeProfile);
   gradeProfile.graduated = gradeStats;
   gradeProfile.save((err, doc) => {
     if (!err) res.send(doc);
@@ -165,9 +165,7 @@ const comment = function (req, res, next) {
         });
       } else {
         gradeProfile.comments = gradeProfile.comments || [];
-        console.log(commentInsert);
         gradeProfile.comments.push(commentInsert);
-        console.log(gradeProfile);
         gradeProfile.save();
         res.send(gradeProfile);
       }
@@ -206,7 +204,6 @@ const reply = function (req, res, next) {
             gradeProfile.comments[k].responses =
               gradeProfile.comments[k].responses || [];
             gradeProfile.comments[k].responses.push(replyInsert);
-            console.log(replyInsert);
             done = true;
             break;
           }
@@ -217,7 +214,6 @@ const reply = function (req, res, next) {
             message: "No se encontró el comentario solicitado :C",
           });
         }
-        console.log(gradeProfile);
         gradeProfile.save();
         res.send(gradeProfile);
       }
@@ -268,7 +264,7 @@ const upVote = function (req, res, next) {
 };
 
 function handleUpVoteComment(req, res, gradeProfile) {
-  console.log("Es comentario");
+  logger.info("Es comentario");
   if (userHasUpvoted(req._id, gradeProfile.comments[cIndex].upvotedUsers) < 0) {
     gradeProfile.comments[cIndex].upvotes++;
     gradeProfile.comments[cIndex].upvotedUsers.push(req._id);
@@ -278,14 +274,14 @@ function handleUpVoteComment(req, res, gradeProfile) {
       message: "El usuario ya ha votado",
     });
   }
-  console.log(gradeProfile.comments[cIndex]);
+  logger.info(gradeProfile.comments[cIndex]);
   gradeProfile.save();
   res.send(gradeProfile);
 }
 
 function handleUpVoteReply(req, res, gradeProfile) {
   found = false;
-  console.log("Es respuesta");
+  logger.info("Es respuesta");
   for (let k in gradeProfile.comments[cIndex].responses) {
     if (gradeProfile.comments[cIndex].responses[k]["_id"] == req.query.idrep) {
       if (
@@ -318,11 +314,11 @@ function handleUpVoteReply(req, res, gradeProfile) {
 function userHasUpvoted(id, upvotedUsersArray) {
   for (let k in upvotedUsersArray) {
     if (upvotedUsersArray[k] == id) {
-      console.log("Ya ha votado");
+      logger.info("Ya ha votado");
       return k;
     }
   }
-  console.log("Nuevo voto");
+  logger.info("Nuevo voto");
   return -1;
 }
 
@@ -388,11 +384,11 @@ function updateExistingGradeProfiles(data) {
       }
     });
   }
-  console.log("Updated data!");
+  logger.info("Grades Profile data updated data!");
 }
 
 cron.schedule("59 23 * * *", () => {
-  console.log("Updating gradeProfile data..");
+  logger.info("Updating gradeProfile data..");
   const requestOptions = {
     url: serverOptions.server + graduatedURL,
     method: "GET",
@@ -413,7 +409,7 @@ cron.schedule("59 23 * * *", () => {
       });
     }
   });
-  console.log("gradeProfile data updated");
+  logger.info("gradeProfile data updated");
 });
 
 const cancelUpVote = function (req, res, next) {

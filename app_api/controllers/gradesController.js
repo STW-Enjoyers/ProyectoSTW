@@ -85,7 +85,6 @@ function getJsonUrl(res, query){
   request(
     requestOptions,
     (err, response, body) => {
-      console.log(response.statusCode)
       if (response.statusCode === 200 && body != null) {
         jsonUrl = body[0].files.find(t=>t.description ==='JSON').url
         getJsonContent(res,jsonUrl)
@@ -176,7 +175,7 @@ function generateHashGrade(degree, school) {
 
 
 cron.schedule('59 23 * * *', () => {
-  console.log('Updating admission data..');
+  logger.info('Updating admission data..');
   const requestOptions = {
     url : serverOptions.server + admissionURL.replace("YYYY",""),
     method : 'GET',
@@ -202,12 +201,12 @@ cron.schedule('59 23 * * *', () => {
                 .exec((err, year) => {
                   if (!err && (year == null ||
                       secondResponse.body.datos[0]["CURSO_ACADEMICO"] != year.curso)) {
-                      console.log("New data!")
+                      logger.info("New data!")
                       gradesProc = processGrades(secondResponse.body.datos)
                       Grades.insertMany(gradesProc); 
                   } else if(!err && year != null && 
                             secondResponse.body.datos[0]["CURSO_ACADEMICO"] == year.curso) {
-                      console.log("Updated data!")
+                      logger.info("Updated data!")
                       updateCurrentYearGrades(secondResponse.body.datos)
                   }
                });
@@ -215,7 +214,7 @@ cron.schedule('59 23 * * *', () => {
           });
       } 
     });
-  console.log('Admission data updated');
+  logger.info('Admission data updated');
 })
 
 module.exports = {
