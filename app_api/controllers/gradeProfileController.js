@@ -265,7 +265,7 @@ const upVote = function (req, res, next) {
 
 function handleUpVoteComment(req, res, gradeProfile) {
   logger.info("Es comentario");
-  if (!userHasUpvoted(req._id, gradeProfile.comments[cIndex].upvotedUsers)) {
+  if (userHasUpvoted(req._id, gradeProfile.comments[cIndex].upvotedUsers) < 0) {
     gradeProfile.comments[cIndex].upvotes++;
     gradeProfile.comments[cIndex].upvotedUsers.push(req._id);
   } else {
@@ -285,10 +285,10 @@ function handleUpVoteReply(req, res, gradeProfile) {
   for (let k in gradeProfile.comments[cIndex].responses) {
     if (gradeProfile.comments[cIndex].responses[k]["_id"] == req.query.idrep) {
       if (
-        !userHasUpvoted(
+        userHasUpvoted(
           req._id,
           gradeProfile.comments[cIndex].responses[k].upvotedUsers
-        )
+        ) < 0
       ) {
         gradeProfile.comments[cIndex].responses[k].upvotes++;
         gradeProfile.comments[cIndex].responses[k].upvotedUsers.push(req._id);
@@ -315,11 +315,11 @@ function userHasUpvoted(id, upvotedUsersArray) {
   for (let k in upvotedUsersArray) {
     if (upvotedUsersArray[k] == id) {
       logger.info("Ya ha votado");
-      return true;
+      return k;
     }
   }
   logger.info("Nuevo voto");
-  return false;
+  return -1;
 }
 
 async function processGraduates(data, gradeProfile) {
@@ -412,10 +412,101 @@ cron.schedule("59 23 * * *", () => {
   logger.info("gradeProfile data updated");
 });
 
+const cancelUpVote = function (req, res, next) {
+  username = "";
+  User.findOne({ _id: req._id }, (err, user) => {
+    if (!user)
+      return res.status(404).json({
+        status: false,
+        message: "No se encontró el usuario (o no hay token) :C",
+      });
+    else username = user.username;
+  });
+  GradeProfile.findOne(
+    { idCarrera: req.query.idCarrera },
+    (err, gradeProfile) => {
+      if (!gradeProfile) {
+        return res.status(404).json({
+          status: false,
+          message: "No se encontró el perfil del grado :C",
+        });
+      } else {
+        cIndex = -1;
+        for (let k in gradeProfile.comments) {
+          if (gradeProfile.comments[k]["_id"] == req.query.idcom) {
+            cIndex = k;
+            break;
+          }
+        }
+        if (cIndex == -1) {
+          return res.status(404).json({
+            status: false,
+            message: "Comentario no encontrado",
+          });
+        }
+        if (!req.query.idrep) {
+          handleCancelUpVoteComment(req, res, gradeProfile);
+        } else {
+          handleCancelUpVoteReply(req, res, gradeProfile);
+        }
+      }
+    }
+  );
+};
+
+function handleCancelUpVoteComment(req, res, gradeProfile) {
+  console.log("Es comentario");
+  k = userHasUpvoted(req._id, gradeProfile.comments[cIndex].upvotedUsers);
+  if (k >= 0) {
+    gradeProfile.comments[cIndex].upvotes--;
+    gradeProfile.comments[cIndex].upvotedUsers.splice(k, 1);
+  } else {
+    return res.status(400).json({
+      status: false,
+      message: "El comentario no habia sido votado por este usuario",
+    });
+  }
+  console.log(gradeProfile.comments[cIndex]);
+  gradeProfile.save();
+  res.send(gradeProfile);
+}
+
+function handleCancelUpVoteReply(req, res, gradeProfile) {
+  found = false;
+  console.log("Es respuesta");
+  for (let k in gradeProfile.comments[cIndex].responses) {
+    if (gradeProfile.comments[cIndex].responses[k]["_id"] == req.query.idrep) {
+      l = userHasUpvoted(
+        req._id,
+        gradeProfile.comments[cIndex].responses[k].upvotedUsers
+      );
+      if (l >= 0) {
+        gradeProfile.comments[cIndex].responses[k].upvotes--;
+        gradeProfile.comments[cIndex].responses[k].upvotedUsers.splice(l, 1);
+      } else {
+        return res.status(400).json({
+          status: false,
+          message: "La respuesta no habia sido votada por este usuario",
+        });
+      }
+      found = true;
+      break;
+    }
+  }
+  if (!found)
+    return res.status(404).json({
+      status: false,
+      message: "Respuesta no encontrada",
+    });
+  gradeProfile.save();
+  res.send(gradeProfile);
+}
+
 module.exports = {
   gradeProfile,
   comment,
   reply,
   upVote,
+  cancelUpVote,
   httpNotImplemented,
 };
