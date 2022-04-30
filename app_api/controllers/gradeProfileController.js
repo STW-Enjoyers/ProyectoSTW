@@ -1,6 +1,6 @@
 const _ = require("lodash");
 const request = require("request");
-const logger = require("../../logger")
+const logger = require("../../logger");
 const GradeProfile = require("../models/gradeProfileSchema");
 const Graduated = require("../models/graduatedSchema");
 const Grade = require("../models/gradeSchema");
@@ -43,12 +43,32 @@ const gradeProfile = function (req, res, next) {
         );
       } else {
         logger.info("Perfil existente");
-        res.status(200).json(gradeProfile);
+        returnProfileWithFilter(res, gradeProfile);
         return;
       }
     }
   );
 };
+
+//This function makes the comment body and username invisible if
+//the user that commented has erased the comment or if it has been banned
+function returnProfileWithFilter(res, gradeProfile) {
+  for (let k in gradeProfile.comments) {
+    if (!gradeProfile.comments[k].visible) {
+      gradeProfile.comments[k].body = "";
+      //TODO No se si los demas querrán que se borre el nombre de usuario
+      gradeProfile.comments[k].username = "";
+    }
+    for (let l in gradeProfile.comments[k].responses) {
+      if (!gradeProfile.comments[k].responses[l].visible) {
+        gradeProfile.comments[k].responses[l].body = "";
+        //TODO No se si los demas querrán que se borre el nombre de usuario
+        gradeProfile.comments[k].responses[l].username = "";
+      }
+    }
+  }
+  res.status(200).json(gradeProfile);
+}
 
 const httpNotImplemented = function (req, res) {
   res.status(501).json("Operation not implemented");
@@ -165,8 +185,11 @@ const comment = function (req, res, next) {
         });
       } else {
         gradeProfile.comments = gradeProfile.comments || [];
-        gradeProfile.comments.push(commentInsert);
+        commLength = gradeProfile.comments.push(commentInsert);
         gradeProfile.save();
+        user.comments = user.comments || [];
+        user.comments.push(gradeProfile.comments[commLength]._id);
+        user.save();
         res.send(gradeProfile);
       }
     }
