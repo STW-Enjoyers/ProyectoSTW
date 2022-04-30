@@ -417,4 +417,39 @@ router
   .delete(controlUser.httpNotImplemented)
   .put(controlUser.httpNotImplemented);
 
+/* GET Ban user */
+/**
+ * @openapi
+ * /ban:
+ *   get:
+ *       description: Ban user given a user (And token from an admin).
+ *       tags:
+ *         - Ban
+ *       parameters:
+ *         - name: Authorization
+ *           in: header
+ *           type: string
+ *           required: true
+ *           description: Don't forget the Bearer
+ *         - name: username
+ *           in: query
+ *           type: string
+ *           required: true
+ *           description: User to ban
+ *
+ *       responses:
+ *           200:
+ *               description: Banned user
+ *           404:
+ *               description: User not found or auth failed
+ *           500:
+ *               description: Internal server error
+ */
+router
+  .route("/ban")
+  .get(jwtHelper.verifyJwtToken, controlUser.ban)
+  .post(controlUser.httpNotImplemented)
+  .delete(controlUser.httpNotImplemented)
+  .put(controlUser.httpNotImplemented);
+
 module.exports = router;
