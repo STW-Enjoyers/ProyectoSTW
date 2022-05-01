@@ -481,4 +481,35 @@ router
   .delete(controlUser.httpNotImplemented)
   .put(controlUser.httpNotImplemented);
 
+
+
+/* GET Ban user */
+/**
+ * @openapi
+ * /usersYearly:
+ *   get:
+ *       description: Get number of monthly new users during current year.
+ *       tags:
+ *         - Users
+ *       parameters:
+ *         - name: Authorization
+ *           in: header
+ *           type: string
+ *           required: true
+ *           description: Don't forget the Bearer
+ *       responses:
+ *           200:
+ *               description: Number of users per month 
+ *           404:
+ *               description: User not found or auth failed
+ *           500:
+ *               description: Internal server error
+ */
+ router
+ .route("/usersYearly")
+ .get(jwtHelper.verifyJwtToken, controlUser.usersYearly)
+ .post(controlUser.httpNotImplemented)
+ .delete(controlUser.httpNotImplemented)
+ .put(controlUser.httpNotImplemented);
+
 module.exports = router;
