@@ -72,7 +72,7 @@ router
  *           name: degree
  *           required: true
  *           description: Hash of the degree you want to check
- *           type: integer
+ *           type: string
  *       responses:
  *           200:
  *               description: An array of admission grades for each year
