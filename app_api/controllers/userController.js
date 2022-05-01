@@ -3,6 +3,7 @@ const _ = require("lodash");
 const User = require("../models/userSchema");
 const { urlencoded } = require("body-parser");
 const logger = require("../../logger");
+const GradeProfile = require("../models/gradeProfileSchema");
 
 const register = function (req, res, next) {
   logger.info("Registrando");
@@ -54,14 +55,12 @@ const profile = function (req, res, next) {
 };
 
 const ban = function (req, res, next) {
-  console.log("AAAAAA" + req.query.username);
   User.findOne({ _id: req._id }, (err, user) => {
     if (!user || !user.admin)
       return res.status(404).json({
         status: false,
         message: "No se encontró el usuario administrador :C",
       });
-    //TODO No se si banearemos por username o por id
     else
       User.findOne({ username: req.query.username }, (err, user) => {
         if (!user)
@@ -71,23 +70,24 @@ const ban = function (req, res, next) {
           });
         else {
           user.banned = true;
-          if (user.comments.length > 0) handleComments(req, res);
-          else res.send(user);
+          if (user.comments.length > 0) handleComments(user, res);
+          else {
+            user.save();
+            res.send(user);
+          }
         }
       });
   });
 };
 
 function handleComments(user, res) {
+  failed = "";
   for (let k in user.comments) {
     GradeProfile.findOne(
-      { comments: user.comments[k][0] },
+      { "comments._id": user.comments[k][0] },
       (err, gradeProfile) => {
         if (!gradeProfile) {
-          return res.status(404).json({
-            status: false,
-            message: "No se encontró el perfil del grado :C",
-          });
+          failed = "No se encontró el perfil de carrera :C";
         } else {
           cIndex = -1;
           for (let l in gradeProfile.comments) {
@@ -97,10 +97,7 @@ function handleComments(user, res) {
             }
           }
           if (cIndex == -1)
-            return res.status(404).json({
-              status: false,
-              message: "No se encontró el comentario (Esto no debería pasar)",
-            });
+            failed = "No se encontró el comentario (Esto no debería pasar)";
           if (user.comments[k].length > 1) {
             //Reply
             for (let m in gradeProfile.comments[cIndex].responses) {
@@ -108,9 +105,9 @@ function handleComments(user, res) {
                 gradeProfile.comments[cIndex].responses[m]["_id"] ==
                 user.comments[k][1]
               ) {
-                console.log(
-                  "Comentario baneado" + gradeProfile.comments[cIndex],
-                  responses[m]
+                logger.info(
+                  "Respuesta baneada" +
+                    gradeProfile.comments[cIndex].responses[m]
                 );
                 gradeProfile.comments[cIndex].responses[m].visible = false;
                 gradeProfile.comments[cIndex].responses[m].status = "banned";
@@ -118,17 +115,26 @@ function handleComments(user, res) {
             }
           } else {
             //Comment
-            console.log("Comentario baneado" + gradeProfile.comments[cIndex]);
+            logger.info("Comentario baneado" + gradeProfile.comments[cIndex]);
             gradeProfile.comments[cIndex].visible = false;
             gradeProfile.comments[cIndex].status = "banned";
           }
           gradeProfile.save();
         }
+        if (k == user.comments.length - 1) {
+          if (failed == "") {
+            user.save();
+            res.send(user);
+          } else {
+            res.status(404).json({
+              status: false,
+              message: failed,
+            });
+          }
+        }
       }
     );
   }
-  gradeProfile.save();
-  res.send(user);
 }
 
 const httpNotImplemented = function (req, res) {
