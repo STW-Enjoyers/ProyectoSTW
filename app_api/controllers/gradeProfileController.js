@@ -81,7 +81,12 @@ function getJsonUrl(res, query, gradeProfile, next) {
     json: {},
   };
   request(requestOptions, (err, response, body) => {
-    if (response.statusCode === 200 && body != null) {
+    if (err)
+      return res.res.status(404).json({
+        status: false,
+        message: "Zaguan >:C",
+      });
+    else if (response.statusCode === 200 && body != null) {
       jsonUrl = body[0].files.find((t) => t.description === "JSON").url;
       getJsonContent(res, jsonUrl, gradeProfile, next);
       return;
@@ -97,7 +102,12 @@ function getJsonContent(res, jsonUrl, gradeProfile, next) {
     json: {},
   };
   request(requestOptions, (err, response, body) => {
-    if (response.statusCode === 200 && body != null) {
+    if (err)
+      return res.res.status(404).json({
+        status: false,
+        message: "Zaguan >:C",
+      });
+    else if (response.statusCode === 200 && body != null) {
       processGraduatesOne(body.datos, gradeProfile, res, next);
       return;
     }
