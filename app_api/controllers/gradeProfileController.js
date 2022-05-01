@@ -173,27 +173,30 @@ const comment = function (req, res, next) {
         status: false,
         message: "No se encontró el usuario (o no hay token) :C",
       });
-    else commentInsert.username = user.username;
-  });
-  GradeProfile.findOne(
-    { idCarrera: req.query.idCarrera },
-    (err, gradeProfile) => {
-      if (!gradeProfile) {
-        return res.status(404).json({
-          status: false,
-          message: "No se encontró el perfil del grado :C",
-        });
-      } else {
-        gradeProfile.comments = gradeProfile.comments || [];
-        commLength = gradeProfile.comments.push(commentInsert);
-        gradeProfile.save();
-        user.comments = user.comments || [];
-        user.comments.push(gradeProfile.comments[commLength]._id);
-        user.save();
-        res.send(gradeProfile);
-      }
+    else {
+      commentInsert.username = user.username;
+      GradeProfile.findOne(
+        { idCarrera: req.query.idCarrera },
+        (err, gradeProfile) => {
+          if (!gradeProfile) {
+            return res.status(404).json({
+              status: false,
+              message: "No se encontró el perfil del grado :C",
+            });
+          } else {
+            gradeProfile.comments = gradeProfile.comments || [];
+            commLength = gradeProfile.comments.push(commentInsert);
+            gradeProfile.save();
+            console.log(gradeProfile.comments);
+            user.comments = user.comments || [];
+            user.comments.push(gradeProfile.comments[commLength - 1]._id);
+            user.save();
+            res.send(gradeProfile);
+          }
+        }
+      );
     }
-  );
+  });
 };
 
 const reply = function (req, res, next) {
@@ -210,38 +213,49 @@ const reply = function (req, res, next) {
         status: false,
         message: "No se encontró el usuario (o no hay token) :C",
       });
-    else replyInsert.username = user.username;
-  });
-  GradeProfile.findOne(
-    { idCarrera: req.query.idCarrera },
-    (err, gradeProfile) => {
-      if (!gradeProfile) {
-        return res.status(404).json({
-          status: false,
-          message: "No se encontró el perfil del grado :C",
-        });
-      } else {
-        done = false;
-        for (let k in gradeProfile.comments) {
-          if (gradeProfile.comments[k]["_id"] == req.query._id) {
-            gradeProfile.comments[k].responses =
-              gradeProfile.comments[k].responses || [];
-            gradeProfile.comments[k].responses.push(replyInsert);
-            done = true;
-            break;
+    else {
+      replyInsert.username = user.username;
+      GradeProfile.findOne(
+        { idCarrera: req.query.idCarrera },
+        (err, gradeProfile) => {
+          if (!gradeProfile) {
+            return res.status(404).json({
+              status: false,
+              message: "No se encontró el perfil del grado :C",
+            });
+          } else {
+            done = false;
+            for (let k in gradeProfile.comments) {
+              if (gradeProfile.comments[k]["_id"] == req.query._id) {
+                gradeProfile.comments[k].responses =
+                  gradeProfile.comments[k].responses || [];
+                repLength = gradeProfile.comments[k].responses.push(
+                  replyInsert
+                );
+                done = true;
+                break;
+              }
+            }
+            if (!done) {
+              return res.status(404).json({
+                status: false,
+                message: "No se encontró el comentario solicitado :C",
+              });
+            }
+            gradeProfile.save();
+            user.comments = user.comments || [];
+            let commrep = new Array(
+              gradeProfile.comments[k]._id,
+              gradeProfile.comments[k].responses[repLength - 1]._id
+            );
+            user.comments.push(commrep);
+            user.save();
+            res.send(gradeProfile);
           }
         }
-        if (!done) {
-          return res.status(404).json({
-            status: false,
-            message: "No se encontró el comentario solicitado :C",
-          });
-        }
-        gradeProfile.save();
-        res.send(gradeProfile);
-      }
+      );
     }
-  );
+  });
 };
 
 const upVote = function (req, res, next) {

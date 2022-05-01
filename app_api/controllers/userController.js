@@ -54,6 +54,7 @@ const profile = function (req, res, next) {
 };
 
 const ban = function (req, res, next) {
+  console.log("AAAAAA" + req.query.username);
   User.findOne({ _id: req._id }, (err, user) => {
     if (!user || !user.admin)
       return res.status(404).json({
@@ -62,7 +63,7 @@ const ban = function (req, res, next) {
       });
     //TODO No se si banearemos por username o por id
     else
-      User.findOne({ username: req.body.username }, (err, user) => {
+      User.findOne({ username: req.query.username }, (err, user) => {
         if (!user)
           return res.status(404).json({
             status: false,
@@ -107,12 +108,17 @@ function handleComments(user, res) {
                 gradeProfile.comments[cIndex].responses[m]["_id"] ==
                 user.comments[k][1]
               ) {
+                console.log(
+                  "Comentario baneado" + gradeProfile.comments[cIndex],
+                  responses[m]
+                );
                 gradeProfile.comments[cIndex].responses[m].visible = false;
                 gradeProfile.comments[cIndex].responses[m].status = "banned";
               }
             }
           } else {
             //Comment
+            console.log("Comentario baneado" + gradeProfile.comments[cIndex]);
             gradeProfile.comments[cIndex].visible = false;
             gradeProfile.comments[cIndex].status = "banned";
           }
