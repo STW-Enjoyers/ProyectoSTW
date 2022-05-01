@@ -53,6 +53,7 @@ userSchema.pre("save", function (next) {
       });
     });
   }
+  next();
 });
 
 //Method to verify the password
