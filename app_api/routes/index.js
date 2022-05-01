@@ -62,7 +62,7 @@ router
 /* GET ${year} admission grades. */
 /**
  * @openapi
- * /grades/historical/:degree:
+ * /grades/historical/{degree}:
  *   get:
  *       description: Get historical general admission grades for a degree
  *       tags:
