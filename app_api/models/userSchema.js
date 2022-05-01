@@ -28,6 +28,10 @@ const userSchema = new mongoose.Schema({
     default: false,
   },
   saltSecret: String,
+  regen: {
+    type: Boolean,
+    default: true,
+  },
   registerDate: { type: Date, default: Date.now },
 });
 
@@ -39,13 +43,16 @@ userSchema.path("email").validate((val) => {
 
 //Execute before save
 userSchema.pre("save", function (next) {
-  bcrypt.genSalt(10, (err, salt) => {
-    bcrypt.hash(this.password, salt, (err, hash) => {
-      this.password = hash;
-      this.saltSecret = salt;
-      next();
+  if (this.regen) {
+    bcrypt.genSalt(10, (err, salt) => {
+      bcrypt.hash(this.password, salt, (err, hash) => {
+        this.password = hash;
+        this.saltSecret = salt;
+        this.regen = false;
+        next();
+      });
     });
-  });
+  }
 });
 
 //Method to verify the password
