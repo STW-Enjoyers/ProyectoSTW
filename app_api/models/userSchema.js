@@ -28,6 +28,7 @@ const userSchema = new mongoose.Schema({
     default: false,
   },
   saltSecret: String,
+  registerDate: { type: Date, default: Date.now },
 });
 
 userSchema.path("email").validate((val) => {
