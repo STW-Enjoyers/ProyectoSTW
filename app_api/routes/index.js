@@ -59,6 +59,35 @@ router
   .delete(ctrlGrades.httpNotImplemented)
   .put(ctrlGrades.httpNotImplemented);
 
+/* GET ${year} admission grades. */
+/**
+ * @openapi
+ * /grades/historical/:degree:
+ *   get:
+ *       description: Get historical general admission grades for a degree
+ *       tags:
+ *         - admission
+ *       parameters:
+ *         - in: path
+ *           name: degree
+ *           required: true
+ *           description: Hash of the degree you want to check
+ *           type: integer
+ *       responses:
+ *           200:
+ *               description: An array of admission grades for each year
+ *           404:
+ *               description: Data for {degree} was not found
+ *           500:
+ *               description: Internal server error
+ */
+router
+  .route("/grades/historical/:degree")
+  .get(ctrlGrades.getAllDegreeGrades)
+  .post(ctrlGrades.httpNotImplemented)
+  .delete(ctrlGrades.httpNotImplemented)
+  .put(ctrlGrades.httpNotImplemented);
+
 /* GET number of Erasmus offers for studying at Unizar. */
 /**
  * @openapi

@@ -76,6 +76,28 @@ const httpNotImplemented = function (req, res) {
   res.status(501).json("Operation not implemented");
 };
 
+const getAllDegreeGrades = function (req, res) {
+  const degree = req.params.degree;
+  if(degree) {
+    Grades
+    .find({"idCarrera" : degree, 
+           "cupo" : /General/i})
+    .exec((err, historical) => {
+      if (err) {
+        res
+          .status(404)
+          .json(err);
+        return;
+      } else {
+        res
+          .status(200)
+          .json(historical);
+      }
+    });
+  }
+}
+
+
 function getJsonUrl(res, query){
   const requestOptions = {
     url : serverOptions.server + query,
@@ -169,7 +191,13 @@ async function updateCurrentYearGrades(data) {
 }
 
 function generateHashGrade(degree, school) {
-  return crypto.createHash('md5').update(degree + school).digest("hex");
+  replacedVar = degree
+  if (degree != null && school != null) {
+    if (degree.includes("Grado: ")) {
+      replacedVar = degree.replace("Grado: ", "")
+    }
+  }
+  return crypto.createHash('md5').update(replacedVar + school).digest("hex");
 }
 
 
@@ -221,5 +249,6 @@ module.exports = {
   getLastYear,
   getYear,
   httpNotImplemented,
+  getAllDegreeGrades,
   generateHashGrade
 };
