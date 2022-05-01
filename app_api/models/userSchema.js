@@ -17,11 +17,18 @@ const userSchema = new mongoose.Schema({
     required: "Password can't be empty!",
     minlength: [5, "Password must have at least 5 characters!"],
   },
+  //If comment [idcomment] if reply [idcomment,idreply]
+  comments: [[String]],
+  admin: {
+    type: Boolean,
+    default: false,
+  },
   banned: {
     type: Boolean,
     default: false,
   },
   saltSecret: String,
+  registerDate: { type: Date, default: Date.now },
 });
 
 userSchema.path("email").validate((val) => {

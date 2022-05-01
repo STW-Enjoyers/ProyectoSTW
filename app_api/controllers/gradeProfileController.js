@@ -1,6 +1,6 @@
 const _ = require("lodash");
 const request = require("request");
-const logger = require("../../logger")
+const logger = require("../../logger");
 const GradeProfile = require("../models/gradeProfileSchema");
 const Graduated = require("../models/graduatedSchema");
 const Grade = require("../models/gradeSchema");
@@ -43,12 +43,32 @@ const gradeProfile = function (req, res, next) {
         );
       } else {
         logger.info("Perfil existente");
-        res.status(200).json(gradeProfile);
+        returnProfileWithFilter(res, gradeProfile);
         return;
       }
     }
   );
 };
+
+//This function makes the comment body and username invisible if
+//the user that commented has erased the comment or if it has been banned
+function returnProfileWithFilter(res, gradeProfile) {
+  for (let k in gradeProfile.comments) {
+    if (!gradeProfile.comments[k].visible) {
+      gradeProfile.comments[k].body = "";
+      //TODO No se si los demas querrán que se borre el nombre de usuario
+      gradeProfile.comments[k].username = "";
+    }
+    for (let l in gradeProfile.comments[k].responses) {
+      if (!gradeProfile.comments[k].responses[l].visible) {
+        gradeProfile.comments[k].responses[l].body = "";
+        //TODO No se si los demas querrán que se borre el nombre de usuario
+        gradeProfile.comments[k].responses[l].username = "";
+      }
+    }
+  }
+  res.status(200).json(gradeProfile);
+}
 
 const httpNotImplemented = function (req, res) {
   res.status(501).json("Operation not implemented");
@@ -153,24 +173,30 @@ const comment = function (req, res, next) {
         status: false,
         message: "No se encontró el usuario (o no hay token) :C",
       });
-    else commentInsert.username = user.username;
-  });
-  GradeProfile.findOne(
-    { idCarrera: req.query.idCarrera },
-    (err, gradeProfile) => {
-      if (!gradeProfile) {
-        return res.status(404).json({
-          status: false,
-          message: "No se encontró el perfil del grado :C",
-        });
-      } else {
-        gradeProfile.comments = gradeProfile.comments || [];
-        gradeProfile.comments.push(commentInsert);
-        gradeProfile.save();
-        res.send(gradeProfile);
-      }
+    else {
+      commentInsert.username = user.username;
+      GradeProfile.findOne(
+        { idCarrera: req.query.idCarrera },
+        (err, gradeProfile) => {
+          if (!gradeProfile) {
+            return res.status(404).json({
+              status: false,
+              message: "No se encontró el perfil del grado :C",
+            });
+          } else {
+            gradeProfile.comments = gradeProfile.comments || [];
+            commLength = gradeProfile.comments.push(commentInsert);
+            gradeProfile.save();
+            console.log(gradeProfile.comments);
+            user.comments = user.comments || [];
+            user.comments.push(gradeProfile.comments[commLength - 1]._id);
+            user.save();
+            res.send(gradeProfile);
+          }
+        }
+      );
     }
-  );
+  });
 };
 
 const reply = function (req, res, next) {
@@ -187,38 +213,49 @@ const reply = function (req, res, next) {
         status: false,
         message: "No se encontró el usuario (o no hay token) :C",
       });
-    else replyInsert.username = user.username;
-  });
-  GradeProfile.findOne(
-    { idCarrera: req.query.idCarrera },
-    (err, gradeProfile) => {
-      if (!gradeProfile) {
-        return res.status(404).json({
-          status: false,
-          message: "No se encontró el perfil del grado :C",
-        });
-      } else {
-        done = false;
-        for (let k in gradeProfile.comments) {
-          if (gradeProfile.comments[k]["_id"] == req.query._id) {
-            gradeProfile.comments[k].responses =
-              gradeProfile.comments[k].responses || [];
-            gradeProfile.comments[k].responses.push(replyInsert);
-            done = true;
-            break;
+    else {
+      replyInsert.username = user.username;
+      GradeProfile.findOne(
+        { idCarrera: req.query.idCarrera },
+        (err, gradeProfile) => {
+          if (!gradeProfile) {
+            return res.status(404).json({
+              status: false,
+              message: "No se encontró el perfil del grado :C",
+            });
+          } else {
+            done = -1;
+            for (let k in gradeProfile.comments) {
+              if (gradeProfile.comments[k]["_id"] == req.query._id) {
+                gradeProfile.comments[k].responses =
+                  gradeProfile.comments[k].responses || [];
+                repLength = gradeProfile.comments[k].responses.push(
+                  replyInsert
+                );
+                done = k;
+                break;
+              }
+            }
+            if (done < 0) {
+              return res.status(404).json({
+                status: false,
+                message: "No se encontró el comentario solicitado :C",
+              });
+            }
+            gradeProfile.save();
+            user.comments = user.comments || [];
+            let commrep = new Array(
+              gradeProfile.comments[done]._id,
+              gradeProfile.comments[done].responses[repLength - 1]._id
+            );
+            user.comments.push(commrep);
+            user.save();
+            res.send(gradeProfile);
           }
         }
-        if (!done) {
-          return res.status(404).json({
-            status: false,
-            message: "No se encontró el comentario solicitado :C",
-          });
-        }
-        gradeProfile.save();
-        res.send(gradeProfile);
-      }
+      );
     }
-  );
+  });
 };
 
 const upVote = function (req, res, next) {

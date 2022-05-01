@@ -59,6 +59,35 @@ router
   .delete(ctrlGrades.httpNotImplemented)
   .put(ctrlGrades.httpNotImplemented);
 
+/* GET ${year} admission grades. */
+/**
+ * @openapi
+ * /grades/historical/:degree:
+ *   get:
+ *       description: Get historical general admission grades for a degree
+ *       tags:
+ *         - admission
+ *       parameters:
+ *         - in: path
+ *           name: degree
+ *           required: true
+ *           description: Hash of the degree you want to check
+ *           type: integer
+ *       responses:
+ *           200:
+ *               description: An array of admission grades for each year
+ *           404:
+ *               description: Data for {degree} was not found
+ *           500:
+ *               description: Internal server error
+ */
+router
+  .route("/grades/historical/:degree")
+  .get(ctrlGrades.getAllDegreeGrades)
+  .post(ctrlGrades.httpNotImplemented)
+  .delete(ctrlGrades.httpNotImplemented)
+  .put(ctrlGrades.httpNotImplemented);
+
 /* GET number of Erasmus offers for studying at Unizar. */
 /**
  * @openapi
@@ -414,6 +443,41 @@ router
   .route("/upVote")
   .get(controlUser.httpNotImplemented)
   .post(jwtHelper.verifyJwtToken, ctrlGradeProfile.upVote)
+  .delete(controlUser.httpNotImplemented)
+  .put(controlUser.httpNotImplemented);
+
+/* GET Ban user */
+/**
+ * @openapi
+ * /ban:
+ *   get:
+ *       description: Ban user given a user (And token from an admin).
+ *       tags:
+ *         - Ban
+ *       parameters:
+ *         - name: Authorization
+ *           in: header
+ *           type: string
+ *           required: true
+ *           description: Don't forget the Bearer
+ *         - name: username
+ *           in: query
+ *           type: string
+ *           required: true
+ *           description: User to ban
+ *
+ *       responses:
+ *           200:
+ *               description: Banned user
+ *           404:
+ *               description: User not found or auth failed
+ *           500:
+ *               description: Internal server error
+ */
+router
+  .route("/ban")
+  .get(jwtHelper.verifyJwtToken, controlUser.ban)
+  .post(controlUser.httpNotImplemented)
   .delete(controlUser.httpNotImplemented)
   .put(controlUser.httpNotImplemented);
 
