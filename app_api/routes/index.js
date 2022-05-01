@@ -59,6 +59,35 @@ router
   .delete(ctrlGrades.httpNotImplemented)
   .put(ctrlGrades.httpNotImplemented);
 
+/* GET ${year} admission grades. */
+/**
+ * @openapi
+ * /grades/historical/{degree}:
+ *   get:
+ *       description: Get historical general admission grades for a degree
+ *       tags:
+ *         - admission
+ *       parameters:
+ *         - in: path
+ *           name: degree
+ *           required: true
+ *           description: Hash of the degree you want to check
+ *           type: string
+ *       responses:
+ *           200:
+ *               description: An array of admission grades for each year
+ *           404:
+ *               description: Data for {degree} was not found
+ *           500:
+ *               description: Internal server error
+ */
+router
+  .route("/grades/historical/:degree")
+  .get(ctrlGrades.getAllDegreeGrades)
+  .post(ctrlGrades.httpNotImplemented)
+  .delete(ctrlGrades.httpNotImplemented)
+  .put(ctrlGrades.httpNotImplemented);
+
 /* GET number of Erasmus offers for studying at Unizar. */
 /**
  * @openapi
@@ -451,5 +480,36 @@ router
   .post(controlUser.httpNotImplemented)
   .delete(controlUser.httpNotImplemented)
   .put(controlUser.httpNotImplemented);
+
+
+
+/* GET Ban user */
+/**
+ * @openapi
+ * /usersYearly:
+ *   get:
+ *       description: Get number of monthly new users during current year.
+ *       tags:
+ *         - Users
+ *       parameters:
+ *         - name: Authorization
+ *           in: header
+ *           type: string
+ *           required: true
+ *           description: Don't forget the Bearer
+ *       responses:
+ *           200:
+ *               description: Number of users per month 
+ *           404:
+ *               description: User not found or auth failed
+ *           500:
+ *               description: Internal server error
+ */
+ router
+ .route("/usersYearly")
+ .get(jwtHelper.verifyJwtToken, controlUser.usersYearly)
+ .post(controlUser.httpNotImplemented)
+ .delete(controlUser.httpNotImplemented)
+ .put(controlUser.httpNotImplemented);
 
 module.exports = router;

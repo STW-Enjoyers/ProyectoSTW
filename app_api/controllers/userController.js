@@ -80,6 +80,51 @@ const ban = function (req, res, next) {
   });
 };
 
+const usersYearly = function (req, res) {
+  User.findOne({ _id: req._id }, (err, user) => {
+    if (!user || !user.admin) {
+      return res.status(404).json({
+        status: false,
+        message: "No se encontró el usuario administrador :C",
+      });
+    }
+    else{
+      User.aggregate(
+        [ {
+            $group: {
+              _id: { $dateToString: { format: "%m-%Y", date: "$registerDate" } },
+              users: {$sum: 1}
+            }
+          }
+        ],
+        function(err, result) {
+          if (err) {
+            res
+              .status(500)
+              .json({
+                "message": "There was an error while obtaining your data"
+              });
+          } else {
+            for (var i = 1; i < 13; i++) {
+                auxArray = result.filter(a => 
+                  a._id.includes(i + "-" + new Date().getFullYear()))
+                if(auxArray.length == 0) {
+                  value = { _id : i + "-" + new Date().getFullYear(),
+                            users : 0
+                          }
+                  result.push({...value})
+                }
+            }
+              res
+              .status(200)
+              .json(result.filter(a => a._id.includes(new Date().getFullYear()))); 
+          }
+        }
+      );
+    }
+  });
+};
+
 function handleComments(user, res) {
   failed = "";
   for (let k in user.comments) {
@@ -146,5 +191,6 @@ module.exports = {
   login,
   profile,
   ban,
+  usersYearly,
   httpNotImplemented,
 };
