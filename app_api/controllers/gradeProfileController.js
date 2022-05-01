@@ -224,7 +224,7 @@ const reply = function (req, res, next) {
               message: "No se encontró el perfil del grado :C",
             });
           } else {
-            done = false;
+            done = -1;
             for (let k in gradeProfile.comments) {
               if (gradeProfile.comments[k]["_id"] == req.query._id) {
                 gradeProfile.comments[k].responses =
@@ -232,11 +232,11 @@ const reply = function (req, res, next) {
                 repLength = gradeProfile.comments[k].responses.push(
                   replyInsert
                 );
-                done = true;
+                done = k;
                 break;
               }
             }
-            if (!done) {
+            if (done < 0) {
               return res.status(404).json({
                 status: false,
                 message: "No se encontró el comentario solicitado :C",
@@ -245,8 +245,8 @@ const reply = function (req, res, next) {
             gradeProfile.save();
             user.comments = user.comments || [];
             let commrep = new Array(
-              gradeProfile.comments[k]._id,
-              gradeProfile.comments[k].responses[repLength - 1]._id
+              gradeProfile.comments[done]._id,
+              gradeProfile.comments[done].responses[repLength - 1]._id
             );
             user.comments.push(commrep);
             user.save();
