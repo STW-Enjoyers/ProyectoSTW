@@ -446,6 +446,36 @@ router
   .delete(controlUser.httpNotImplemented)
   .put(controlUser.httpNotImplemented);
 
+
+/* GET yearly users */
+/**
+ * @openapi
+ * /checkComments:
+ *   get:
+ *       description: Get new comments that have not been checked by an admin.
+ *       tags:
+ *         - CheckComments
+ *       parameters:
+ *         - name: Authorization
+ *           in: header
+ *           type: string
+ *           required: true
+ *           description: Don't forget the Bearer
+ *       responses:
+ *           200:
+ *               description: Comments that have not been checked by an admin
+ *           404:
+ *               description: Auth failed or there was an error while querying data
+ *           500:
+ *               description: Internal server error
+ */
+ router
+ .route("/checkComments")
+ .get(jwtHelper.verifyJwtToken, ctrlGradeProfile.checkComments)
+ .post(ctrlGradeProfile.httpNotImplemented)
+ .delete(ctrlGradeProfile.httpNotImplemented)
+ .put(ctrlGradeProfile.httpNotImplemented);
+
 /* GET Ban user */
 /**
  * @openapi
@@ -481,7 +511,7 @@ router
   .delete(controlUser.httpNotImplemented)
   .put(controlUser.httpNotImplemented);
 
-/* GET Ban user */
+/* GET yearly users */
 /**
  * @openapi
  * /usersYearly:

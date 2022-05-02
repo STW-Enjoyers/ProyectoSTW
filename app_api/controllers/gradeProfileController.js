@@ -569,11 +569,99 @@ function handleCancelUpVoteReply(req, res, gradeProfile) {
   res.send(gradeProfile);
 }
 
+const checkComments = function (req, res) {
+  User.findOne({ _id: req._id }, (err, user) => {
+    if (!user || !user.admin) {
+      return res.status(404).json({
+        status: false,
+        message: "No se encontró el usuario administrador :C",
+      });
+    }
+    else{ 
+      GradeProfile.aggregate(
+        [ {
+          $project:
+          {
+              "comments":1,
+              "idCarrera": 1,
+              _id:0
+          }
+          },
+          { $match : {$expr: {$gt: [{$size: "$comments"}, 0]} } },
+          { 
+            $unwind: "$comments" 
+          },
+          {
+            $project:
+            {
+                "idCarrera":1,
+                "comments._id":1,
+                "comments.username":1,
+                "comments.body":1,
+                "comments.adminCheck": 1,
+                "comments.responses.body": 1,
+                "comments.responses.username": 1,
+                "comments.responses.commentId": 1,
+                "comments.responses._id": 1,
+                "comments.responses.adminCheck": 1,   
+            }
+          }
+        ],
+        function(err, result) {
+          if (err) {
+            res
+              .status(500)
+              .json({
+                "message": "There was an error while obtaining your data"
+              });
+          } else {
+              returnComments = []
+              for(let k in result) {
+                  if(!result[k]["comments"]["adminCheck"]) {
+                    currentComment = { 
+                      type: "comment",
+                      username: result[k]["comments"]["username"],
+                      body: result[k]["comments"]["body"],
+                      commentId: result[k]["comments"]["_id"],
+                      degreeId: result[k]["idCarrera"]
+                      }
+                    returnComments.push({...currentComment})
+                  }
+                  if(result[k]["comments"]["responses"].length > 0) {
+                    responsesArr = result[k]["comments"]["responses"]
+                    for(let j in responsesArr) {
+                      if(!responsesArr[j]["adminCheck"]) {
+                        currentResponse = {
+                          type: "response", 
+                          username: responsesArr[j]["username"],
+                          body: responsesArr[j]["body"],
+                          commentId: responsesArr[j]["commentId"],
+                          responseId: responsesArr[j]["_id"],
+                          degreeId: result[k]["idCarrera"]
+                        }
+                        returnComments.push({...currentResponse})
+                      }     
+                    }
+                  }
+              }
+              res
+                .status(200)
+                .json(returnComments); 
+          }
+        }
+      );
+    }
+  });
+};
+
+
+
 module.exports = {
   gradeProfile,
   comment,
   reply,
   upVote,
   cancelUpVote,
+  checkComments,
   httpNotImplemented,
 };
