@@ -81,7 +81,12 @@ function getJsonUrl(res, query, gradeProfile, next) {
     json: {},
   };
   request(requestOptions, (err, response, body) => {
-    if (response.statusCode === 200 && body != null) {
+    if (err)
+      return res.res.status(404).json({
+        status: false,
+        message: "Zaguan >:C",
+      });
+    else if (response.statusCode === 200 && body != null) {
       jsonUrl = body[0].files.find((t) => t.description === "JSON").url;
       getJsonContent(res, jsonUrl, gradeProfile, next);
       return;
@@ -97,7 +102,12 @@ function getJsonContent(res, jsonUrl, gradeProfile, next) {
     json: {},
   };
   request(requestOptions, (err, response, body) => {
-    if (response.statusCode === 200 && body != null) {
+    if (err)
+      return res.res.status(404).json({
+        status: false,
+        message: "Zaguan >:C",
+      });
+    else if (response.statusCode === 200 && body != null) {
       processGraduatesOne(body.datos, gradeProfile, res, next);
       return;
     }
@@ -173,7 +183,12 @@ const comment = function (req, res, next) {
         status: false,
         message: "No se encontró el usuario (o no hay token) :C",
       });
-    else {
+    else if (user.banned) {
+      return res.status(404).json({
+        status: false,
+        message: "USUARIO BANEADO",
+      });
+    } else {
       commentInsert.username = user.username;
       GradeProfile.findOne(
         { idCarrera: req.query.idCarrera },
@@ -213,7 +228,12 @@ const reply = function (req, res, next) {
         status: false,
         message: "No se encontró el usuario (o no hay token) :C",
       });
-    else {
+    else if (user.banned) {
+      return res.status(404).json({
+        status: false,
+        message: "USUARIO BANEADO",
+      });
+    } else {
       replyInsert.username = user.username;
       GradeProfile.findOne(
         { idCarrera: req.query.idCarrera },
@@ -266,7 +286,12 @@ const upVote = function (req, res, next) {
         status: false,
         message: "No se encontró el usuario (o no hay token) :C",
       });
-    else username = user.username;
+    else if (user.banned) {
+      return res.status(404).json({
+        status: false,
+        message: "USUARIO BANEADO",
+      });
+    } else username = user.username;
   });
   GradeProfile.findOne(
     { idCarrera: req.query.idCarrera },
@@ -457,7 +482,12 @@ const cancelUpVote = function (req, res, next) {
         status: false,
         message: "No se encontró el usuario (o no hay token) :C",
       });
-    else username = user.username;
+    else if (user.banned) {
+      return res.status(404).json({
+        status: false,
+        message: "USUARIO BANEADO",
+      });
+    } else username = user.username;
   });
   GradeProfile.findOne(
     { idCarrera: req.query.idCarrera },

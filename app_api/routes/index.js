@@ -451,7 +451,7 @@ router
  * @openapi
  * /ban:
  *   get:
- *       description: Ban user given a user (And token from an admin).
+ *       description: Ban user given one user (And token from an admin).
  *       tags:
  *         - Ban
  *       parameters:
@@ -481,8 +481,6 @@ router
   .delete(controlUser.httpNotImplemented)
   .put(controlUser.httpNotImplemented);
 
-
-
 /* GET Ban user */
 /**
  * @openapi
@@ -499,17 +497,17 @@ router
  *           description: Don't forget the Bearer
  *       responses:
  *           200:
- *               description: Number of users per month 
+ *               description: Number of users per month
  *           404:
  *               description: User not found or auth failed
  *           500:
  *               description: Internal server error
  */
- router
- .route("/usersYearly")
- .get(jwtHelper.verifyJwtToken, controlUser.usersYearly)
- .post(controlUser.httpNotImplemented)
- .delete(controlUser.httpNotImplemented)
- .put(controlUser.httpNotImplemented);
+router
+  .route("/usersYearly")
+  .get(jwtHelper.verifyJwtToken, controlUser.usersYearly)
+  .post(controlUser.httpNotImplemented)
+  .delete(controlUser.httpNotImplemented)
+  .put(controlUser.httpNotImplemented);
 
 module.exports = router;
