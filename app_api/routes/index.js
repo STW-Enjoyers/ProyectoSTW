@@ -479,7 +479,7 @@ router
 /* Verify a comment or response  */
 /**
  * @openapi
- * /verifyComments:
+ * /verifyComment:
  *   post:
  *       description: Verify a comment or response.
  *       tags:
