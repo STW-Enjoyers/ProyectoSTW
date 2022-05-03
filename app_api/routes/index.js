@@ -447,12 +447,12 @@ router
   .put(controlUser.httpNotImplemented);
 
 
-/* GET yearly users */
+/* GET non verified comments  */
 /**
  * @openapi
  * /checkComments:
  *   get:
- *       description: Get new comments that have not been checked by an admin.
+ *       description: Get new comments that have not been verified by an admin.
  *       tags:
  *         - CheckComments
  *       parameters:
@@ -473,6 +473,50 @@ router
  .route("/checkComments")
  .get(jwtHelper.verifyJwtToken, ctrlGradeProfile.checkComments)
  .post(ctrlGradeProfile.httpNotImplemented)
+ .delete(ctrlGradeProfile.httpNotImplemented)
+ .put(ctrlGradeProfile.httpNotImplemented);
+
+/* Verify a comment or response  */
+/**
+ * @openapi
+ * /verifyComments:
+ *   post:
+ *       description: Verify a comment or response.
+ *       tags:
+ *         - VerifyComments
+ *       parameters:
+ *         - name: Authorization
+ *           in: header
+ *           type: string
+ *           required: true
+ *           description: Don't forget the Bearer
+ *         - name: degreeId
+ *           in: query
+ *           description: If of the degree.
+ *           required: true
+ *           type: string
+ *         - name: commentId
+ *           in: query
+ *           description: Id of the comment.
+ *           required: true
+ *           type: string
+ *         - name: responseId
+ *           in: query
+ *           description: Id, if exists, of the response to verify.
+ *           required: false
+ *           type: string
+ *       responses:
+ *           200:
+ *               description: Comment or response has been verified
+ *           404:
+ *               description: Auth failed or there was an error while querying data
+ *           500:
+ *               description: Internal server error
+ */
+ router
+ .route("/verifyComment")
+ .get(ctrlGradeProfile.httpNotImplemented)
+ .post(jwtHelper.verifyJwtToken, ctrlGradeProfile.verifyComment)
  .delete(ctrlGradeProfile.httpNotImplemented)
  .put(ctrlGradeProfile.httpNotImplemented);
 

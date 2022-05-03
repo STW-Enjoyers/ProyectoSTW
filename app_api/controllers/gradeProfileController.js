@@ -655,6 +655,95 @@ const checkComments = function (req, res) {
 };
 
 
+const verifyComment = function (req, res) {
+  const degreeId = req.query.degreeId;
+  const commentId = req.query.commentId;
+  const responseId = req.query.responseId;
+  if(degreeId) { 
+    if(commentId && !responseId) {
+      GradeProfile.updateOne(
+        { 
+          idCarrera: degreeId, 
+          "comments._id" : commentId 
+        },
+        { 
+          $set: 
+          { 
+            "comments.$.adminCheck": true 
+          } 
+        }
+      ).exec((err, value) => {
+        if (err) {
+          console.log(value)
+          res
+            .status(500)
+            .json({
+                "message": "There was an error while obtaining your data"})
+        } else {
+          if(value["modifiedCount"] == 0 ) {
+            res
+              .status(404)
+              .json({
+                "message": "Message was not found or it was already verified"})
+          } else {
+            res
+              .status(200)
+              .json(value); 
+          }
+        }
+      }); 
+    } 
+    else if(commentId && responseId) {
+      GradeProfile.updateOne(
+        { 
+          idCarrera: degreeId
+        },
+        { $set: 
+          { 
+            "comments.$[commentsDoc].responses.$[responsesDoc].adminCheck": true 
+          } 
+        },
+        { arrayFilters: 
+          [ 
+            {
+              "commentsDoc._id": commentId
+            }, 
+            { 
+              "responsesDoc._id": responseId 
+            } 
+          ] 
+        }
+      ).exec((err, value) => {
+        if (err) {
+          console.log(value)
+          res
+            .status(500)
+            .json({
+                "message": "There was an error while obtaining your data"})
+        } else {
+          if(value["modifiedCount"] == 0 ) {
+            res
+              .status(404)
+              .json({
+                "message": "Message was not found or it was already verified"})
+          } else {
+            res
+              .status(200)
+              .json(value); 
+          }
+        }
+      }); 
+    } 
+  }
+  else {
+    res
+      .status(404)
+      .json({
+        "message": "Add all required fields"})
+  }
+
+  
+};
 
 module.exports = {
   gradeProfile,
@@ -663,5 +752,6 @@ module.exports = {
   upVote,
   cancelUpVote,
   checkComments,
+  verifyComment,
   httpNotImplemented,
 };
