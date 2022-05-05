@@ -749,79 +749,81 @@ const deleteComment = function (req, res) {
           });
         } else {
           dC = gradeProfile.deletedCount || 0;
+          dC++;
+        }
+
+        if (commentId && !responseId) {
+          GradeProfile.updateOne(
+            {
+              idCarrera: degreeId,
+              "comments._id": commentId,
+            },
+            {
+              $set: {
+                "comments.$.adminCheck": true,
+                "comments.$.status": "deleted",
+                "comments.$.visible": false,
+                deletedCount: dC,
+              },
+            }
+          ).exec((err, value) => {
+            if (err) {
+              console.log(value);
+              res.status(500).json({
+                message: "There was an error while obtaining your data",
+              });
+            } else {
+              if (value["modifiedCount"] == 0) {
+                res.status(404).json({
+                  message: "Message was not found or it was already deleted",
+                });
+              } else {
+                res.status(200).json(value);
+              }
+            }
+          });
+        } else if (commentId && responseId) {
+          GradeProfile.updateOne(
+            {
+              idCarrera: degreeId,
+            },
+            {
+              $set: {
+                "comments.$[commentsDoc].responses.$[responsesDoc].adminCheck": true,
+                "comments.$[commentsDoc].responses.$[responsesDoc].status":
+                  "deleted",
+                "comments.$[commentsDoc].responses.$[responsesDoc].visible": false,
+                deletedCount: dC + 1,
+              },
+            },
+            {
+              arrayFilters: [
+                {
+                  "commentsDoc._id": commentId,
+                },
+                {
+                  "responsesDoc._id": responseId,
+                },
+              ],
+            }
+          ).exec((err, value) => {
+            if (err) {
+              console.log(value);
+              res.status(500).json({
+                message: "There was an error while obtaining your data",
+              });
+            } else {
+              if (value["modifiedCount"] == 0) {
+                res.status(404).json({
+                  message: "Message was not found or it was already deleted",
+                });
+              } else {
+                res.status(200).json(value);
+              }
+            }
+          });
         }
       });
-      if (commentId && !responseId) {
-        GradeProfile.updateOne(
-          {
-            idCarrera: degreeId,
-            "comments._id": commentId,
-          },
-          {
-            $set: {
-              "comments.$.adminCheck": true,
-              "comments.$.status": "deleted",
-              "comments.$.visible": false,
-              deletedCount: dC + 1,
-            },
-          }
-        ).exec((err, value) => {
-          if (err) {
-            console.log(value);
-            res.status(500).json({
-              message: "There was an error while obtaining your data",
-            });
-          } else {
-            if (value["modifiedCount"] == 0) {
-              res.status(404).json({
-                message: "Message was not found or it was already deleted",
-              });
-            } else {
-              res.status(200).json(value);
-            }
-          }
-        });
-      } else if (commentId && responseId) {
-        GradeProfile.updateOne(
-          {
-            idCarrera: degreeId,
-          },
-          {
-            $set: {
-              "comments.$[commentsDoc].responses.$[responsesDoc].adminCheck": true,
-              "comments.$[commentsDoc].responses.$[responsesDoc].status":
-                "deleted",
-              "comments.$[commentsDoc].responses.$[responsesDoc].visible": false,
-              deletedCount: dC + 1,
-            },
-          },
-          {
-            arrayFilters: [
-              {
-                "commentsDoc._id": commentId,
-              },
-              {
-                "responsesDoc._id": responseId,
-              },
-            ],
-          }
-        ).exec((err, value) => {
-          if (err) {
-            console.log(value);
-            res.status(500).json({
-              message: "There was an error while obtaining your data",
-            });
-          } else {
-            if (value["modifiedCount"] == 0) {
-              res.status(404).json({
-                message: "Message was not found or it was already deleted",
-              });
-            } else {
-              res.status(200).json(value);
-            }
-          }
-        });
-      }
     } else {
       res.status(404).json({
         message: "Add all required fields",
