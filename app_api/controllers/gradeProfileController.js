@@ -576,77 +576,71 @@ const checkComments = function (req, res) {
         status: false,
         message: "No se encontró el usuario administrador :C",
       });
-    }
-    else{ 
+    } else {
       GradeProfile.aggregate(
-        [ {
-          $project:
+        [
           {
-              "comments":1,
-              "idCarrera": 1,
-              _id:0
-          }
+            $project: {
+              comments: 1,
+              idCarrera: 1,
+              _id: 0,
+            },
           },
-          { $match : {$expr: {$gt: [{$size: "$comments"}, 0]} } },
-          { 
-            $unwind: "$comments" 
+          { $match: { $expr: { $gt: [{ $size: "$comments" }, 0] } } },
+          {
+            $unwind: "$comments",
           },
           {
-            $project:
-            {
-                "idCarrera":1,
-                "comments._id":1,
-                "comments.username":1,
-                "comments.body":1,
-                "comments.adminCheck": 1,
-                "comments.responses.body": 1,
-                "comments.responses.username": 1,
-                "comments.responses.commentId": 1,
-                "comments.responses._id": 1,
-                "comments.responses.adminCheck": 1,   
-            }
-          }
+            $project: {
+              idCarrera: 1,
+              "comments._id": 1,
+              "comments.username": 1,
+              "comments.body": 1,
+              "comments.adminCheck": 1,
+              "comments.responses.body": 1,
+              "comments.responses.username": 1,
+              "comments.responses.commentId": 1,
+              "comments.responses._id": 1,
+              "comments.responses.adminCheck": 1,
+            },
+          },
         ],
-        function(err, result) {
+        function (err, result) {
           if (err) {
-            res
-              .status(500)
-              .json({
-                "message": "There was an error while obtaining your data"
-              });
+            res.status(500).json({
+              message: "There was an error while obtaining your data",
+            });
           } else {
-              returnComments = []
-              for(let k in result) {
-                  if(!result[k]["comments"]["adminCheck"]) {
-                    currentComment = { 
-                      type: "comment",
-                      username: result[k]["comments"]["username"],
-                      body: result[k]["comments"]["body"],
-                      commentId: result[k]["comments"]["_id"],
-                      degreeId: result[k]["idCarrera"]
-                      }
-                    returnComments.push({...currentComment})
-                  }
-                  if(result[k]["comments"]["responses"].length > 0) {
-                    responsesArr = result[k]["comments"]["responses"]
-                    for(let j in responsesArr) {
-                      if(!responsesArr[j]["adminCheck"]) {
-                        currentResponse = {
-                          type: "response", 
-                          username: responsesArr[j]["username"],
-                          body: responsesArr[j]["body"],
-                          commentId: responsesArr[j]["commentId"],
-                          responseId: responsesArr[j]["_id"],
-                          degreeId: result[k]["idCarrera"]
-                        }
-                        returnComments.push({...currentResponse})
-                      }     
-                    }
-                  }
+            returnComments = [];
+            for (let k in result) {
+              if (!result[k]["comments"]["adminCheck"]) {
+                currentComment = {
+                  type: "comment",
+                  username: result[k]["comments"]["username"],
+                  body: result[k]["comments"]["body"],
+                  commentId: result[k]["comments"]["_id"],
+                  degreeId: result[k]["idCarrera"],
+                };
+                returnComments.push({ ...currentComment });
               }
-              res
-                .status(200)
-                .json(returnComments); 
+              if (result[k]["comments"]["responses"].length > 0) {
+                responsesArr = result[k]["comments"]["responses"];
+                for (let j in responsesArr) {
+                  if (!responsesArr[j]["adminCheck"]) {
+                    currentResponse = {
+                      type: "response",
+                      username: responsesArr[j]["username"],
+                      body: responsesArr[j]["body"],
+                      commentId: responsesArr[j]["commentId"],
+                      responseId: responsesArr[j]["_id"],
+                      degreeId: result[k]["idCarrera"],
+                    };
+                    returnComments.push({ ...currentResponse });
+                  }
+                }
+              }
+            }
+            res.status(200).json(returnComments);
           }
         }
       );
@@ -654,95 +648,186 @@ const checkComments = function (req, res) {
   });
 };
 
-
 const verifyComment = function (req, res) {
   const degreeId = req.query.degreeId;
   const commentId = req.query.commentId;
   const responseId = req.query.responseId;
-  if(degreeId) { 
-    if(commentId && !responseId) {
-      GradeProfile.updateOne(
-        { 
-          idCarrera: degreeId, 
-          "comments._id" : commentId 
-        },
-        { 
-          $set: 
-          { 
-            "comments.$.adminCheck": true 
-          } 
-        }
-      ).exec((err, value) => {
-        if (err) {
-          console.log(value)
-          res
-            .status(500)
-            .json({
-                "message": "There was an error while obtaining your data"})
-        } else {
-          if(value["modifiedCount"] == 0 ) {
-            res
-              .status(404)
-              .json({
-                "message": "Message was not found or it was already verified"})
-          } else {
-            res
-              .status(200)
-              .json(value); 
+  User.findOne({ _id: req._id }, (err, user) => {
+    if (!user || !user.admin)
+      res.status(404).json({
+        message: "User admin not found",
+      });
+    else if (degreeId) {
+      if (commentId && !responseId) {
+        GradeProfile.updateOne(
+          {
+            idCarrera: degreeId,
+            "comments._id": commentId,
+          },
+          {
+            $set: {
+              "comments.$.adminCheck": true,
+            },
           }
-        }
-      }); 
-    } 
-    else if(commentId && responseId) {
-      GradeProfile.updateOne(
-        { 
-          idCarrera: degreeId
-        },
-        { $set: 
-          { 
-            "comments.$[commentsDoc].responses.$[responsesDoc].adminCheck": true 
-          } 
-        },
-        { arrayFilters: 
-          [ 
-            {
-              "commentsDoc._id": commentId
-            }, 
-            { 
-              "responsesDoc._id": responseId 
-            } 
-          ] 
-        }
-      ).exec((err, value) => {
-        if (err) {
-          console.log(value)
-          res
-            .status(500)
-            .json({
-                "message": "There was an error while obtaining your data"})
-        } else {
-          if(value["modifiedCount"] == 0 ) {
-            res
-              .status(404)
-              .json({
-                "message": "Message was not found or it was already verified"})
+        ).exec((err, value) => {
+          if (err) {
+            console.log(value);
+            res.status(500).json({
+              message: "There was an error while obtaining your data",
+            });
           } else {
-            res
-              .status(200)
-              .json(value); 
+            if (value["modifiedCount"] == 0) {
+              res.status(404).json({
+                message: "Message was not found or it was already verified",
+              });
+            } else {
+              res.status(200).json(value);
+            }
           }
-        }
-      }); 
-    } 
-  }
-  else {
-    res
-      .status(404)
-      .json({
-        "message": "Add all required fields"})
-  }
+        });
+      } else if (commentId && responseId) {
+        GradeProfile.updateOne(
+          {
+            idCarrera: degreeId,
+          },
+          {
+            $set: {
+              "comments.$[commentsDoc].responses.$[responsesDoc].adminCheck": true,
+            },
+          },
+          {
+            arrayFilters: [
+              {
+                "commentsDoc._id": commentId,
+              },
+              {
+                "responsesDoc._id": responseId,
+              },
+            ],
+          }
+        ).exec((err, value) => {
+          if (err) {
+            console.log(value);
+            res.status(500).json({
+              message: "There was an error while obtaining your data",
+            });
+          } else {
+            if (value["modifiedCount"] == 0) {
+              res.status(404).json({
+                message: "Message was not found or it was already verified",
+              });
+            } else {
+              res.status(200).json(value);
+            }
+          }
+        });
+      }
+    } else {
+      res.status(404).json({
+        message: "Add all required fields",
+      });
+    }
+  });
+};
 
-  
+const deleteComment = function (req, res) {
+  const degreeId = req.query.degreeId;
+  const commentId = req.query.commentId;
+  const responseId = req.query.responseId;
+  var dC = 0;
+  User.findOne({ _id: req._id }, (err, user) => {
+    if (!user || !user.admin)
+      res.status(404).json({
+        message: "User admin not found",
+      });
+    else if (degreeId) {
+      GradeProfile.findOne({ idCarrera: degreeId }, (err, gradeProfile) => {
+        if (!gradeProfile) {
+          return res.status(404).json({
+            status: false,
+            message: "No se encontró el perfil del grado :C",
+          });
+        } else {
+          dC = gradeProfile.deletedCount || 0;
+        }
+      });
+      if (commentId && !responseId) {
+        GradeProfile.updateOne(
+          {
+            idCarrera: degreeId,
+            "comments._id": commentId,
+          },
+          {
+            $set: {
+              "comments.$.adminCheck": true,
+              "comments.$.status": "deleted",
+              "comments.$.visible": false,
+              deletedCount: dC + 1,
+            },
+          }
+        ).exec((err, value) => {
+          if (err) {
+            console.log(value);
+            res.status(500).json({
+              message: "There was an error while obtaining your data",
+            });
+          } else {
+            if (value["modifiedCount"] == 0) {
+              res.status(404).json({
+                message: "Message was not found or it was already deleted",
+              });
+            } else {
+              res.status(200).json(value);
+            }
+          }
+        });
+      } else if (commentId && responseId) {
+        GradeProfile.updateOne(
+          {
+            idCarrera: degreeId,
+          },
+          {
+            $set: {
+              "comments.$[commentsDoc].responses.$[responsesDoc].adminCheck": true,
+              "comments.$[commentsDoc].responses.$[responsesDoc].status":
+                "deleted",
+              "comments.$[commentsDoc].responses.$[responsesDoc].visible": false,
+              deletedCount: dC + 1,
+            },
+          },
+          {
+            arrayFilters: [
+              {
+                "commentsDoc._id": commentId,
+              },
+              {
+                "responsesDoc._id": responseId,
+              },
+            ],
+          }
+        ).exec((err, value) => {
+          if (err) {
+            console.log(value);
+            res.status(500).json({
+              message: "There was an error while obtaining your data",
+            });
+          } else {
+            if (value["modifiedCount"] == 0) {
+              res.status(404).json({
+                message: "Message was not found or it was already deleted",
+              });
+            } else {
+              res.status(200).json(value);
+            }
+          }
+        });
+      }
+    } else {
+      res.status(404).json({
+        message: "Add all required fields",
+      });
+    }
+  });
 };
 
 module.exports = {
@@ -753,5 +838,6 @@ module.exports = {
   cancelUpVote,
   checkComments,
   verifyComment,
+  deleteComment,
   httpNotImplemented,
 };
