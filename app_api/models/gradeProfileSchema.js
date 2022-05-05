@@ -15,6 +15,7 @@ const responseSchema = new Mongoose.Schema({
   status: String,
   body: String,
   commentId: String,
+  adminCheck: { type: Boolean, default : false },
   date: { type: Date, default: Date.now },
 });
 
@@ -25,6 +26,7 @@ const commentSchema = new Mongoose.Schema({
   visible: Boolean,
   status: String,
   body: String,
+  adminCheck: { type: Boolean, default : false },
   date: { type: Date, default: Date.now },
   responses: [responseSchema],
 });
