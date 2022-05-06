@@ -446,7 +446,6 @@ router
   .delete(controlUser.httpNotImplemented)
   .put(controlUser.httpNotImplemented);
 
-
 /* GET non verified comments  */
 /**
  * @openapi
@@ -469,12 +468,12 @@ router
  *           500:
  *               description: Internal server error
  */
- router
- .route("/checkComments")
- .get(jwtHelper.verifyJwtToken, ctrlGradeProfile.checkComments)
- .post(ctrlGradeProfile.httpNotImplemented)
- .delete(ctrlGradeProfile.httpNotImplemented)
- .put(ctrlGradeProfile.httpNotImplemented);
+router
+  .route("/checkComments")
+  .get(jwtHelper.verifyJwtToken, ctrlGradeProfile.checkComments)
+  .post(ctrlGradeProfile.httpNotImplemented)
+  .delete(ctrlGradeProfile.httpNotImplemented)
+  .put(ctrlGradeProfile.httpNotImplemented);
 
 /* Verify a comment or response  */
 /**
@@ -513,12 +512,56 @@ router
  *           500:
  *               description: Internal server error
  */
- router
- .route("/verifyComment")
- .get(ctrlGradeProfile.httpNotImplemented)
- .post(jwtHelper.verifyJwtToken, ctrlGradeProfile.verifyComment)
- .delete(ctrlGradeProfile.httpNotImplemented)
- .put(ctrlGradeProfile.httpNotImplemented);
+router
+  .route("/verifyComment")
+  .get(ctrlGradeProfile.httpNotImplemented)
+  .post(jwtHelper.verifyJwtToken, ctrlGradeProfile.verifyComment)
+  .delete(ctrlGradeProfile.httpNotImplemented)
+  .put(ctrlGradeProfile.httpNotImplemented);
+
+/* Delete a comment or response  */
+/**
+ * @openapi
+ * /deleteComment:
+ *   post:
+ *       description: Delete a comment or response.
+ *       tags:
+ *         - DeleteComments
+ *       parameters:
+ *         - name: Authorization
+ *           in: header
+ *           type: string
+ *           required: true
+ *           description: Don't forget the Bearer
+ *         - name: degreeId
+ *           in: query
+ *           description: If of the degree.
+ *           required: true
+ *           type: string
+ *         - name: commentId
+ *           in: query
+ *           description: Id of the comment.
+ *           required: true
+ *           type: string
+ *         - name: responseId
+ *           in: query
+ *           description: Id, if exists, of the response to verify.
+ *           required: false
+ *           type: string
+ *       responses:
+ *           200:
+ *               description: Comment or response has been deleted
+ *           404:
+ *               description: Auth failed or there was an error while querying data
+ *           500:
+ *               description: Internal server error
+ */
+router
+  .route("/deleteComment")
+  .get(ctrlGradeProfile.httpNotImplemented)
+  .post(jwtHelper.verifyJwtToken, ctrlGradeProfile.deleteComment)
+  .delete(ctrlGradeProfile.httpNotImplemented)
+  .put(ctrlGradeProfile.httpNotImplemented);
 
 /* GET Ban user */
 /**
