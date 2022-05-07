@@ -35,7 +35,8 @@ const gradeProfileSchema = new Mongoose.Schema({
   idCarrera: String,
   graduated: graduatedSchema,
   comments: [commentSchema],
-  deletedCount: Number,
+  deletedCount: { type: Number, default: 0 },
+  commentCount: { type: Number, default: 0 },
 });
 
 module.exports = Mongoose.model("GradeProfile", gradeProfileSchema);

@@ -19,9 +19,12 @@ const register = function (req, res, next) {
         if (!err) {
           passport.authenticate("local", (err, user, info) => {
             if (err) return res.status(400).json(err);
-            else if (user)
-              return res.status(200).json({ token: user.jwtGen(), doc });
-            else return res.status(404).json(info);
+            else if (user) {
+              resumeUser = _.pick(user, ["_id", "username", "email"]);
+              return res
+                .status(200)
+                .json({ token: user.jwtGen(), doc: resumeUser });
+            } else return res.status(404).json(info);
           })(req, res);
         } else {
           if (err.code == 11000)
@@ -51,7 +54,7 @@ const changeName = function (req, res, next) {
       if (user.username != req.query.username) {
         user.username = req.query.username;
         user.save();
-        res.send(user);
+        res.send(_.pick(user, ["_id", "username", "email"]));
       } else {
         res.status(404).json({ status: false, message: "No hay cambio." });
       }
@@ -72,7 +75,7 @@ const changePassword = function (req, res, next) {
           user.password = req.body.newPassword;
           user.regen = true;
           user.save();
-          res.send(user);
+          res.send(_.pick(user, ["_id", "username", "email"]));
         }
       });
     } else return res.status(404).json(info);
@@ -112,7 +115,7 @@ const ban = function (req, res, next) {
           if (user.comments.length > 0) handleComments(user, res);
           else {
             user.save();
-            res.send(user);
+            res.send(_.pick(user, ["_id", "username", "email"]));
           }
         }
       });
@@ -249,7 +252,7 @@ function handleComments(user, res) {
         if (k == user.comments.length - 1) {
           if (failed == "") {
             user.save();
-            res.send(user);
+            res.send(_.pick(user, ["_id", "username", "email"]));
           } else {
             res.status(404).json({
               status: false,

@@ -200,6 +200,7 @@ const comment = function (req, res, next) {
             });
           } else {
             gradeProfile.comments = gradeProfile.comments || [];
+            gradeProfile.commentCount++;
             commLength = gradeProfile.comments.push(commentInsert);
             gradeProfile.save();
             console.log(gradeProfile.comments);
@@ -262,6 +263,7 @@ const reply = function (req, res, next) {
                 message: "No se encontró el comentario solicitado :C",
               });
             }
+            gradeProfile.commentCount++;
             gradeProfile.save();
             user.comments = user.comments || [];
             let commrep = new Array(
