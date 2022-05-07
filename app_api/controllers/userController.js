@@ -41,6 +41,24 @@ const login = function (req, res, next) {
   })(req, res);
 };
 
+const changeName = function (req, res, next) {
+  User.findOne({ _id: req._id }, (err, user) => {
+    if (!user)
+      return res
+        .status(404)
+        .json({ status: false, message: "No se encontró el usuario :C" });
+    else {
+      if (user.username != req.query.username) {
+        user.username = req.query.username;
+        user.save();
+        res.send(user);
+      } else {
+        res.status(404).json({ status: false, message: "No hay cambio." });
+      }
+    }
+  });
+};
+
 const profile = function (req, res, next) {
   User.findOne({ _id: req._id }, (err, user) => {
     if (!user)
@@ -235,5 +253,6 @@ module.exports = {
   ban,
   usersYearly,
   conflictiveGrades,
+  changeName,
   httpNotImplemented,
 };

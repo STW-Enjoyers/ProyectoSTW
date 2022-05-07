@@ -215,6 +215,40 @@ router
   .delete(controlUser.httpNotImplemented)
   .put(controlUser.httpNotImplemented);
 
+/* GET change username */
+/**
+ * @openapi
+ * /changeUsername:
+ *   get:
+ *       description: Change username given a token and new username.
+ *       tags:
+ *         - Change username
+ *       parameters:
+ *         - name: Authorization
+ *           in: header
+ *           type: string
+ *           required: true
+ *           description: Don't forget the Bearer
+ *         - name: username
+ *           in: query
+ *           description: New username.
+ *           required: true
+ *           type: string
+ *       responses:
+ *           200:
+ *               description: User profile data
+ *           404:
+ *               description: User not found
+ *           500:
+ *               description: Internal server error
+ */
+router
+  .route("/changeUsername")
+  .get(jwtHelper.verifyJwtToken, controlUser.changeName)
+  .post(controlUser.httpNotImplemented)
+  .delete(controlUser.httpNotImplemented)
+  .put(controlUser.httpNotImplemented);
+
 /* GET user profile */
 /**
  * @openapi
