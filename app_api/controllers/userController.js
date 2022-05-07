@@ -59,6 +59,26 @@ const changeName = function (req, res, next) {
   });
 };
 
+const changePassword = function (req, res, next) {
+  passport.authenticate("local", (err, user, info) => {
+    if (err) return res.status(400).json(err);
+    else if (user) {
+      User.findOne({ _id: req._id }, (err, user) => {
+        if (!user)
+          return res
+            .status(404)
+            .json({ status: false, message: "No se encontró el usuario :C" });
+        else {
+          user.password = req.body.newPassword;
+          user.regen = true;
+          user.save();
+          res.send(user);
+        }
+      });
+    } else return res.status(404).json(info);
+  })(req, res);
+};
+
 const profile = function (req, res, next) {
   User.findOne({ _id: req._id }, (err, user) => {
     if (!user)
@@ -254,5 +274,6 @@ module.exports = {
   usersYearly,
   conflictiveGrades,
   changeName,
+  changePassword,
   httpNotImplemented,
 };

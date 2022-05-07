@@ -249,6 +249,49 @@ router
   .delete(controlUser.httpNotImplemented)
   .put(controlUser.httpNotImplemented);
 
+/* GET change password */
+/**
+ * @openapi
+ * /changePassword:
+ *   get:
+ *       description: Change password given a token and new password.
+ *       tags:
+ *         - Change password
+ *       parameters:
+ *         - name: Authorization
+ *           in: header
+ *           type: string
+ *           required: true
+ *           description: Don't forget the Bearer
+ *         - in: body
+ *           name: user
+ *           required: true
+ *           description: User to create
+ *           schema:
+ *              type: object
+ *              required:
+ *                - password
+ *                - newPassword
+ *              properties:
+ *                password:
+ *                  type: string
+ *                newPassword:
+ *                  type: string
+ *       responses:
+ *           200:
+ *               description: User profile data
+ *           404:
+ *               description: User not found
+ *           500:
+ *               description: Internal server error
+ */
+router
+  .route("/changePassword")
+  .get(controlUser.httpNotImplemented)
+  .post(jwtHelper.verifyJwtToken, controlUser.changePassword)
+  .delete(controlUser.httpNotImplemented)
+  .put(controlUser.httpNotImplemented);
+
 /* GET user profile */
 /**
  * @openapi
