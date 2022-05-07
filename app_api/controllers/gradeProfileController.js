@@ -793,7 +793,7 @@ const deleteComment = function (req, res) {
                 "comments.$[commentsDoc].responses.$[responsesDoc].status":
                   "deleted",
                 "comments.$[commentsDoc].responses.$[responsesDoc].visible": false,
-                deletedCount: dC + 1,
+                deletedCount: dC,
               },
             },
             {

@@ -4,6 +4,7 @@ const User = require("../models/userSchema");
 const { urlencoded } = require("body-parser");
 const logger = require("../../logger");
 const GradeProfile = require("../models/gradeProfileSchema");
+const Grade = require("../models/gradeSchema");
 
 const register = function (req, res, next) {
   logger.info("Registrando");
@@ -87,43 +88,97 @@ const usersYearly = function (req, res) {
         status: false,
         message: "No se encontró el usuario administrador :C",
       });
-    }
-    else{
+    } else {
       User.aggregate(
-        [ {
+        [
+          {
             $group: {
-              _id: { $dateToString: { format: "%m-%Y", date: "$registerDate" } },
-              users: {$sum: 1}
-            }
-          }
+              _id: {
+                $dateToString: { format: "%m-%Y", date: "$registerDate" },
+              },
+              users: { $sum: 1 },
+            },
+          },
         ],
-        function(err, result) {
+        function (err, result) {
           if (err) {
-            res
-              .status(500)
-              .json({
-                "message": "There was an error while obtaining your data"
-              });
+            res.status(500).json({
+              message: "There was an error while obtaining your data",
+            });
           } else {
             for (var i = 1; i < 13; i++) {
-                auxArray = result.filter(a => 
-                  a._id.includes(i + "-" + new Date().getFullYear()))
-                if(auxArray.length == 0) {
-                  value = { _id : i + "-" + new Date().getFullYear(),
-                            users : 0
-                          }
-                  result.push({...value})
-                }
+              auxArray = result.filter((a) =>
+                a._id.includes(i + "-" + new Date().getFullYear())
+              );
+              if (auxArray.length == 0) {
+                value = { _id: i + "-" + new Date().getFullYear(), users: 0 };
+                result.push({ ...value });
+              }
             }
-              res
+            res
               .status(200)
-              .json(result.filter(a => a._id.includes(new Date().getFullYear()))); 
+              .json(
+                result.filter((a) => a._id.includes(new Date().getFullYear()))
+              );
           }
         }
       );
     }
   });
 };
+
+const conflictiveGrades = function (req, res) {
+  User.findOne({ _id: req._id }, (err, user) => {
+    if (!user || !user.admin)
+      return res.status(404).json({
+        status: false,
+        message: "No se encontró el usuario administrador :C",
+      });
+    else {
+      GradeProfile.find({}, ["idCarrera", "deletedCount"], { limit: 20 })
+        .sort({ deletedCount: -1 })
+        .exec(function (err, docs) {
+          gradeForPromise(docs).then((conflictives) => {
+            res.send(conflictives);
+          });
+        });
+    }
+  });
+};
+
+function gradeForPromise(docs) {
+  return new Promise((res, rej) => {
+    conflictives = [];
+    for (i in docs) {
+      gradePromise(docs[i], i).then((actual) => {
+        console.log("I " + i);
+        conflictives.push(actual);
+        if (actual.puesto == docs.length - 1) {
+          conflictives.sort(function (a, b) {
+            return a.puesto - b.puesto;
+          });
+          res(conflictives);
+        }
+      });
+    }
+  });
+}
+
+function gradePromise(doc, puesto) {
+  return new Promise((res, rej) => {
+    console.log(doc);
+    Grade.findOne({ idCarrera: doc.idCarrera }, (err, grade) => {
+      actual = {
+        puesto: puesto,
+        idCarrera: doc.idCarrera,
+        estudio: grade.estudio,
+        deletedCount: doc.deletedCount,
+      };
+      res(actual);
+      return actual;
+    });
+  });
+}
 
 function handleComments(user, res) {
   failed = "";
@@ -192,5 +247,6 @@ module.exports = {
   profile,
   ban,
   usersYearly,
+  conflictiveGrades,
   httpNotImplemented,
 };
