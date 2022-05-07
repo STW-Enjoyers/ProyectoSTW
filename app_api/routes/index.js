@@ -627,4 +627,33 @@ router
   .delete(controlUser.httpNotImplemented)
   .put(controlUser.httpNotImplemented);
 
+/* GET most conflictive grades */
+/**
+ * @openapi
+ * /conflictiveGrades:
+ *   get:
+ *       description: Get conflictive grades by descending order.
+ *       tags:
+ *         - Conflictive
+ *       parameters:
+ *         - name: Authorization
+ *           in: header
+ *           type: string
+ *           required: true
+ *           description: Don't forget the Bearer
+ *       responses:
+ *           200:
+ *               description: Grades array
+ *           404:
+ *               description: User not found
+ *           500:
+ *               description: Internal server error
+ */
+router
+  .route("/conflictiveGrades")
+  .get(jwtHelper.verifyJwtToken, controlUser.conflictiveGrades)
+  .post(controlUser.httpNotImplemented)
+  .delete(controlUser.httpNotImplemented)
+  .put(controlUser.httpNotImplemented);
+
 module.exports = router;
