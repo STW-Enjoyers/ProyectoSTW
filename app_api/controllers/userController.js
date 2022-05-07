@@ -135,50 +135,37 @@ const conflictiveGrades = function (req, res) {
         message: "No se encontró el usuario administrador :C",
       });
     else {
-      GradeProfile.find({}, ["idCarrera", "deletedCount"], { limit: 20 })
-        .sort({ deletedCount: -1 })
-        .exec(function (err, docs) {
-          gradeForPromise(docs).then((conflictives) => {
-            res.send(conflictives);
-          });
-        });
-    }
-  });
-};
-
-function gradeForPromise(docs) {
-  return new Promise((res, rej) => {
-    conflictives = [];
-    for (i in docs) {
-      gradePromise(docs[i], i).then((actual) => {
-        console.log("I " + i);
-        conflictives.push(actual);
-        if (actual.puesto == docs.length - 1) {
-          conflictives.sort(function (a, b) {
-            return a.puesto - b.puesto;
-          });
-          res(conflictives);
+      GradeProfile.aggregate([
+        {
+          $lookup: {
+            from: "grades",
+            localField: "idCarrera",
+            foreignField: "idCarrera",
+            as: "grade",
+          },
+        },
+        {
+          $sort: {
+            deletedCount: -1,
+          },
+        },
+      ]).exec(function (err, result) {
+        console.log(result);
+        console.log(result.length);
+        conflictives = [];
+        for (i in result) {
+          actual = {
+            idCarrera: result[i].idCarrera,
+            estudio: result[i].grade[0].estudio,
+            deletedCount: result[i].deletedCount,
+          };
+          conflictives.push(actual);
         }
+        res.send(conflictives);
       });
     }
   });
-}
-
-function gradePromise(doc, puesto) {
-  return new Promise((res, rej) => {
-    console.log(doc);
-    Grade.findOne({ idCarrera: doc.idCarrera }, (err, grade) => {
-      actual = {
-        puesto: puesto,
-        idCarrera: doc.idCarrera,
-        estudio: grade.estudio,
-        deletedCount: doc.deletedCount,
-      };
-      res(actual);
-      return actual;
-    });
-  });
-}
+};
 
 function handleComments(user, res) {
   failed = "";
