@@ -20,7 +20,13 @@ const register = function (req, res, next) {
           passport.authenticate("local", (err, user, info) => {
             if (err) return res.status(400).json(err);
             else if (user) {
-              resumeUser = _.pick(user, ["_id", "username", "email"]);
+              resumeUser = _.pick(user, [
+                "_id",
+                "username",
+                "email",
+                "admin",
+                "banned",
+              ]);
               return res
                 .status(200)
                 .json({ token: user.jwtGen(), doc: resumeUser });
@@ -54,7 +60,7 @@ const changeName = function (req, res, next) {
       if (user.username != req.query.username) {
         user.username = req.query.username;
         user.save();
-        res.send(_.pick(user, ["_id", "username", "email"]));
+        res.send(_.pick(user, ["_id", "username", "email", "admin", "banned"]));
       } else {
         res.status(404).json({ status: false, message: "No hay cambio." });
       }
@@ -75,7 +81,9 @@ const changePassword = function (req, res, next) {
           user.password = req.body.newPassword;
           user.regen = true;
           user.save();
-          res.send(_.pick(user, ["_id", "username", "email"]));
+          res.send(
+            _.pick(user, ["_id", "username", "email", "admin", "banned"])
+          );
         }
       });
     } else return res.status(404).json(info);
@@ -91,7 +99,7 @@ const profile = function (req, res, next) {
     else
       return res.status(200).json({
         status: true,
-        user: _.pick(user, ["_id", "username", "email"]),
+        user: _.pick(user, ["_id", "username", "email", "admin", "banned"]),
       });
   });
 };
@@ -115,7 +123,9 @@ const ban = function (req, res, next) {
           if (user.comments.length > 0) handleComments(user, res);
           else {
             user.save();
-            res.send(_.pick(user, ["_id", "username", "email"]));
+            res.send(
+              _.pick(user, ["_id", "username", "email", "admin", "banned"])
+            );
           }
         }
       });
@@ -252,7 +262,9 @@ function handleComments(user, res) {
         if (k == user.comments.length - 1) {
           if (failed == "") {
             user.save();
-            res.send(_.pick(user, ["_id", "username", "email"]));
+            res.send(
+              _.pick(user, ["_id", "username", "email", "admin", "banned"])
+            );
           } else {
             res.status(404).json({
               status: false,
