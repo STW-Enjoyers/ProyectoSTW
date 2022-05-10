@@ -45,7 +45,8 @@ const register = function (req, res, next) {
 const login = function (req, res, next) {
   passport.authenticate("local", (err, user, info) => {
     if (err) return res.status(400).json(err);
-    else if (user) return res.status(200).json({ token: user.jwtGen() });
+    else if (user)
+      return res.status(200).json({ token: user.jwtGen(), _id: user._id });
     else return res.status(404).json(info);
   })(req, res);
 };
