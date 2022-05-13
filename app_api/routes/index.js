@@ -249,11 +249,11 @@ router
   .delete(controlUser.httpNotImplemented)
   .put(controlUser.httpNotImplemented);
 
-/* GET change password */
+/* POST change password */
 /**
  * @openapi
  * /changePassword:
- *   get:
+ *   post:
  *       description: Change password given a token and new password.
  *       tags:
  *         - Change password
@@ -273,6 +273,8 @@ router
  *                - password
  *                - newPassword
  *              properties:
+ *                email:
+ *                  type: string
  *                password:
  *                  type: string
  *                newPassword:
