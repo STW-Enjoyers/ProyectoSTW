@@ -37,14 +37,37 @@ const gradeProfile = function (req, res, next) {
               gP.idCarrera = grade.idCarrera;
               gP.graduated = null;
               gP.comments = [];
-              getJsonUrl(res, graduatedURL, gP, next);
+              gradeData = {
+                estudio: grade.estudio,
+                localidad: grade.localidad,
+              };
+              console.log("Perfil nuevo");
+              getJsonUrl(res, graduatedURL, gP, next, gradeData);
             }
           }
         );
       } else {
-        logger.info("Perfil existente");
-        returnProfileWithFilter(res, gradeProfile);
-        return;
+        Grade.findOne(
+          {
+            idCarrera: req.query.idCarrera,
+          },
+          (err, grade) => {
+            if (!grade) {
+              return res
+                .status(404)
+                .json({ status: false, message: "No se encontró el grado :C" });
+            } else {
+              gradeData = {
+                estudio: grade.estudio,
+                localidad: grade.localidad,
+              };
+              logger.info("Perfil existente");
+              console.log("Perfil existente");
+              returnProfileWithFilter(res, gradeProfile, gradeData);
+              return;
+            }
+          }
+        );
       }
     }
   );
@@ -52,7 +75,7 @@ const gradeProfile = function (req, res, next) {
 
 //This function makes the comment body and username invisible if
 //the user that commented has erased the comment or if it has been banned
-function returnProfileWithFilter(res, gradeProfile) {
+function returnProfileWithFilter(res, gradeProfile, gradeData) {
   for (let k in gradeProfile.comments) {
     if (!gradeProfile.comments[k].visible) {
       gradeProfile.comments[k].body = "";
@@ -67,14 +90,14 @@ function returnProfileWithFilter(res, gradeProfile) {
       }
     }
   }
-  res.status(200).json(gradeProfile);
+  res.status(200).json({ gradeProfile: gradeProfile, gradeData: gradeData });
 }
 
 const httpNotImplemented = function (req, res) {
   res.status(501).json("Operation not implemented");
 };
 
-function getJsonUrl(res, query, gradeProfile, next) {
+function getJsonUrl(res, query, gradeProfile, next, gradeData) {
   const requestOptions = {
     url: serverOptions.server + query,
     method: "GET",
@@ -88,14 +111,14 @@ function getJsonUrl(res, query, gradeProfile, next) {
       });
     else if (response.statusCode === 200 && body != null) {
       jsonUrl = body[0].files.find((t) => t.description === "JSON").url;
-      getJsonContent(res, jsonUrl, gradeProfile, next);
+      getJsonContent(res, jsonUrl, gradeProfile, next, gradeData);
       return;
     }
     return null;
   });
 }
 
-function getJsonContent(res, jsonUrl, gradeProfile, next) {
+function getJsonContent(res, jsonUrl, gradeProfile, next, gradeData) {
   const requestOptions = {
     url: jsonUrl,
     method: "GET",
@@ -108,14 +131,14 @@ function getJsonContent(res, jsonUrl, gradeProfile, next) {
         message: "Zaguan >:C",
       });
     else if (response.statusCode === 200 && body != null) {
-      processGraduatesOne(body.datos, gradeProfile, res, next);
+      processGraduatesOne(body.datos, gradeProfile, res, next, gradeData);
       return;
     }
     return null;
   });
 }
 
-function processGraduatesOne(data, gradeProfile, res, next) {
+function processGraduatesOne(data, gradeProfile, res, next, gradeData) {
   gradesArr = [];
   for (let k in data) {
     if (
@@ -163,7 +186,7 @@ function processGraduatesOne(data, gradeProfile, res, next) {
   gradeProfile.save((err, doc) => {
     if (!err) res.send(doc);
     else {
-      res.send(gradeProfile);
+      res.send({ gradeProfile: gradeProfile, gradeData: gradeData });
     }
   });
   return;
