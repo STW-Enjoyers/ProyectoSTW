@@ -59,15 +59,64 @@ const changeName = function (req, res, next) {
         .json({ status: false, message: "No se encontró el usuario :C" });
     else {
       if (user.username != req.query.username) {
-        user.username = req.query.username;
-        user.save();
-        res.send(_.pick(user, ["_id", "username", "email", "admin", "banned"]));
+        User.findOne({ username: req.query.username }, (err, newuser) => {
+          if (!newuser) {
+            user.username = req.query.username;
+            user.save();
+            if (user.comments.length > 0) handleCommentsChange(user, res);
+            res.send(
+              _.pick(user, ["_id", "username", "email", "admin", "banned"])
+            );
+          } else {
+            res
+              .status(404)
+              .json({ status: false, message: "Ya existe ese usuario." });
+          }
+        });
       } else {
         res.status(404).json({ status: false, message: "No hay cambio." });
       }
     }
   });
 };
+
+function handleCommentsChange(user, res) {
+  failed = "";
+  for (let k in user.comments) {
+    GradeProfile.findOne(
+      { "comments._id": user.comments[k][0] },
+      (err, gradeProfile) => {
+        cIndex = -1;
+        for (let l in gradeProfile.comments) {
+          if (gradeProfile.comments[l]["_id"] == user.comments[k][0]) {
+            cIndex = l;
+            break;
+          }
+        }
+        if (user.comments[k].length > 1) {
+          //Reply
+          for (let m in gradeProfile.comments[cIndex].responses) {
+            if (
+              gradeProfile.comments[cIndex].responses[m]["_id"] ==
+              user.comments[k][1]
+            ) {
+              logger.info(
+                "Respuesta name" + gradeProfile.comments[cIndex].responses[m]
+              );
+              gradeProfile.comments[cIndex].responses[m].username =
+                user.username;
+            }
+          }
+        } else {
+          //Comment
+          logger.info("Comentario name" + gradeProfile.comments[cIndex]);
+          gradeProfile.comments[cIndex].username = user.username;
+        }
+        gradeProfile.save();
+      }
+    );
+  }
+}
 
 const changePassword = function (req, res, next) {
   passport.authenticate("local", (err, user, info) => {
@@ -121,7 +170,7 @@ const ban = function (req, res, next) {
           });
         else {
           user.banned = true;
-          if (user.comments.length > 0) handleComments(user, res);
+          if (user.comments.length > 0) handleCommentsBan(user, res);
           else {
             user.save();
             res.send(
@@ -219,7 +268,7 @@ const conflictiveGrades = function (req, res) {
   });
 };
 
-function handleComments(user, res) {
+function handleCommentsBan(user, res) {
   failed = "";
   for (let k in user.comments) {
     GradeProfile.findOne(
