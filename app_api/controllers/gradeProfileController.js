@@ -651,16 +651,14 @@ const checkComments = function (req, res) {
 };
 
 const verifyComment = function (req, res) {
-  const degreeId = req.query.degreeId;
-  const commentId = req.query.commentId;
-  const responseId = req.query.responseId;
+  const degreeId = req.params.degreeId;
+  const commentId = req.params.commentId;
   User.findOne({ _id: req._id }, (err, user) => {
     if (!user || !user.admin)
       res.status(404).json({
         message: "User admin not found",
       });
-    else if (degreeId) {
-      if (commentId && !responseId) {
+    else if (degreeId && commentId) {
         GradeProfile.updateOne(
           {
             idCarrera: degreeId,
@@ -687,7 +685,24 @@ const verifyComment = function (req, res) {
             }
           }
         });
-      } else if (commentId && responseId) {
+    } else {
+      res.status(404).json({
+        message: "Add all required fields",
+      });
+    }
+  });
+};
+
+const verifyResponse = function (req, res) {
+  const degreeId = req.params.degreeId;
+  const commentId = req.params.commentId;
+  const responseId = req.params.responseId;
+  User.findOne({ _id: req._id }, (err, user) => {
+    if (!user || !user.admin)
+      res.status(404).json({
+        message: "User admin not found",
+      });
+    else if (degreeId && commentId && responseId) {
         GradeProfile.updateOne(
           {
             idCarrera: degreeId,
@@ -723,7 +738,6 @@ const verifyComment = function (req, res) {
             }
           }
         });
-      }
     } else {
       res.status(404).json({
         message: "Add all required fields",
@@ -842,6 +856,7 @@ module.exports = {
   cancelUpVote,
   checkComments,
   verifyComment,
+  verifyResponse,
   deleteComment,
   httpNotImplemented,
 };

@@ -8,6 +8,7 @@ const logger =
           errors({stack : true}),
           json()
         ),
-        transports: [new transports.Console()]
+        transports: [new transports.Console(),
+          new transports.File({ filename: 'internalDev.log' })]
       });
 module.exports = logger;
