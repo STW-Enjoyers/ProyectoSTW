@@ -268,6 +268,46 @@ const conflictiveGrades = function (req, res) {
   });
 };
 
+const commentedGrades = function (req, res) {
+  User.findOne({ _id: req._id }, (err, user) => {
+    if (!user || !user.admin)
+      return res.status(404).json({
+        status: false,
+        message: "No se encontró el usuario administrador :C",
+      });
+    else {
+      GradeProfile.aggregate([
+        {
+          $lookup: {
+            from: "grades",
+            localField: "idCarrera",
+            foreignField: "idCarrera",
+            as: "grade",
+          },
+        },
+        {
+          $sort: {
+            commentCount: -1,
+          },
+        },
+      ]).exec(function (err, result) {
+        console.log(result);
+        console.log(result.length);
+        commented = [];
+        for (i in result) {
+          actual = {
+            idCarrera: result[i].idCarrera,
+            estudio: result[i].grade[0].estudio,
+            commentCount: result[i].commentCount,
+          };
+          commented.push(actual);
+        }
+        res.send(commented);
+      });
+    }
+  });
+};
+
 function handleCommentsBan(user, res) {
   failed = "";
   for (let k in user.comments) {
@@ -338,6 +378,7 @@ module.exports = {
   ban,
   usersYearly,
   conflictiveGrades,
+  commentedGrades,
   changeName,
   changePassword,
   httpNotImplemented,

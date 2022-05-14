@@ -593,8 +593,6 @@ router
   .delete(ctrlGradeProfile.httpNotImplemented)
   .put(ctrlGradeProfile.httpNotImplemented);
 
-
-
 /* Verify a response */
 /**
  * @openapi
@@ -632,12 +630,12 @@ router
  *           500:
  *               description: Internal server error
  */
- router
- .route("/response/verify/:degreeId/:commentId/:responseId")
- .get(ctrlGradeProfile.httpNotImplemented)
- .post(jwtHelper.verifyJwtToken, ctrlGradeProfile.verifyResponse)
- .delete(ctrlGradeProfile.httpNotImplemented)
- .put(ctrlGradeProfile.httpNotImplemented);
+router
+  .route("/response/verify/:degreeId/:commentId/:responseId")
+  .get(ctrlGradeProfile.httpNotImplemented)
+  .post(jwtHelper.verifyJwtToken, ctrlGradeProfile.verifyResponse)
+  .delete(ctrlGradeProfile.httpNotImplemented)
+  .put(ctrlGradeProfile.httpNotImplemented);
 
 /* Delete a comment or response  */
 /**
@@ -772,6 +770,35 @@ router
 router
   .route("/conflictiveGrades")
   .get(jwtHelper.verifyJwtToken, controlUser.conflictiveGrades)
+  .post(controlUser.httpNotImplemented)
+  .delete(controlUser.httpNotImplemented)
+  .put(controlUser.httpNotImplemented);
+
+/* GET most commented grades */
+/**
+ * @openapi
+ * /commentedGrades:
+ *   get:
+ *       description: Get commented grades by descending order.
+ *       tags:
+ *         - Commented
+ *       parameters:
+ *         - name: Authorization
+ *           in: header
+ *           type: string
+ *           required: true
+ *           description: Don't forget the Bearer
+ *       responses:
+ *           200:
+ *               description: Grades array
+ *           404:
+ *               description: User not found
+ *           500:
+ *               description: Internal server error
+ */
+router
+  .route("/commentedGrades")
+  .get(jwtHelper.verifyJwtToken, controlUser.commentedGrades)
   .post(controlUser.httpNotImplemented)
   .delete(controlUser.httpNotImplemented)
   .put(controlUser.httpNotImplemented);
