@@ -554,49 +554,90 @@ router
   .delete(ctrlGradeProfile.httpNotImplemented)
   .put(ctrlGradeProfile.httpNotImplemented);
 
-/* Verify a comment or response  */
+/* Verify a comment */
 /**
  * @openapi
- * /verifyComment:
+ * /comment/verify/{degreeId}/{commentId}:
  *   post:
- *       description: Verify a comment or response.
+ *       description: Verify a comment.
  *       tags:
- *         - VerifyComments
+ *         - VerifyComment
  *       parameters:
  *         - name: Authorization
  *           in: header
  *           type: string
  *           required: true
  *           description: Don't forget the Bearer
- *         - name: degreeId
- *           in: query
- *           description: If of the degree.
+ *         - in: path
+ *           name: degreeId
+ *           description: Id of the degree.
  *           required: true
  *           type: string
- *         - name: commentId
- *           in: query
- *           description: Id of the comment.
+ *         - in: path
+ *           name: commentId
+ *           description: Id of the comment to verify.
  *           required: true
- *           type: string
- *         - name: responseId
- *           in: query
- *           description: Id, if exists, of the response to verify.
- *           required: false
  *           type: string
  *       responses:
  *           200:
- *               description: Comment or response has been verified
+ *               description: Comment has been verified
  *           404:
  *               description: Auth failed or there was an error while querying data
  *           500:
  *               description: Internal server error
  */
 router
-  .route("/verifyComment")
+  .route("/comment/verify/:degreeId/:commentId")
   .get(ctrlGradeProfile.httpNotImplemented)
   .post(jwtHelper.verifyJwtToken, ctrlGradeProfile.verifyComment)
   .delete(ctrlGradeProfile.httpNotImplemented)
   .put(ctrlGradeProfile.httpNotImplemented);
+
+
+
+/* Verify a response */
+/**
+ * @openapi
+ * /response/verify/{degreeId}/{commentId}/{responseId}:
+ *   post:
+ *       description: Verify a response.
+ *       tags:
+ *         - VerifyResponse
+ *       parameters:
+ *         - name: Authorization
+ *           in: header
+ *           type: string
+ *           required: true
+ *           description: Don't forget the Bearer
+ *         - in: path
+ *           name: degreeId
+ *           description: Id of the degree.
+ *           required: true
+ *           type: string
+ *         - in: path
+ *           name: commentId
+ *           description: Id of the comment.
+ *           required: true
+ *           type: string
+ *         - in: path
+ *           name: responseId
+ *           description: Id of the response to verify.
+ *           required: true
+ *           type: string
+ *       responses:
+ *           200:
+ *               description: Response has been verified
+ *           404:
+ *               description: Auth failed or there was an error while querying data
+ *           500:
+ *               description: Internal server error
+ */
+ router
+ .route("/response/verify/:degreeId/:commentId/:responseId")
+ .get(ctrlGradeProfile.httpNotImplemented)
+ .post(jwtHelper.verifyJwtToken, ctrlGradeProfile.verifyResponse)
+ .delete(ctrlGradeProfile.httpNotImplemented)
+ .put(ctrlGradeProfile.httpNotImplemented);
 
 /* Delete a comment or response  */
 /**

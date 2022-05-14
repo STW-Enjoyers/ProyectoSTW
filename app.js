@@ -46,7 +46,8 @@ app.set("view engine", "jade");
 // Cualquier peticion se loggea
 app.use(expressWinston.logger({
   transports: [
-    new winston.transports.Console()
+    new winston.transports.Console(),
+    new winston.transports.File({ filename: 'petitions.log' })
   ],
   format: winston.format.json(),
   meta: true, // optional: control whether you want to log the meta data about the request (default to true)
