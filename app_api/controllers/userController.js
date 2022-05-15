@@ -58,7 +58,7 @@ const changeName = function (req, res, next) {
         .status(404)
         .json({ status: false, message: "No se encontró el usuario :C" });
     else {
-      if (user.username != req.query.username) {
+      if (user.username != req.query.username && req.query.username) {
         User.findOne({ username: req.query.username }, (err, newuser) => {
           if (!newuser) {
             user.username = req.query.username;
@@ -127,8 +127,14 @@ const changePassword = function (req, res, next) {
           return res
             .status(404)
             .json({ status: false, message: "No se encontró el usuario :C" });
-        else {
+        else if (!req.body.newPassword || req.body.newPassword.length < 5) {
+          return res.status(404).json({
+            status: false,
+            message: "La nueva contraseña es muy corta",
+          });
+        } else {
           user.password = req.body.newPassword;
+          console.log(req.body.newPassword);
           user.regen = true;
           user.save();
           res.send(
