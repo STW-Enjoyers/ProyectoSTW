@@ -824,62 +824,6 @@
 						}
 					},
 					"response": []
-				},
-				{
-					"name": "TODO comment banned",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status test\", function () {\r",
-									"    pm.response.to.have.status(404);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Message test\", () => {\r",
-									"  const responseJson = pm.response.json();\r",
-									"  pm.expect(responseJson.message).to.eql(\"No se encontró el perfil del grado :C\");\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "localhost:3000/api/comment?cuerpo=Prueba postman&idCarrera=",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"comment"
-							],
-							"query": [
-								{
-									"key": "cuerpo",
-									"value": "Prueba postman"
-								},
-								{
-									"key": "idCarrera",
-									"value": ""
-								}
-							]
-						}
-					},
-					"response": []
 				}
 			]
 		},
@@ -2799,6 +2743,345 @@
 								{
 									"key": "responseId",
 									"value": "{{replyId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "banned",
+			"item": [
+				{
+					"name": "ban",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Profile test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.banned).to.eql(true);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/ban?username=baneado",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"ban"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "baneado"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login banned",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Given token\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.token).to.be.a('string');\r",
+									"  pm.globals.set(\"token\", responseJson.token)\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"baneado@gmail.com\",\r\n    \"password\":\"baneado\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/login",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "comment banned",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body comment test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.message).to.eql(\"USUARIO BANEADO\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/comment?cuerpo=Prueba postman&idCarrera={{idCarrera}}",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"comment"
+							],
+							"query": [
+								{
+									"key": "cuerpo",
+									"value": "Prueba postman"
+								},
+								{
+									"key": "idCarrera",
+									"value": "{{idCarrera}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reply banned",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body comment test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.message).to.eql(\"USUARIO BANEADO\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/reply?cuerpo=Prueba postman reply&_id={{commentId}}&idCarrera={{idCarrera}}",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"reply"
+							],
+							"query": [
+								{
+									"key": "cuerpo",
+									"value": "Prueba postman reply"
+								},
+								{
+									"key": "_id",
+									"value": "{{commentId}}"
+								},
+								{
+									"key": "idCarrera",
+									"value": "{{idCarrera}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "upVote banned",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body comment test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.message).to.eql(\"USUARIO BANEADO\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/upVote?idcom={{commentId}}&idCarrera={{idCarrera}}",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"upVote"
+							],
+							"query": [
+								{
+									"key": "idcom",
+									"value": "{{commentId}}"
+								},
+								{
+									"key": "idrep",
+									"value": "{{replyId}}",
+									"disabled": true
+								},
+								{
+									"key": "idCarrera",
+									"value": "{{idCarrera}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cancelUpVote banned",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body comment test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.message).to.eql(\"USUARIO BANEADO\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/cancelUpVote?idcom={{commentId}}&idCarrera={{idCarrera}}",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"cancelUpVote"
+							],
+							"query": [
+								{
+									"key": "idcom",
+									"value": "{{commentId}}"
+								},
+								{
+									"key": "idrep",
+									"value": "{{replyId}}",
+									"disabled": true
+								},
+								{
+									"key": "idCarrera",
+									"value": "{{idCarrera}}"
 								}
 							]
 						}

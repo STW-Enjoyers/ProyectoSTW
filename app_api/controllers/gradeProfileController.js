@@ -316,38 +316,40 @@ const upVote = function (req, res, next) {
         status: false,
         message: "USUARIO BANEADO",
       });
-    } else username = user.username;
-  });
-  GradeProfile.findOne(
-    { idCarrera: req.query.idCarrera },
-    (err, gradeProfile) => {
-      if (!gradeProfile) {
-        return res.status(404).json({
-          status: false,
-          message: "No se encontró el perfil del grado :C",
-        });
-      } else {
-        cIndex = -1;
-        for (let k in gradeProfile.comments) {
-          if (gradeProfile.comments[k]["_id"] == req.query.idcom) {
-            cIndex = k;
-            break;
+    } else {
+      username = user.username;
+      GradeProfile.findOne(
+        { idCarrera: req.query.idCarrera },
+        (err, gradeProfile) => {
+          if (!gradeProfile) {
+            return res.status(404).json({
+              status: false,
+              message: "No se encontró el perfil del grado :C",
+            });
+          } else {
+            cIndex = -1;
+            for (let k in gradeProfile.comments) {
+              if (gradeProfile.comments[k]["_id"] == req.query.idcom) {
+                cIndex = k;
+                break;
+              }
+            }
+            if (cIndex == -1) {
+              return res.status(404).json({
+                status: false,
+                message: "Comentario no encontrado",
+              });
+            }
+            if (!req.query.idrep) {
+              handleUpVoteComment(req, res, gradeProfile);
+            } else {
+              handleUpVoteReply(req, res, gradeProfile);
+            }
           }
         }
-        if (cIndex == -1) {
-          return res.status(404).json({
-            status: false,
-            message: "Comentario no encontrado",
-          });
-        }
-        if (!req.query.idrep) {
-          handleUpVoteComment(req, res, gradeProfile);
-        } else {
-          handleUpVoteReply(req, res, gradeProfile);
-        }
-      }
+      );
     }
-  );
+  });
 };
 
 function handleUpVoteComment(req, res, gradeProfile) {
@@ -512,38 +514,40 @@ const cancelUpVote = function (req, res, next) {
         status: false,
         message: "USUARIO BANEADO",
       });
-    } else username = user.username;
-  });
-  GradeProfile.findOne(
-    { idCarrera: req.query.idCarrera },
-    (err, gradeProfile) => {
-      if (!gradeProfile) {
-        return res.status(404).json({
-          status: false,
-          message: "No se encontró el perfil del grado :C",
-        });
-      } else {
-        cIndex = -1;
-        for (let k in gradeProfile.comments) {
-          if (gradeProfile.comments[k]["_id"] == req.query.idcom) {
-            cIndex = k;
-            break;
+    } else {
+      username = user.username;
+      GradeProfile.findOne(
+        { idCarrera: req.query.idCarrera },
+        (err, gradeProfile) => {
+          if (!gradeProfile) {
+            return res.status(404).json({
+              status: false,
+              message: "No se encontró el perfil del grado :C",
+            });
+          } else {
+            cIndex = -1;
+            for (let k in gradeProfile.comments) {
+              if (gradeProfile.comments[k]["_id"] == req.query.idcom) {
+                cIndex = k;
+                break;
+              }
+            }
+            if (cIndex == -1) {
+              return res.status(404).json({
+                status: false,
+                message: "Comentario no encontrado",
+              });
+            }
+            if (!req.query.idrep) {
+              handleCancelUpVoteComment(req, res, gradeProfile);
+            } else {
+              handleCancelUpVoteReply(req, res, gradeProfile);
+            }
           }
         }
-        if (cIndex == -1) {
-          return res.status(404).json({
-            status: false,
-            message: "Comentario no encontrado",
-          });
-        }
-        if (!req.query.idrep) {
-          handleCancelUpVoteComment(req, res, gradeProfile);
-        } else {
-          handleCancelUpVoteReply(req, res, gradeProfile);
-        }
-      }
+      );
     }
-  );
+  });
 };
 
 function handleCancelUpVoteComment(req, res, gradeProfile) {
@@ -682,32 +686,32 @@ const verifyComment = function (req, res) {
         message: "User admin not found",
       });
     else if (degreeId && commentId) {
-        GradeProfile.updateOne(
-          {
-            idCarrera: degreeId,
-            "comments._id": commentId,
+      GradeProfile.updateOne(
+        {
+          idCarrera: degreeId,
+          "comments._id": commentId,
+        },
+        {
+          $set: {
+            "comments.$.adminCheck": true,
           },
-          {
-            $set: {
-              "comments.$.adminCheck": true,
-            },
-          }
-        ).exec((err, value) => {
-          if (err) {
-            console.log(value);
-            res.status(500).json({
-              message: "There was an error while obtaining your data",
+        }
+      ).exec((err, value) => {
+        if (err) {
+          console.log(value);
+          res.status(500).json({
+            message: "There was an error while obtaining your data",
+          });
+        } else {
+          if (value["modifiedCount"] == 0) {
+            res.status(404).json({
+              message: "Message was not found or it was already verified",
             });
           } else {
-            if (value["modifiedCount"] == 0) {
-              res.status(404).json({
-                message: "Message was not found or it was already verified",
-              });
-            } else {
-              res.status(200).json(value);
-            }
+            res.status(200).json(value);
           }
-        });
+        }
+      });
     } else {
       res.status(404).json({
         message: "Add all required fields",
@@ -726,41 +730,41 @@ const verifyResponse = function (req, res) {
         message: "User admin not found",
       });
     else if (degreeId && commentId && responseId) {
-        GradeProfile.updateOne(
-          {
-            idCarrera: degreeId,
+      GradeProfile.updateOne(
+        {
+          idCarrera: degreeId,
+        },
+        {
+          $set: {
+            "comments.$[commentsDoc].responses.$[responsesDoc].adminCheck": true,
           },
-          {
-            $set: {
-              "comments.$[commentsDoc].responses.$[responsesDoc].adminCheck": true,
+        },
+        {
+          arrayFilters: [
+            {
+              "commentsDoc._id": commentId,
             },
-          },
-          {
-            arrayFilters: [
-              {
-                "commentsDoc._id": commentId,
-              },
-              {
-                "responsesDoc._id": responseId,
-              },
-            ],
-          }
-        ).exec((err, value) => {
-          if (err) {
-            console.log(value);
-            res.status(500).json({
-              message: "There was an error while obtaining your data",
+            {
+              "responsesDoc._id": responseId,
+            },
+          ],
+        }
+      ).exec((err, value) => {
+        if (err) {
+          console.log(value);
+          res.status(500).json({
+            message: "There was an error while obtaining your data",
+          });
+        } else {
+          if (value["modifiedCount"] == 0) {
+            res.status(404).json({
+              message: "Message was not found or it was already verified",
             });
           } else {
-            if (value["modifiedCount"] == 0) {
-              res.status(404).json({
-                message: "Message was not found or it was already verified",
-              });
-            } else {
-              res.status(200).json(value);
-            }
+            res.status(200).json(value);
           }
-        });
+        }
+      });
     } else {
       res.status(404).json({
         message: "Add all required fields",
