@@ -43,7 +43,8 @@ router
  *           name: year
  *           required: true
  *           description: The year of the admission grades to retrieve
- *           type: integer
+ *           schema:
+ *            type: integer
  *       responses:
  *           200:
  *               description: An array of {year} admission grades
@@ -72,7 +73,8 @@ router
  *           name: degree
  *           required: true
  *           description: Hash of the degree you want to check
- *           type: string
+ *           schema:
+ *            type: string
  *       responses:
  *           200:
  *               description: An array of admission grades for each year
@@ -142,24 +144,24 @@ router
  *       description: Post new registered User.
  *       tags:
  *         - Register
- *       parameters:
- *         - in: body
- *           name: user
+ *       requestBody:
  *           required: true
  *           description: User to create
- *           schema:
- *              type: object
- *              required:
- *                - username
- *                - email
- *                - password
- *              properties:
- *                username:
- *                  type: string
- *                email:
- *                  type: string
- *                password:
- *                  type: string
+ *           content:
+ *            application/json:
+ *              schema:
+ *                  type: object
+ *                  properties:
+ *                    username:
+ *                      type: string
+ *                    email:
+ *                      type: string
+ *                    password:
+ *                      type: string
+ *                  example:
+ *                    username: "username"
+ *                    email: "username@mail.com"
+ *                    password: "password"
  *       responses:
  *           200:
  *               description: Token and user from database
@@ -185,21 +187,21 @@ router
  *       description: Post user email and password and get the token.
  *       tags:
  *         - Login
- *       parameters:
- *         - in: body
- *           name: user
+ *       requestBody:
  *           required: true
  *           description: User to create
- *           schema:
- *              type: object
- *              required:
- *                - email
- *                - password
- *              properties:
- *                email:
- *                  type: string
- *                password:
- *                  type: string
+ *           content:
+ *            application/json:
+ *              schema:
+ *                  type: object
+ *                  properties:
+ *                    email:
+ *                      type: string
+ *                    password:
+ *                      type: string
+ *                  example:
+ *                    email: "username@mail.com"
+ *                    password: "password"
  *       responses:
  *           200:
  *               description: jwt Token
@@ -221,19 +223,17 @@ router
  * /changeUsername:
  *   get:
  *       description: Change username given a token and new username.
+ *       security:
+ *         - bearerAuth: []
  *       tags:
  *         - Change username
  *       parameters:
- *         - name: Authorization
- *           in: header
- *           type: string
- *           required: true
- *           description: Don't forget the Bearer
  *         - name: username
  *           in: query
  *           description: New username.
  *           required: true
- *           type: string
+ *           schema:
+ *            type: string
  *       responses:
  *           200:
  *               description: User profile data
@@ -255,30 +255,25 @@ router
  * /changePassword:
  *   post:
  *       description: Change password given a token and new password.
+ *       security:
+ *         - bearerAuth: []
  *       tags:
  *         - Change password
- *       parameters:
- *         - name: Authorization
- *           in: header
- *           type: string
- *           required: true
- *           description: Don't forget the Bearer
- *         - in: body
- *           name: user
+ *       requestBody:
  *           required: true
  *           description: User to create
- *           schema:
- *              type: object
- *              required:
- *                - password
- *                - newPassword
- *              properties:
- *                email:
- *                  type: string
- *                password:
- *                  type: string
- *                newPassword:
- *                  type: string
+ *           content:
+ *            application/json:
+ *              schema:
+ *                  type: object
+ *                  properties:
+ *                    password:
+ *                      type: string
+ *                    newPassword:
+ *                      type: string
+ *                  example:
+ *                    password: "password"
+ *                    newPassword: "newPassword"
  *       responses:
  *           200:
  *               description: User profile data
@@ -300,14 +295,10 @@ router
  * /profile:
  *   get:
  *       description: Get user profile given a token.
+ *       security:
+ *         - bearerAuth: []
  *       tags:
  *         - Login
- *       parameters:
- *         - name: Authorization
- *           in: header
- *           type: string
- *           required: true
- *           description: Don't forget the Bearer
  *       responses:
  *           200:
  *               description: User profile data
@@ -336,7 +327,8 @@ router
  *           in: query
  *           description: Id of the grade to get the profile.
  *           required: true
- *           type: string
+ *           schema:
+ *            type: string
  *       responses:
  *           200:
  *               description: Grade profile data (comments included)
@@ -358,24 +350,23 @@ router
  * /comment:
  *   post:
  *       description: Post comment on grade profile given an id and comment body.
+ *       security:
+ *         - bearerAuth: []
  *       tags:
  *         - Comment
  *       parameters:
- *         - name: Authorization
- *           in: header
- *           type: string
- *           required: true
- *           description: Don't forget the Bearer
  *         - name: idCarrera
  *           in: query
  *           description: Id of the grade to comment on.
  *           required: true
- *           type: string
+ *           schema:
+ *            type: string
  *         - name: cuerpo
  *           in: query
  *           description: Body of the new comment.
  *           required: true
- *           type: string
+ *           schema:
+ *            type: string
  *       responses:
  *           200:
  *               description: Grade profile data with the new comment in its forum
@@ -397,29 +388,29 @@ router
  * /reply:
  *   post:
  *       description: Post reply to a comment on grade profile given an grade id, comment id and reply body.
+ *       security:
+ *         - bearerAuth: []
  *       tags:
  *         - Reply
  *       parameters:
- *         - name: Authorization
- *           in: header
- *           type: string
- *           required: true
- *           description: Don't forget the Bearer
  *         - name: idCarrera
  *           in: query
  *           description: Id of the grade to reply on.
  *           required: true
- *           type: string
+ *           schema:
+ *            type: string
  *         - name: cuerpo
  *           in: query
  *           description: Body of the new reply.
  *           required: true
- *           type: string
+ *           schema:
+ *            type: string
  *         - name: _id
  *           in: query
  *           description: Id of the comment to reply.
  *           required: true
- *           type: string
+ *           schema:
+ *            type: string
  *       responses:
  *           200:
  *               description: Grade profile data with the new reply in its forum
@@ -441,29 +432,29 @@ router
  * /cancelUpVote:
  *   post:
  *       description: Post cancel upVote to a comment or reply on grade profile given an grade id, comment id (and reply id if you want to upVote a reply).
+ *       security:
+ *         - bearerAuth: []
  *       tags:
  *         - CancelUpvote
  *       parameters:
- *         - name: Authorization
- *           in: header
- *           type: string
- *           required: true
- *           description: Don't forget the Bearer
  *         - name: idCarrera
  *           in: query
  *           description: Id of the grade to reply on.
  *           required: true
- *           type: string
+ *           schema:
+ *            type: string
  *         - name: idcom
  *           in: query
  *           description: Id of the comment to cancel upvote.
  *           required: true
- *           type: string
+ *           schema:
+ *            type: string
  *         - name: idrep
  *           in: query
  *           description: Id of the reply to cancel upvote (optional).
  *           required: false
- *           type: string
+ *           schema:
+ *            type: string
  *       responses:
  *           200:
  *               description: Grade profile data with the upvote cancelled
@@ -487,29 +478,29 @@ router
  * /upVote:
  *   post:
  *       description: Post upVote to a comment or reply on grade profile given an grade id, comment id (and reply id if you want to upVote a reply).
+ *       security:
+ *         - bearerAuth: []
  *       tags:
  *         - Upvote
  *       parameters:
- *         - name: Authorization
- *           in: header
- *           type: string
- *           required: true
- *           description: Don't forget the Bearer
  *         - name: idCarrera
  *           in: query
  *           description: Id of the grade to reply on.
  *           required: true
- *           type: string
+ *           schema:
+ *            type: string
  *         - name: idcom
  *           in: query
  *           description: Id of the comment to upvote.
  *           required: true
- *           type: string
+ *           schema:
+ *            type: string
  *         - name: idrep
  *           in: query
  *           description: Id of the reply to upvote (optional).
  *           required: false
- *           type: string
+ *           schema:
+ *            type: string
  *       responses:
  *           200:
  *               description: Grade profile data with the new upvote
@@ -531,14 +522,10 @@ router
  * /checkComments:
  *   get:
  *       description: Get new comments that have not been verified by an admin.
+ *       security:
+ *         - bearerAuth: []
  *       tags:
  *         - CheckComments
- *       parameters:
- *         - name: Authorization
- *           in: header
- *           type: string
- *           required: true
- *           description: Don't forget the Bearer
  *       responses:
  *           200:
  *               description: Comments that have not been checked by an admin
@@ -560,24 +547,23 @@ router
  * /comment/verify/{degreeId}/{commentId}:
  *   post:
  *       description: Verify a comment.
+ *       security:
+ *         - bearerAuth: []
  *       tags:
  *         - VerifyComment
  *       parameters:
- *         - name: Authorization
- *           in: header
- *           type: string
- *           required: true
- *           description: Don't forget the Bearer
  *         - in: path
  *           name: degreeId
  *           description: Id of the degree.
  *           required: true
- *           type: string
+ *           schema:
+ *            type: string
  *         - in: path
  *           name: commentId
  *           description: Id of the comment to verify.
  *           required: true
- *           type: string
+ *           schema:
+ *            type: string
  *       responses:
  *           200:
  *               description: Comment has been verified
@@ -599,29 +585,29 @@ router
  * /response/verify/{degreeId}/{commentId}/{responseId}:
  *   post:
  *       description: Verify a response.
+ *       security:
+ *         - bearerAuth: []
  *       tags:
  *         - VerifyResponse
  *       parameters:
- *         - name: Authorization
- *           in: header
- *           type: string
- *           required: true
- *           description: Don't forget the Bearer
  *         - in: path
  *           name: degreeId
  *           description: Id of the degree.
  *           required: true
- *           type: string
+ *           schema:
+ *            type: string
  *         - in: path
  *           name: commentId
  *           description: Id of the comment.
  *           required: true
- *           type: string
+ *           schema:
+ *            type: string
  *         - in: path
  *           name: responseId
  *           description: Id of the response to verify.
  *           required: true
- *           type: string
+ *           schema:
+ *            type: string
  *       responses:
  *           200:
  *               description: Response has been verified
@@ -643,29 +629,29 @@ router
  * /deleteComment:
  *   post:
  *       description: Delete a comment or response.
+ *       security:
+ *         - bearerAuth: []
  *       tags:
  *         - DeleteComments
  *       parameters:
- *         - name: Authorization
- *           in: header
- *           type: string
- *           required: true
- *           description: Don't forget the Bearer
  *         - name: degreeId
  *           in: query
  *           description: If of the degree.
  *           required: true
- *           type: string
+ *           schema:
+ *            type: string
  *         - name: commentId
  *           in: query
  *           description: Id of the comment.
  *           required: true
- *           type: string
+ *           schema:
+ *            type: string
  *         - name: responseId
  *           in: query
  *           description: Id, if exists, of the response to verify.
  *           required: false
- *           type: string
+ *           schema:
+ *            type: string
  *       responses:
  *           200:
  *               description: Comment or response has been deleted
@@ -687,17 +673,15 @@ router
  * /ban:
  *   get:
  *       description: Ban user given one user (And token from an admin).
+ *       security:
+ *         - bearerAuth: []
  *       tags:
  *         - Ban
  *       parameters:
- *         - name: Authorization
- *           in: header
- *           type: string
- *           required: true
- *           description: Don't forget the Bearer
  *         - name: username
  *           in: query
- *           type: string
+ *           schema:
+ *            type: string
  *           required: true
  *           description: User to ban
  *
@@ -722,14 +706,10 @@ router
  * /usersYearly:
  *   get:
  *       description: Get number of monthly new users during current year.
+ *       security:
+ *         - bearerAuth: []
  *       tags:
  *         - Users
- *       parameters:
- *         - name: Authorization
- *           in: header
- *           type: string
- *           required: true
- *           description: Don't forget the Bearer
  *       responses:
  *           200:
  *               description: Number of users per month
@@ -751,14 +731,10 @@ router
  * /conflictiveGrades:
  *   get:
  *       description: Get conflictive grades by descending order.
+ *       security:
+ *         - bearerAuth: []
  *       tags:
  *         - Conflictive
- *       parameters:
- *         - name: Authorization
- *           in: header
- *           type: string
- *           required: true
- *           description: Don't forget the Bearer
  *       responses:
  *           200:
  *               description: Grades array
@@ -780,14 +756,10 @@ router
  * /commentedGrades:
  *   get:
  *       description: Get commented grades by descending order.
+ *       security:
+ *         - bearerAuth: []
  *       tags:
  *         - Commented
- *       parameters:
- *         - name: Authorization
- *           in: header
- *           type: string
- *           required: true
- *           description: Don't forget the Bearer
  *       responses:
  *           200:
  *               description: Grades array

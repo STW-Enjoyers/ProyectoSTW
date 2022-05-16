@@ -1,8 +1,8 @@
 const createError = require("http-errors");
 const express = require("express");
 const path = require("path");
-const winston = require('winston');
-const expressWinston = require('express-winston');
+const winston = require("winston");
+const expressWinston = require("express-winston");
 const cookieParser = require("cookie-parser");
 const swaggerJSDoc = require("swagger-jsdoc"); // Documentacion Swager
 const bodyParser = require("body-parser");
@@ -15,19 +15,37 @@ require("./app_api/models/db");
 var app = express();
 // swagger definition
 var swaggerDefinition = {
+  openapi: "3.0.1",
   info: {
     title: "API de gestión de recurso UnizApp",
     version: "1.0.0",
     description: "Descripción del API del servicio de UnizApp",
   },
-  host: "unizapp-backend.herokuapp.com", // Tiene que coincidir con puerto del servidor
-  basePath: "/api/",
-  schemes: ["https"],
+  components: {
+    securitySchemes: {
+      bearerAuth: {
+        type: "http",
+        scheme: "bearer",
+        bearerFormat: "JWT",
+      },
+    },
+  },
+  servers: [
+    {
+      url: "/api/",
+    },
+  ],
+  security: [
+    {
+      bearerAuth: [],
+    },
+  ],
 };
 // options for the swagger docs
 var options = {
   // import swaggerDefinitions
   swaggerDefinition: swaggerDefinition,
+  schemes: ["https"],
   // path to the API docs
   apis: ["./app_api/routes/*.js"], // Coincide con ruta a routes
 };
@@ -44,16 +62,18 @@ app.set("views", path.join(__dirname, "app_server", "views"));
 app.set("view engine", "jade");
 
 // Cualquier peticion se loggea
-app.use(expressWinston.logger({
-  transports: [
-    new winston.transports.Console(),
-    new winston.transports.File({ filename: 'petitions.log' })
-  ],
-  format: winston.format.json(),
-  meta: true, // optional: control whether you want to log the meta data about the request (default to true)
-  expressFormat: true, // Use the default Express/morgan request formatting. Enabling this will override any msg if true. Will only output colors with colorize set to true
-  colorize: false, // Color the text and status code, using the Express/morgan color palette (text: gray, status: default green, 3XX cyan, 4XX yellow, 5XX red).
-}));
+app.use(
+  expressWinston.logger({
+    transports: [
+      new winston.transports.Console(),
+      new winston.transports.File({ filename: "petitions.log" }),
+    ],
+    format: winston.format.json(),
+    meta: true, // optional: control whether you want to log the meta data about the request (default to true)
+    expressFormat: true, // Use the default Express/morgan request formatting. Enabling this will override any msg if true. Will only output colors with colorize set to true
+    colorize: false, // Color the text and status code, using the Express/morgan color palette (text: gray, status: default green, 3XX cyan, 4XX yellow, 5XX red).
+  })
+);
 // Cualquier peticion se convierte a JSON
 app.use(express.json());
 // Codificar la URL
