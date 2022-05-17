@@ -1,0 +1,5111 @@
+{
+	"info": {
+		"_postman_id": "e7af0bad-69bf-494a-bea4-e8af6c1e0f97",
+		"name": "STW-ENJOYERS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "login",
+			"item": [
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Constant id\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson._id).to.eql(\"627e4b437dca7b721b68947f\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Given token\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.token).to.be.a('string');\r",
+									"  pm.globals.set(\"token\", responseJson.token)\r",
+									"  pm.globals.set(\"userid\", responseJson._id)\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"elpruebas@gmail.com\",\r\n    \"password\":\"elpruebas\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/user/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login email not registered",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.message).to.eql(\"Email sin registrar :C\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"email@inexistente.com\",\r\n    \"password\":\"quemasda\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/user/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login invalid password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.message).to.eql(\"Contraseña incorrecta :C\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"elpruebas@gmail.com\",\r\n    \"password\":\"contraseñaincorrecta\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/user/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login empty strings",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.message).to.eql(\"Missing credentials\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"\",\r\n    \"password\":\"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/user/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "profile",
+			"item": [
+				{
+					"name": "profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Profile test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.user._id).to.eql(\"627e4b437dca7b721b68947f\");\r",
+									"  pm.expect(responseJson.user.username).to.eql(\"elpruebas\");\r",
+									"  pm.expect(responseJson.user.email).to.eql(\"elpruebas@gmail.com\");\r",
+									"  pm.expect(responseJson.user.admin).to.eql(false);\r",
+									"  pm.expect(responseJson.user.banned).to.eql(false);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/api/user/{{userid}}/profile",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"{{userid}}",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "profile no token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Auth test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.auth).to.eql(false);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer ",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/api/user/{{userid}}/profile",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"{{userid}}",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "profile invalid token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Auth test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.auth).to.eql(false);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Mjc2YzJlZWZiOGEwMzRiNDI0ZDk5ZTgiLCJpYXQiOjE2NTIxMTU5ODYsImV4cCI6MTY1MjExOTU4Nn0.AjnuXTIeJXhV_bReienA3S7EvNHUd9Znxx7jDzX0WOY",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/api/user/{{userid}}/profile",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"{{userid}}",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "profile bad id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Auth test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.message).to.eql(\"El id y el token no coinciden :C\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/api/user/invaliduserid/profile",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"invaliduserid",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "register",
+			"item": [
+				{
+					"name": "register duplicate username",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(422);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson).to.eql([\"Duplicate username found.\"]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"elpruebas\",\r\n    \"email\":\"elpruebas@gmail.com\",\r\n    \"password\":\"elpruebas\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/user/register",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"user",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "register duplicate email",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(422);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson).to.eql([\"Duplicate email address found.\"]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"sdfghjkhgyfdrghjhgfdrg\",\r\n    \"email\":\"elpruebas@gmail.com\",\r\n    \"password\":\"elpruebas\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/user/register",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"user",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "register short password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"sdfghjkhgyfdrghjhgfdrg\",\r\n    \"email\":\"sdfghjkhgyfdrghjhgfdrg@gmail.com\",\r\n    \"password\":\"ª\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/user/register",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"user",
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "gradeProfile",
+			"item": [
+				{
+					"name": "gradeProfile",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.globals.set(\"idCarrera\", \"b4f577c2c7404051e3629b47cafab77e\")"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Id test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.gradeProfile.idCarrera).to.eql(pm.globals.get('idCarrera'));\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/gradeProfile?idCarrera={{idCarrera}}",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"gradeProfile"
+							],
+							"query": [
+								{
+									"key": "idCarrera",
+									"value": "{{idCarrera}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "gradeProfile no idCarrera",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.message).to.eql(\"No se encontró el grado :C\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/gradeProfile?idCarrera=",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"gradeProfile"
+							],
+							"query": [
+								{
+									"key": "idCarrera",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "comment",
+			"item": [
+				{
+					"name": "comment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body comment test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  const len = responseJson.comments.length - 1\r",
+									"  pm.expect(responseJson.comments[len].body).to.eql(\"Prueba postman\");\r",
+									"  pm.expect(responseJson.comments[len].username).to.eql(\"elpruebas\");\r",
+									"  pm.globals.set(\"commentId\", responseJson.comments[len]._id)\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/comment?cuerpo=Prueba postman&idCarrera={{idCarrera}}",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"comment"
+							],
+							"query": [
+								{
+									"key": "cuerpo",
+									"value": "Prueba postman"
+								},
+								{
+									"key": "idCarrera",
+									"value": "{{idCarrera}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "comment no idCarrera",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.message).to.eql(\"No se encontró el perfil del grado :C\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/comment?cuerpo=Prueba postman&idCarrera=",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"comment"
+							],
+							"query": [
+								{
+									"key": "cuerpo",
+									"value": "Prueba postman"
+								},
+								{
+									"key": "idCarrera",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "comment no token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.message).to.eql(\"Autenticación del token fallida :C\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer sdfghj",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/comment?cuerpo=Prueba postman&idCarrera={{idCarrera}}",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"comment"
+							],
+							"query": [
+								{
+									"key": "cuerpo",
+									"value": "Prueba postman"
+								},
+								{
+									"key": "idCarrera",
+									"value": "{{idCarrera}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "comment invalid token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.message).to.eql(\"Autenticación del token fallida :C\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer invalidtoken",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/comment?cuerpo=Prueba postman&idCarrera={{idCarrera}}",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"comment"
+							],
+							"query": [
+								{
+									"key": "cuerpo",
+									"value": "Prueba postman"
+								},
+								{
+									"key": "idCarrera",
+									"value": "{{idCarrera}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "reply",
+			"item": [
+				{
+					"name": "reply",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body comment test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  for (let comm of responseJson.comments){\r",
+									"    if(comm._id == pm.globals.get('commentId')){\r",
+									"        const len = comm.responses.length - 1\r",
+									"        pm.expect(comm.responses[len].body).to.eql(\"Prueba postman reply\");\r",
+									"        pm.expect(comm.responses[len].username).to.eql(\"elpruebas\");\r",
+									"        pm.globals.set(\"replyId\", comm.responses[len]._id)\r",
+									"        pm.globals.set(\"commentcompare\", comm)\r",
+									"        pm.globals.set(\"replycompare\", comm.responses[len])\r",
+									"    }\r",
+									"  }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/reply?cuerpo=Prueba postman reply&_id={{commentId}}&idCarrera={{idCarrera}}",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"reply"
+							],
+							"query": [
+								{
+									"key": "cuerpo",
+									"value": "Prueba postman reply"
+								},
+								{
+									"key": "_id",
+									"value": "{{commentId}}"
+								},
+								{
+									"key": "idCarrera",
+									"value": "{{idCarrera}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reply no idCarrera",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.message).to.eql(\"No se encontró el perfil del grado :C\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/reply?cuerpo=Prueba postman reply&_id={{commentId}}&idCarrera=",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"reply"
+							],
+							"query": [
+								{
+									"key": "cuerpo",
+									"value": "Prueba postman reply"
+								},
+								{
+									"key": "_id",
+									"value": "{{commentId}}"
+								},
+								{
+									"key": "idCarrera",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reply no commId",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.message).to.eql(\"No se encontró el comentario solicitado :C\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/reply?cuerpo=Prueba postman reply&_id=&idCarrera={{idCarrera}}",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"reply"
+							],
+							"query": [
+								{
+									"key": "cuerpo",
+									"value": "Prueba postman reply"
+								},
+								{
+									"key": "_id",
+									"value": ""
+								},
+								{
+									"key": "idCarrera",
+									"value": "{{idCarrera}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reply no token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.message).to.eql(\"No se ha enviado ningún token :C\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/reply?cuerpo=Prueba postman reply&_id={{commentId}}&idCarrera={{idCarrera}}",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"reply"
+							],
+							"query": [
+								{
+									"key": "cuerpo",
+									"value": "Prueba postman reply"
+								},
+								{
+									"key": "_id",
+									"value": "{{commentId}}"
+								},
+								{
+									"key": "idCarrera",
+									"value": "{{idCarrera}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reply invalid token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.message).to.eql(\"Autenticación del token fallida :C\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer invalidtoken",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/reply?cuerpo=Prueba postman reply&_id={{commentId}}&idCarrera={{idCarrera}}",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"reply"
+							],
+							"query": [
+								{
+									"key": "cuerpo",
+									"value": "Prueba postman reply"
+								},
+								{
+									"key": "_id",
+									"value": "{{commentId}}"
+								},
+								{
+									"key": "idCarrera",
+									"value": "{{idCarrera}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "upVote",
+			"item": [
+				{
+					"name": "upVote",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body comment test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  for (let comm of responseJson.comments){\r",
+									"    if(comm._id == pm.globals.get('commentId')){\r",
+									"        const commentcompare = pm.globals.get('commentcompare') \r",
+									"        pm.expect(comm.upvotes).to.eql(commentcompare.upvotes+1);\r",
+									"        pm.globals.set(\"commentcompare2\", comm)\r",
+									"    }\r",
+									"  }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/upVote?idcom={{commentId}}&idCarrera={{idCarrera}}",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"upVote"
+							],
+							"query": [
+								{
+									"key": "idcom",
+									"value": "{{commentId}}"
+								},
+								{
+									"key": "idrep",
+									"value": "{{replyId}}",
+									"disabled": true
+								},
+								{
+									"key": "idCarrera",
+									"value": "{{idCarrera}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "upVote reply",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body comment test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  for (let comm of responseJson.comments){\r",
+									"    if(comm._id == pm.globals.get('commentId')){\r",
+									"        for (let rep of comm.responses){\r",
+									"            if(rep._id == pm.globals.get('replyId')){   \r",
+									"                const replycompare = pm.globals.get('replycompare') \r",
+									"                pm.expect(rep.upvotes).to.eql(replycompare.upvotes+1);\r",
+									"                pm.globals.set(\"replycompare2\", rep)\r",
+									"            }\r",
+									"        }\r",
+									"    }\r",
+									"  }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/upVote?idcom={{commentId}}&idrep={{replyId}}&idCarrera={{idCarrera}}",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"upVote"
+							],
+							"query": [
+								{
+									"key": "idcom",
+									"value": "{{commentId}}"
+								},
+								{
+									"key": "idrep",
+									"value": "{{replyId}}"
+								},
+								{
+									"key": "idCarrera",
+									"value": "{{idCarrera}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "upVote reupvote",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.message).to.eql(\"El usuario ya ha votado\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/upVote?idcom={{commentId}}&idCarrera={{idCarrera}}",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"upVote"
+							],
+							"query": [
+								{
+									"key": "idcom",
+									"value": "{{commentId}}"
+								},
+								{
+									"key": "idrep",
+									"value": "{{replyId}}",
+									"disabled": true
+								},
+								{
+									"key": "idCarrera",
+									"value": "{{idCarrera}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "upVote no idCarrera",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.message).to.eql(\"No se encontró el perfil del grado :C\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/upVote?idcom={{commentId}}",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"upVote"
+							],
+							"query": [
+								{
+									"key": "idcom",
+									"value": "{{commentId}}"
+								},
+								{
+									"key": "idrep",
+									"value": "{{replyId}}",
+									"disabled": true
+								},
+								{
+									"key": "idCarrera",
+									"value": "{{idCarrera}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "upVote no idcom",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.message).to.eql(\"Comentario no encontrado\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/upVote?idCarrera={{idCarrera}}",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"upVote"
+							],
+							"query": [
+								{
+									"key": "idcom",
+									"value": "{{commentId}}",
+									"disabled": true
+								},
+								{
+									"key": "idrep",
+									"value": "{{replyId}}",
+									"disabled": true
+								},
+								{
+									"key": "idCarrera",
+									"value": "{{idCarrera}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "upVote no token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.message).to.eql(\"No se ha enviado ningún token :C\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer ",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/upVote?idcom={{commentId}}&idCarrera={{idCarrera}}",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"upVote"
+							],
+							"query": [
+								{
+									"key": "idcom",
+									"value": "{{commentId}}"
+								},
+								{
+									"key": "idrep",
+									"value": "{{replyId}}",
+									"disabled": true
+								},
+								{
+									"key": "idCarrera",
+									"value": "{{idCarrera}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "cancelUpVote",
+			"item": [
+				{
+					"name": "cancelUpVote comment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body comment test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  for (let comm of responseJson.comments){\r",
+									"    if(comm._id == pm.globals.get('commentId')){\r",
+									"        const commentcompare = pm.globals.get('commentcompare2') \r",
+									"        pm.expect(comm.upvotes).to.eql(commentcompare.upvotes-1);\r",
+									"    }\r",
+									"  }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/cancelUpVote?idcom={{commentId}}&idCarrera={{idCarrera}}",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"cancelUpVote"
+							],
+							"query": [
+								{
+									"key": "idcom",
+									"value": "{{commentId}}"
+								},
+								{
+									"key": "idrep",
+									"value": "{{replyId}}",
+									"disabled": true
+								},
+								{
+									"key": "idCarrera",
+									"value": "{{idCarrera}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cancelUpVote recancel comment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.message).to.eql(\"El comentario no habia sido votado por este usuario\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/cancelUpVote?idcom={{commentId}}&idCarrera={{idCarrera}}",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"cancelUpVote"
+							],
+							"query": [
+								{
+									"key": "idcom",
+									"value": "{{commentId}}"
+								},
+								{
+									"key": "idrep",
+									"value": "{{replyId}}",
+									"disabled": true
+								},
+								{
+									"key": "idCarrera",
+									"value": "{{idCarrera}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cancelUpVote reply",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body comment test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  for (let comm of responseJson.comments){\r",
+									"    if(comm._id == pm.globals.get('commentId')){\r",
+									"        for (let rep of comm.responses){\r",
+									"            if(rep._id == pm.globals.get('replyId')){   \r",
+									"                const replycompare = pm.globals.get('replycompare2') \r",
+									"                pm.expect(rep.upvotes).to.eql(replycompare.upvotes-1);\r",
+									"                pm.globals.set(\"replycompare\", rep)\r",
+									"            }\r",
+									"        }\r",
+									"    }\r",
+									"  }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/cancelUpVote?idcom={{commentId}}&idrep={{replyId}}&idCarrera={{idCarrera}}",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"cancelUpVote"
+							],
+							"query": [
+								{
+									"key": "idcom",
+									"value": "{{commentId}}"
+								},
+								{
+									"key": "idrep",
+									"value": "{{replyId}}"
+								},
+								{
+									"key": "idCarrera",
+									"value": "{{idCarrera}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cancelUpVote recancel reply",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.message).to.eql(\"La respuesta no habia sido votada por este usuario\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/cancelUpVote?idcom={{commentId}}&idrep={{replyId}}&idCarrera={{idCarrera}}",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"cancelUpVote"
+							],
+							"query": [
+								{
+									"key": "idcom",
+									"value": "{{commentId}}"
+								},
+								{
+									"key": "idrep",
+									"value": "{{replyId}}"
+								},
+								{
+									"key": "idCarrera",
+									"value": "{{idCarrera}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "changeUsername",
+			"item": [
+				{
+					"name": "changeUsername",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Profile test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.username).to.eql(\"elpruebaso\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/api/user/{{userid}}/username?username=elpruebaso",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"{{userid}}",
+								"username"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "elpruebaso"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "changeUsername back",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Profile test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.username).to.eql(\"elpruebas\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/api/user/{{userid}}/username?username=elpruebas",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"{{userid}}",
+								"username"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "elpruebas"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "changeUsername same",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Profile test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.message).to.eql(\"No hay cambio.\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/api/user/{{userid}}/username?username=elpruebas",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"{{userid}}",
+								"username"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "elpruebas"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "changeUsername no username",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Profile test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.message).to.eql(\"No hay cambio.\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/api/user/{{userid}}/username",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"{{userid}}",
+								"username"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "elpruebas",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "changeUsername bad id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Profile test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.message).to.eql(\"El id y el token no coinciden :C\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/api/user/invalidid/username?username=elpruebaso",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"invalidid",
+								"username"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "elpruebaso"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "changePassword",
+			"item": [
+				{
+					"name": "changePassword",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Profile test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.username).to.eql(\"elpruebas\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"elpruebas@gmail.com\",\r\n    \"password\":\"elpruebas\",\r\n    \"newPassword\":\"elpruebaso\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/user/{{userid}}/password",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"{{userid}}",
+								"password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "changePassword wrong passwd",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Profile test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.message).to.eql(\"Contraseña incorrecta :C\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"elpruebas@gmail.com\",\r\n    \"password\":\"elpruebazas\",\r\n    \"newPassword\":\"elpruebaso\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/user/{{userid}}/password",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"{{userid}}",
+								"password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "changePassword back",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Profile test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.username).to.eql(\"elpruebas\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"elpruebas@gmail.com\",\r\n    \"password\":\"elpruebaso\",\r\n    \"newPassword\":\"elpruebas\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/user/{{userid}}/password",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"{{userid}}",
+								"password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "changePassword empty password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Profile test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.message).to.be.oneOf([\"La nueva contraseña es muy corta\", \"Contraseña incorrecta :C\"]); //Al correrlo a mano da el de la izquierda y en auto la derecha\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"elpruebas@gmail.com\",\r\n    \"password\":\"elpruebas\",\r\n    \"newPassword\":\"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/user/{{userid}}/password",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"{{userid}}",
+								"password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "changePassword wrong passwd Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Profile test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.message).to.eql(\"Contraseña incorrecta :C\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"elpruebas@gmail.com\",\r\n    \"password\":\"elpruebazas\",\r\n    \"newPassword\":\"elpruebaso\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/user/{{userid}}/password",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"{{userid}}",
+								"password"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "admin",
+			"item": [
+				{
+					"name": "ban no admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.message).to.eql(\"No se encontró el usuario administrador :C\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/ban?username=elpruebas",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"ban"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "elpruebas"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "conflictive no admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.message).to.eql(\"No se encontró el usuario administrador :C\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/conflictiveGrades",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"conflictiveGrades"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "commentedGrades no admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.message).to.eql(\"No se encontró el usuario administrador :C\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/commentedGrades",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"commentedGrades"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteComment no admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Message test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.message).to.eql(\"User admin not found\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/deleteComment?degreeId={{idCarrera}}&commentId={{commentId}}&responseId={{replyId}}",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"deleteComment"
+							],
+							"query": [
+								{
+									"key": "degreeId",
+									"value": "{{idCarrera}}"
+								},
+								{
+									"key": "commentId",
+									"value": "{{commentId}}"
+								},
+								{
+									"key": "responseId",
+									"value": "{{replyId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Constant id\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson._id).to.eql(\"62813fa85df2f6fb6f571bf9\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Given token\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.token).to.be.a('string');\r",
+									"  pm.globals.set(\"token\", responseJson.token)\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"elpruebasadmin@gmail.com\",\r\n    \"password\":\"elpruebasadmin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/login",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ban no username",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.message).to.eql(\"No se encontró el usuario para banear\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/ban",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"ban"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "elpruebas",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ban no token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.message).to.eql(\"No se ha enviado ningún token :C\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer ",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/ban",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"ban"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "elpruebas",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "conflictive",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/conflictiveGrades",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"conflictiveGrades"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "commentedGrades",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/commentedGrades",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"commentedGrades"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteComment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Body comment test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.modifiedCount).to.eql(1);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/deleteComment?degreeId={{idCarrera}}&commentId={{commentId}}",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"deleteComment"
+							],
+							"query": [
+								{
+									"key": "degreeId",
+									"value": "{{idCarrera}}"
+								},
+								{
+									"key": "commentId",
+									"value": "{{commentId}}"
+								},
+								{
+									"key": "responseId",
+									"value": "{{replyId}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteComment reply",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Body comment test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.modifiedCount).to.eql(1);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/deleteComment?degreeId={{idCarrera}}&commentId={{commentId}}&responseId={{replyId}}",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"deleteComment"
+							],
+							"query": [
+								{
+									"key": "degreeId",
+									"value": "{{idCarrera}}"
+								},
+								{
+									"key": "commentId",
+									"value": "{{commentId}}"
+								},
+								{
+									"key": "responseId",
+									"value": "{{replyId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "monthly users GET",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Message test\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson.length).to.eql(12);",
+									"  for (let comm of responseJson){",
+									"        pm.expect(comm.users).to.gte(0);",
+									"  }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/user/yearly",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"yearly"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "monthly users GET (No token)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});",
+									"",
+									"pm.test(\"Message test\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson.message).to.eql(\"No se ha enviado ningún token :C\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/user/yearly",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"yearly"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "monthly users POST",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/user/yearly",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"yearly"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "monthly users PUT",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/user/yearly",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"yearly"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "monthly users DELETE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/user/yearly",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"yearly"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "check comments",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Message test\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  for (let comm of responseJson){",
+									"        pm.expect(comm).to.have.property('body');",
+									"        pm.expect(comm).to.have.property('username');",
+									"        pm.expect(comm).to.have.property('type');",
+									"        pm.expect(comm).to.have.property('commentId');",
+									"        pm.expect(comm).to.have.property('degreeId');",
+									"",
+									"        if(comm.type == \"response\") {",
+									"            pm.globals.set(\"responseId\", comm.responseId);",
+									"            pm.globals.set(\"commentResponseId\", comm.commentId);",
+									"            pm.globals.set(\"degreeResponseId\", comm.degreeId);",
+									"        } else {",
+									"            pm.globals.set(\"commentId\", comm.commentId);",
+									"            pm.globals.set(\"degreeId\", comm.degreeId);",
+									"        }",
+									"",
+									"  }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/gradeProfile/comments/check",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"gradeProfile",
+								"comments",
+								"check"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "check comments POST",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/gradeProfile/comments/check",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"gradeProfile",
+								"comments",
+								"check"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "check comments PUT",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/gradeProfile/comments/check",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"gradeProfile",
+								"comments",
+								"check"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "check comments DELETE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/gradeProfile/comments/check",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"gradeProfile",
+								"comments",
+								"check"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "check comments GET(No token)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});",
+									"",
+									"pm.test(\"Message test\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson.message).to.eql(\"No se ha enviado ningún token :C\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/gradeProfile/comments/check",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"gradeProfile",
+								"comments",
+								"check"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "verify comment (No token) POST",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});",
+									"",
+									"pm.test(\"Message test\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson.message).to.eql(\"No se ha enviado ningún token :C\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/gradeProfile/prueba/comment/noexiste/verify",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"gradeProfile",
+								"prueba",
+								"comment",
+								"noexiste",
+								"verify"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "verify comment POST",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/gradeProfile/{{degreeId}}/comment/{{commentId}}/verify",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"gradeProfile",
+								"{{degreeId}}",
+								"comment",
+								"{{commentId}}",
+								"verify"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "verify comment GET",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/gradeProfile/{{degreeId}}/comment/{{commentId}}/verify",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"gradeProfile",
+								"{{degreeId}}",
+								"comment",
+								"{{commentId}}",
+								"verify"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "verify comment PUT",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/gradeProfile/{{degreeId}}/comment/{{commentId}}/verify",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"gradeProfile",
+								"{{degreeId}}",
+								"comment",
+								"{{commentId}}",
+								"verify"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "verify comment DELETE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/gradeProfile/{{degreeId}}/comment/{{commentId}}/verify",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"gradeProfile",
+								"{{degreeId}}",
+								"comment",
+								"{{commentId}}",
+								"verify"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "verify response (No token) POST",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});",
+									"",
+									"pm.test(\"Message test\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson.message).to.eql(\"No se ha enviado ningún token :C\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/gradeProfile/prueba/comment/mensaje/response/respuesta/verify",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"gradeProfile",
+								"prueba",
+								"comment",
+								"mensaje",
+								"response",
+								"respuesta",
+								"verify"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "verify response POST",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/gradeProfile/{{degreeResponseId}}/comment/{{commentResponseId}}/response/{{responseId}}/verify",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"gradeProfile",
+								"{{degreeResponseId}}",
+								"comment",
+								"{{commentResponseId}}",
+								"response",
+								"{{responseId}}",
+								"verify"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "verify response GET",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/gradeProfile/{{degreeResponseId}}/comment/{{commentResponseId}}/response/{{responseId}}/verify",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"gradeProfile",
+								"{{degreeResponseId}}",
+								"comment",
+								"{{commentResponseId}}",
+								"response",
+								"{{responseId}}",
+								"verify"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "verify response PUT",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/gradeProfile/{{degreeResponseId}}/comment/{{commentResponseId}}/response/{{responseId}}/verify",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"gradeProfile",
+								"{{degreeResponseId}}",
+								"comment",
+								"{{commentResponseId}}",
+								"response",
+								"{{responseId}}",
+								"verify"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "verify response DELETE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/gradeProfile/{{degreeResponseId}}/comment/{{commentResponseId}}/response/{{responseId}}/verify",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"gradeProfile",
+								"{{degreeResponseId}}",
+								"comment",
+								"{{commentResponseId}}",
+								"response",
+								"{{responseId}}",
+								"verify"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "banned",
+			"item": [
+				{
+					"name": "ban",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Profile test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.banned).to.eql(true);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/ban?username=baneado",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"ban"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "baneado"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login banned",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Given token\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.token).to.be.a('string');\r",
+									"  pm.globals.set(\"token\", responseJson.token)\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"baneado@gmail.com\",\r\n    \"password\":\"baneado\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/login",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "comment banned",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body comment test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.message).to.eql(\"USUARIO BANEADO\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/comment?cuerpo=Prueba postman&idCarrera={{idCarrera}}",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"comment"
+							],
+							"query": [
+								{
+									"key": "cuerpo",
+									"value": "Prueba postman"
+								},
+								{
+									"key": "idCarrera",
+									"value": "{{idCarrera}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reply banned",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body comment test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.message).to.eql(\"USUARIO BANEADO\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/reply?cuerpo=Prueba postman reply&_id={{commentId}}&idCarrera={{idCarrera}}",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"reply"
+							],
+							"query": [
+								{
+									"key": "cuerpo",
+									"value": "Prueba postman reply"
+								},
+								{
+									"key": "_id",
+									"value": "{{commentId}}"
+								},
+								{
+									"key": "idCarrera",
+									"value": "{{idCarrera}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "upVote banned",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body comment test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.message).to.eql(\"USUARIO BANEADO\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/upVote?idcom={{commentId}}&idCarrera={{idCarrera}}",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"upVote"
+							],
+							"query": [
+								{
+									"key": "idcom",
+									"value": "{{commentId}}"
+								},
+								{
+									"key": "idrep",
+									"value": "{{replyId}}",
+									"disabled": true
+								},
+								{
+									"key": "idCarrera",
+									"value": "{{idCarrera}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cancelUpVote banned",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body comment test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.message).to.eql(\"USUARIO BANEADO\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/cancelUpVote?idcom={{commentId}}&idCarrera={{idCarrera}}",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"cancelUpVote"
+							],
+							"query": [
+								{
+									"key": "idcom",
+									"value": "{{commentId}}"
+								},
+								{
+									"key": "idrep",
+									"value": "{{replyId}}",
+									"disabled": true
+								},
+								{
+									"key": "idCarrera",
+									"value": "{{idCarrera}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "admissionGrades",
+			"item": [
+				{
+					"name": "last year grades GET",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Year test\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  for (let comm of responseJson){",
+									"        pm.expect(comm.curso).to.eql(pm.globals.get('curso'));",
+									"  }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.globals.set(\"curso\", 2021)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/grades/last",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"grades",
+								"last"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "last year grades POST",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.globals.set(\"curso\", 2021)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/grades/last",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"grades",
+								"last"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "last year grades PUT",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.globals.set(\"curso\", 2021)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/grades/last",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"grades",
+								"last"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "last year grades PUT DELETE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.globals.set(\"curso\", 2021)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/grades/last",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"grades",
+								"last"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2017 admission grades GET",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.globals.set(\"curso\", 2017)"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Year test\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  for (let comm of responseJson){",
+									"        pm.expect(comm.curso).to.eql(pm.globals.get('curso'));",
+									"  }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/grades/2017",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"grades",
+								"2017"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2017 admission grades POST",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/grades/2017",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"grades",
+								"2017"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2017 admission grades PUT",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/grades/2017",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"grades",
+								"2017"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2017 admission grades DELETE",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/grades/2017",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"grades",
+								"2017"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Year with no admission grades GET",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.globals.set(\"curso\", 2011)"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"pm.test(\"Message test\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson.message).to.eql(\"Year not saved\")",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/grades/2011",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"grades",
+								"2011"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Historical admission grades for existing degree GET",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.globals.set(\"degree\", \"f954c8f5be85667d91b17b0ffe6f2bc3\")",
+									"pm.globals.set(\"estudio\", \"Ciencias Ambientales\")",
+									"pm.globals.set(\"estudioAnt\", \"Grado: Ciencias Ambientales\")",
+									"pm.globals.set(\"localidad\", \"Huesca\")"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Degree test\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  for (let comm of responseJson){",
+									"        pm.expect(comm.estudio).to.be.oneOf([pm.globals.get('estudio'), pm.globals.get('estudioAntiguo')]);",
+									"        pm.expect(comm.localidad).to.eql(pm.globals.get('localidad'));",
+									"         pm.expect(comm.idCarrera).to.eql(pm.globals.get('degree'));",
+									"  }",
+									"",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/grades/historical/{{degree}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"grades",
+								"historical",
+								"{{degree}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Historical admission grades for existing degree GET Copy",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.globals.set(\"degree\", \"f954c8f5be85667d91b17b0ffe6f2bc3\")",
+									"pm.globals.set(\"estudio\", \"Ciencias Ambientales\")",
+									"pm.globals.set(\"estudioAnt\", \"Grado: Ciencias Ambientales\")",
+									"pm.globals.set(\"localidad\", \"Huesca\")"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/grades/historical/{{degree}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"grades",
+								"historical",
+								"{{degree}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Historical admission grades for existing degree GET Copy 2",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.globals.set(\"degree\", \"f954c8f5be85667d91b17b0ffe6f2bc3\")",
+									"pm.globals.set(\"estudio\", \"Ciencias Ambientales\")",
+									"pm.globals.set(\"estudioAnt\", \"Grado: Ciencias Ambientales\")",
+									"pm.globals.set(\"localidad\", \"Huesca\")"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/grades/historical/{{degree}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"grades",
+								"historical",
+								"{{degree}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Historical admission grades for existing degree GET Copy 3",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.globals.set(\"degree\", \"f954c8f5be85667d91b17b0ffe6f2bc3\")",
+									"pm.globals.set(\"estudio\", \"Ciencias Ambientales\")",
+									"pm.globals.set(\"estudioAnt\", \"Grado: Ciencias Ambientales\")",
+									"pm.globals.set(\"localidad\", \"Huesca\")"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/grades/historical/{{degree}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"grades",
+								"historical",
+								"{{degree}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Historical admission grades for NON existing degree GET Copy",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.globals.set(\"degree\", \"inventado\")"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(404);",
+									"    ",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/grades/historical/{{degree}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"grades",
+								"historical",
+								"{{degree}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "erasmus",
+			"item": [
+				{
+					"name": "Erasmus in GET",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Number of students test\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  for (let comm of responseJson){",
+									"        pm.expect(comm.plazas).to.gte(0);",
+									"  }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/erasmus/in",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"erasmus",
+								"in"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Erasmus in POST",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/erasmus/in",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"erasmus",
+								"in"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Erasmus in PUT",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/erasmus/in",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"erasmus",
+								"in"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Erasmus in DELETE",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/erasmus/in",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"erasmus",
+								"in"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Erasmus out GET",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Number of students test\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  for (let comm of responseJson){",
+									"        pm.expect(comm.plazas).to.gte(0);",
+									"  }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/erasmus/out",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"erasmus",
+								"out"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Erasmus out GET Copy",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/erasmus/out",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"erasmus",
+								"out"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Erasmus out GET Copy 2",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/erasmus/out",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"erasmus",
+								"out"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Erasmus out GET Copy 3",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/erasmus/out",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"erasmus",
+								"out"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.globals.set(\"url\", \"localhost:3000\")"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
