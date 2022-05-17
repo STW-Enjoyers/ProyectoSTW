@@ -337,14 +337,14 @@ router
 /* GET grade profile */
 /**
  * @openapi
- * /gradeProfile:
+ * /gradeProfile/{degreeId}/info:
  *   get:
  *       description: Get grade profile given an id.
  *       tags:
  *         - Grade Profile
  *       parameters:
- *         - name: idCarrera
- *           in: query
+ *         - name: degreeId
+ *           in: path
  *           description: Id of the grade to get the profile.
  *           required: true
  *           schema:
@@ -358,7 +358,7 @@ router
  *               description: Internal server error
  */
 router
-  .route("/gradeProfile")
+  .route("/gradeProfile/:degreeId/info")
   .get(ctrlGradeProfile.gradeProfile)
   .post(ctrlGradeProfile.httpNotImplemented)
   .delete(ctrlGradeProfile.httpNotImplemented)
@@ -367,16 +367,16 @@ router
 /* Post comment on grade profile forum */
 /**
  * @openapi
- * /comment:
+ * /gradeProfile/{degreeId}/comment:
  *   post:
  *       description: Post comment on grade profile given an id and comment body.
  *       security:
  *         - bearerAuth: []
  *       tags:
- *         - Comment
+ *         - Grade Profile
  *       parameters:
- *         - name: idCarrera
- *           in: query
+ *         - name: degreeId
+ *           in: path
  *           description: Id of the grade to comment on.
  *           required: true
  *           schema:
@@ -396,7 +396,7 @@ router
  *               description: Internal server error
  */
 router
-  .route("/comment")
+  .route("/gradeProfile/:degreeId/comment")
   .get(controlUser.httpNotImplemented)
   .post(jwtHelper.verifyJwtToken, ctrlGradeProfile.comment)
   .delete(controlUser.httpNotImplemented)
@@ -405,16 +405,16 @@ router
 /* Post reply to a comment on a grade profile forum */
 /**
  * @openapi
- * /reply:
+ * /gradeProfile/{degreeId}/comment/{commentId}/reply:
  *   post:
  *       description: Post reply to a comment on grade profile given an grade id, comment id and reply body.
  *       security:
  *         - bearerAuth: []
  *       tags:
- *         - Reply
+ *         - Grade Profile
  *       parameters:
- *         - name: idCarrera
- *           in: query
+ *         - name: degreeId
+ *           in: path
  *           description: Id of the grade to reply on.
  *           required: true
  *           schema:
@@ -425,8 +425,8 @@ router
  *           required: true
  *           schema:
  *            type: string
- *         - name: _id
- *           in: query
+ *         - name: commentId
+ *           in: path
  *           description: Id of the comment to reply.
  *           required: true
  *           schema:
@@ -440,38 +440,78 @@ router
  *               description: Internal server error
  */
 router
-  .route("/reply")
+  .route("/gradeProfile/:degreeId/comment/:commentId/reply")
   .get(controlUser.httpNotImplemented)
   .post(jwtHelper.verifyJwtToken, ctrlGradeProfile.reply)
   .delete(controlUser.httpNotImplemented)
   .put(controlUser.httpNotImplemented);
 
-/* Post cancel upVote to a comment or reply */
+/* Post cancel upVote to a comment*/
 /**
  * @openapi
- * /cancelUpVote:
+ * /gradeProfile/{degreeId}/comment/{commentId}/cancelUpVote:
  *   post:
- *       description: Post cancel upVote to a comment or reply on grade profile given an grade id, comment id (and reply id if you want to upVote a reply).
+ *       description: Post cancel upVote to a comment on grade profile given an grade id, comment id (and reply id if you want to upVote a reply).
  *       security:
  *         - bearerAuth: []
  *       tags:
- *         - CancelUpvote
+ *         - Grade Profile
  *       parameters:
- *         - name: idCarrera
- *           in: query
- *           description: Id of the grade to reply on.
+ *         - name: degreeId
+ *           in: path
+ *           description: Id of the grade
  *           required: true
  *           schema:
  *            type: string
- *         - name: idcom
- *           in: query
+ *         - name: commentId
+ *           in: path
  *           description: Id of the comment to cancel upvote.
  *           required: true
  *           schema:
  *            type: string
- *         - name: idrep
+ *       responses:
+ *           200:
+ *               description: Grade profile data with the upvote cancelled
+ *           400:
+ *               description: Comment or reply was not upvoted
+ *           404:
+ *               description: Grade, comment, or reply not found
+ *           500:
+ *               description: Internal server error
+ */
+router
+  .route("/gradeProfile/:degreeId/comment/:commentId/cancelUpVote")
+  .get(controlUser.httpNotImplemented)
+  .post(jwtHelper.verifyJwtToken, ctrlGradeProfile.cancelUpVote)
+  .delete(controlUser.httpNotImplemented)
+  .put(controlUser.httpNotImplemented);
+
+/* Post cancel upVote to a reply */
+/**
+ * @openapi
+ * /gradeProfile/{degreeId}/comment/{commentId}/reply/{replyId}/cancelUpVote:
+ *   post:
+ *       description: Post cancel upVote to a reply on grade profile given an grade id, comment id (and reply id if you want to upVote a reply).
+ *       security:
+ *         - bearerAuth: []
+ *       tags:
+ *         - Grade Profile
+ *       parameters:
+ *         - name: degreeId
+ *           in: path
+ *           description: Id of the grade.
+ *           required: true
+ *           schema:
+ *            type: string
+ *         - name: commentId
+ *           in: path
+ *           description: Id of the comment.
+ *           required: true
+ *           schema:
+ *            type: string
+ *         - name: replyId
  *           in: query
- *           description: Id of the reply to cancel upvote (optional).
+ *           description: Id of the reply to upvote.
  *           required: false
  *           schema:
  *            type: string
@@ -486,38 +526,78 @@ router
  *               description: Internal server error
  */
 router
-  .route("/cancelUpVote")
+  .route(
+    "/gradeProfile/:degreeId/comment/:commentId/reply/:replyId/cancelUpVote"
+  )
   .get(controlUser.httpNotImplemented)
   .post(jwtHelper.verifyJwtToken, ctrlGradeProfile.cancelUpVote)
   .delete(controlUser.httpNotImplemented)
   .put(controlUser.httpNotImplemented);
 
-/* Post upVote to a comment or reply */
+/* Post upVote to a comment */
 /**
  * @openapi
- * /upVote:
+ * /gradeProfile/{degreeId}/comment/{commentId}/upVote:
+ *   post:
+ *       description: Post upVote to a comment on grade profile given an grade id, comment id (and reply id if you want to upVote a reply).
+ *       security:
+ *         - bearerAuth: []
+ *       tags:
+ *         - Grade Profile
+ *       parameters:
+ *         - name: degreeId
+ *           in: path
+ *           description: Id of the grade
+ *           required: true
+ *           schema:
+ *            type: string
+ *         - name: commentId
+ *           in: path
+ *           description: Id of the comment to upvote.
+ *           required: true
+ *           schema:
+ *            type: string
+ *       responses:
+ *           200:
+ *               description: Grade profile data with the new upvote
+ *           404:
+ *               description: Grade, comment, or reply not found
+ *           500:
+ *               description: Internal server error
+ */
+router
+  .route("/gradeProfile/:degreeId/comment/:commentId/upVote")
+  .get(controlUser.httpNotImplemented)
+  .post(jwtHelper.verifyJwtToken, ctrlGradeProfile.upVote)
+  .delete(controlUser.httpNotImplemented)
+  .put(controlUser.httpNotImplemented);
+
+/* Post upVote to a reply */
+/**
+ * @openapi
+ * /gradeProfile/{degreeId}/comment/{commentId}/reply/{replyId}/upVote:
  *   post:
  *       description: Post upVote to a comment or reply on grade profile given an grade id, comment id (and reply id if you want to upVote a reply).
  *       security:
  *         - bearerAuth: []
  *       tags:
- *         - Upvote
+ *         - Grade Profile
  *       parameters:
- *         - name: idCarrera
- *           in: query
- *           description: Id of the grade to reply on.
+ *         - name: degreeId
+ *           in: path
+ *           description: Id of the grade.
  *           required: true
  *           schema:
  *            type: string
- *         - name: idcom
- *           in: query
- *           description: Id of the comment to upvote.
+ *         - name: commentId
+ *           in: path
+ *           description: Id of the comment.
  *           required: true
  *           schema:
  *            type: string
- *         - name: idrep
+ *         - name: replyId
  *           in: query
- *           description: Id of the reply to upvote (optional).
+ *           description: Id of the reply to upvote.
  *           required: false
  *           schema:
  *            type: string
@@ -530,7 +610,7 @@ router
  *               description: Internal server error
  */
 router
-  .route("/upVote")
+  .route("/gradeProfile/:degreeId/comment/:commentId/reply/:replyId/upVote")
   .get(controlUser.httpNotImplemented)
   .post(jwtHelper.verifyJwtToken, ctrlGradeProfile.upVote)
   .delete(controlUser.httpNotImplemented)
