@@ -510,9 +510,9 @@ router
  *           schema:
  *            type: string
  *         - name: replyId
- *           in: query
+ *           in: path
  *           description: Id of the reply to upvote.
- *           required: false
+ *           required: true
  *           schema:
  *            type: string
  *       responses:
@@ -596,9 +596,9 @@ router
  *           schema:
  *            type: string
  *         - name: replyId
- *           in: query
+ *           in: path
  *           description: Id of the reply to upvote.
- *           required: false
+ *           required: true
  *           schema:
  *            type: string
  *       responses:
