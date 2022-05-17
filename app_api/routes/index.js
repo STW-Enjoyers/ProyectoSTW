@@ -519,7 +519,7 @@ router
 /* GET non verified comments  */
 /**
  * @openapi
- * /checkComments:
+ * /gradeProfile/comments/check:
  *   get:
  *       description: Get new comments that have not been verified by an admin.
  *       security:
@@ -535,7 +535,7 @@ router
  *               description: Internal server error
  */
 router
-  .route("/checkComments")
+  .route("/gradeProfile/comments/check")
   .get(jwtHelper.verifyJwtToken, ctrlGradeProfile.checkComments)
   .post(ctrlGradeProfile.httpNotImplemented)
   .delete(ctrlGradeProfile.httpNotImplemented)
@@ -544,7 +544,7 @@ router
 /* Verify a comment */
 /**
  * @openapi
- * /comment/verify/{degreeId}/{commentId}:
+ * /gradeProfile/{degreeId}/comment/{commentId}/verify:
  *   post:
  *       description: Verify a comment.
  *       security:
@@ -573,7 +573,7 @@ router
  *               description: Internal server error
  */
 router
-  .route("/comment/verify/:degreeId/:commentId")
+  .route("/gradeProfile/:degreeId/comment/:commentId/verify")
   .get(ctrlGradeProfile.httpNotImplemented)
   .post(jwtHelper.verifyJwtToken, ctrlGradeProfile.verifyComment)
   .delete(ctrlGradeProfile.httpNotImplemented)
@@ -582,7 +582,7 @@ router
 /* Verify a response */
 /**
  * @openapi
- * /response/verify/{degreeId}/{commentId}/{responseId}:
+ * /gradeProfile/{degreeId}/comment/{commentId}/response/{responseId}/verify:
  *   post:
  *       description: Verify a response.
  *       security:
@@ -617,7 +617,7 @@ router
  *               description: Internal server error
  */
 router
-  .route("/response/verify/:degreeId/:commentId/:responseId")
+  .route("/gradeProfile/:degreeId/comment/:commentId/response/:responseId/verify")
   .get(ctrlGradeProfile.httpNotImplemented)
   .post(jwtHelper.verifyJwtToken, ctrlGradeProfile.verifyResponse)
   .delete(ctrlGradeProfile.httpNotImplemented)
@@ -703,9 +703,9 @@ router
 /* GET yearly users */
 /**
  * @openapi
- * /usersYearly:
+ * /user/yearly:
  *   get:
- *       description: Get number of monthly new users during current year.
+ *       description: Get monthly new users during current year.
  *       security:
  *         - bearerAuth: []
  *       tags:
@@ -719,7 +719,7 @@ router
  *               description: Internal server error
  */
 router
-  .route("/usersYearly")
+  .route("/user/yearly")
   .get(jwtHelper.verifyJwtToken, controlUser.usersYearly)
   .post(controlUser.httpNotImplemented)
   .delete(controlUser.httpNotImplemented)
