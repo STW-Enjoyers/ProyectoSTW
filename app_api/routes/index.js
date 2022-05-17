@@ -510,7 +510,7 @@ router
  *           schema:
  *            type: string
  *         - name: replyId
- *           in: query
+ *           in: path
  *           description: Id of the reply to upvote.
  *           required: false
  *           schema:
