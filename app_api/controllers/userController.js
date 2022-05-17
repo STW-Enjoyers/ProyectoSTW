@@ -186,7 +186,7 @@ const ban = function (req, res, next) {
         message: "No se encontró el usuario administrador :C",
       });
     else
-      User.findOne({ username: req.query.username }, (err, user) => {
+      User.findOne({ _id: req.params.userid }, (err, user) => {
         if (!user)
           return res.status(404).json({
             status: false,

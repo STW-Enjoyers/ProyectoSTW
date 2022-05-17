@@ -770,7 +770,7 @@ router
 /* GET Ban user */
 /**
  * @openapi
- * /ban:
+ * /user/{userid}/ban:
  *   get:
  *       description: Ban user given one user (And token from an admin).
  *       security:
@@ -778,8 +778,8 @@ router
  *       tags:
  *         - Ban
  *       parameters:
- *         - name: username
- *           in: query
+ *         - name: userid
+ *           in: path
  *           schema:
  *            type: string
  *           required: true
@@ -794,7 +794,7 @@ router
  *               description: Internal server error
  */
 router
-  .route("/ban")
+  .route("/user/:userid/ban")
   .get(jwtHelper.verifyJwtToken, controlUser.ban)
   .post(controlUser.httpNotImplemented)
   .delete(controlUser.httpNotImplemented)
@@ -828,7 +828,7 @@ router
 /* GET most conflictive grades */
 /**
  * @openapi
- * /conflictiveGrades:
+ * /gradeProfile/conflictives:
  *   get:
  *       description: Get conflictive grades by descending order.
  *       security:
@@ -844,7 +844,7 @@ router
  *               description: Internal server error
  */
 router
-  .route("/conflictiveGrades")
+  .route("/gradeProfile/conflictives")
   .get(jwtHelper.verifyJwtToken, controlUser.conflictiveGrades)
   .post(controlUser.httpNotImplemented)
   .delete(controlUser.httpNotImplemented)
@@ -853,7 +853,7 @@ router
 /* GET most commented grades */
 /**
  * @openapi
- * /commentedGrades:
+ * /gradeProfile/commented:
  *   get:
  *       description: Get commented grades by descending order.
  *       security:
@@ -869,7 +869,7 @@ router
  *               description: Internal server error
  */
 router
-  .route("/commentedGrades")
+  .route("/gradeProfile/commented")
   .get(jwtHelper.verifyJwtToken, controlUser.commentedGrades)
   .post(controlUser.httpNotImplemented)
   .delete(controlUser.httpNotImplemented)
