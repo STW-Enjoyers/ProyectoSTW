@@ -512,7 +512,7 @@ router
  *         - name: replyId
  *           in: path
  *           description: Id of the reply to upvote.
- *           required: false
+ *           required: true
  *           schema:
  *            type: string
  *       responses:
