@@ -1813,6 +1813,17 @@
 								],
 								"type": "text/javascript"
 							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"setTimeout(function(){\r",
+									"    console.log(\"delay\");\r",
+									"},100);"
+								],
+								"type": "text/javascript"
+							}
 						}
 					],
 					"request": {
@@ -1858,7 +1869,7 @@
 									"\r",
 									"pm.test(\"Profile test\", () => {\r",
 									"  const responseJson = pm.response.json();\r",
-									"  pm.expect(responseJson.message).to.eql(\"No hay cambio.\");\r",
+									"  pm.expect(responseJson.message).to.be.oneOf([\"No hay cambio.\", \"Ya existe ese usuario.\"]);\r",
 									"});"
 								],
 								"type": "text/javascript"
