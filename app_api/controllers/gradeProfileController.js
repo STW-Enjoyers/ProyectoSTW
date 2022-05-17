@@ -778,9 +778,9 @@ const verifyResponse = function (req, res) {
 };
 
 const deleteComment = function (req, res) {
-  const degreeId = req.query.degreeId;
-  const commentId = req.query.commentId;
-  const responseId = req.query.responseId;
+  const degreeId = req.params.degreeId;
+  const commentId = req.params.commentId;
+  const responseId = req.params.responseId;
   var dC = 0;
   User.findOne({ _id: req._id }, (err, user) => {
     if (!user || !user.admin)

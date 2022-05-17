@@ -443,11 +443,10 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/api/user/register",
+							"raw": "{{url}}/api/user/register",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
 								"user",
@@ -490,11 +489,10 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/api/user/register",
+							"raw": "{{url}}/api/user/register",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
 								"user",
@@ -533,11 +531,10 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/api/user/register",
+							"raw": "{{url}}/api/user/register",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
 								"user",
@@ -585,20 +582,15 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:3000/api/gradeProfile?idCarrera={{idCarrera}}",
+							"raw": "{{url}}/api/gradeProfile/{{idCarrera}}/info",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
-								"gradeProfile"
-							],
-							"query": [
-								{
-									"key": "idCarrera",
-									"value": "{{idCarrera}}"
-								}
+								"gradeProfile",
+								"{{idCarrera}}",
+								"info"
 							]
 						}
 					},
@@ -637,20 +629,15 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:3000/api/gradeProfile?idCarrera=",
+							"raw": "{{url}}/api/gradeProfile/invalidid/info",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
-								"gradeProfile"
-							],
-							"query": [
-								{
-									"key": "idCarrera",
-									"value": ""
-								}
+								"gradeProfile",
+								"invalidid",
+								"info"
 							]
 						}
 					},
@@ -697,23 +684,20 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:3000/api/comment?cuerpo=Prueba postman&idCarrera={{idCarrera}}",
+							"raw": "{{url}}/api/gradeProfile/{{idCarrera}}/comment?cuerpo=Prueba postman",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
+								"gradeProfile",
+								"{{idCarrera}}",
 								"comment"
 							],
 							"query": [
 								{
 									"key": "cuerpo",
 									"value": "Prueba postman"
-								},
-								{
-									"key": "idCarrera",
-									"value": "{{idCarrera}}"
 								}
 							]
 						}
@@ -753,23 +737,20 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:3000/api/comment?cuerpo=Prueba postman&idCarrera=",
+							"raw": "{{url}}/api/gradeProfile/invalidid/comment?cuerpo=Prueba postman",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
+								"gradeProfile",
+								"invalidid",
 								"comment"
 							],
 							"query": [
 								{
 									"key": "cuerpo",
 									"value": "Prueba postman"
-								},
-								{
-									"key": "idCarrera",
-									"value": ""
 								}
 							]
 						}
@@ -809,23 +790,20 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:3000/api/comment?cuerpo=Prueba postman&idCarrera={{idCarrera}}",
+							"raw": "{{url}}/api/gradeProfile/{{idCarrera}}/comment?cuerpo=Prueba postman",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
+								"gradeProfile",
+								"{{idCarrera}}",
 								"comment"
 							],
 							"query": [
 								{
 									"key": "cuerpo",
 									"value": "Prueba postman"
-								},
-								{
-									"key": "idCarrera",
-									"value": "{{idCarrera}}"
 								}
 							]
 						}
@@ -865,23 +843,20 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:3000/api/comment?cuerpo=Prueba postman&idCarrera={{idCarrera}}",
+							"raw": "{{url}}/api/gradeProfile/{{idCarrera}}/comment?cuerpo=Prueba postman",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
+								"gradeProfile",
+								"{{idCarrera}}",
 								"comment"
 							],
 							"query": [
 								{
 									"key": "cuerpo",
 									"value": "Prueba postman"
-								},
-								{
-									"key": "idCarrera",
-									"value": "{{idCarrera}}"
 								}
 							]
 						}
@@ -935,27 +910,22 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:3000/api/reply?cuerpo=Prueba postman reply&_id={{commentId}}&idCarrera={{idCarrera}}",
+							"raw": "{{url}}/api/gradeProfile/{{idCarrera}}/comment/{{commentId}}/reply?cuerpo=Prueba postman reply",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
+								"gradeProfile",
+								"{{idCarrera}}",
+								"comment",
+								"{{commentId}}",
 								"reply"
 							],
 							"query": [
 								{
 									"key": "cuerpo",
 									"value": "Prueba postman reply"
-								},
-								{
-									"key": "_id",
-									"value": "{{commentId}}"
-								},
-								{
-									"key": "idCarrera",
-									"value": "{{idCarrera}}"
 								}
 							]
 						}
@@ -995,27 +965,22 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:3000/api/reply?cuerpo=Prueba postman reply&_id={{commentId}}&idCarrera=",
+							"raw": "{{url}}/api/gradeProfile/invalidid/comment/{{commentId}}/reply?cuerpo=Prueba postman reply",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
+								"gradeProfile",
+								"invalidid",
+								"comment",
+								"{{commentId}}",
 								"reply"
 							],
 							"query": [
 								{
 									"key": "cuerpo",
 									"value": "Prueba postman reply"
-								},
-								{
-									"key": "_id",
-									"value": "{{commentId}}"
-								},
-								{
-									"key": "idCarrera",
-									"value": ""
 								}
 							]
 						}
@@ -1055,27 +1020,22 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:3000/api/reply?cuerpo=Prueba postman reply&_id=&idCarrera={{idCarrera}}",
+							"raw": "{{url}}/api/gradeProfile/{{idCarrera}}/comment/invalidid/reply?cuerpo=Prueba postman reply",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
+								"gradeProfile",
+								"{{idCarrera}}",
+								"comment",
+								"invalidid",
 								"reply"
 							],
 							"query": [
 								{
 									"key": "cuerpo",
 									"value": "Prueba postman reply"
-								},
-								{
-									"key": "_id",
-									"value": ""
-								},
-								{
-									"key": "idCarrera",
-									"value": "{{idCarrera}}"
 								}
 							]
 						}
@@ -1115,27 +1075,22 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:3000/api/reply?cuerpo=Prueba postman reply&_id={{commentId}}&idCarrera={{idCarrera}}",
+							"raw": "{{url}}/api/gradeProfile/{{idCarrera}}/comment/{{commentId}}/reply?cuerpo=Prueba postman reply",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
+								"gradeProfile",
+								"{{idCarrera}}",
+								"comment",
+								"{{commentId}}",
 								"reply"
 							],
 							"query": [
 								{
 									"key": "cuerpo",
 									"value": "Prueba postman reply"
-								},
-								{
-									"key": "_id",
-									"value": "{{commentId}}"
-								},
-								{
-									"key": "idCarrera",
-									"value": "{{idCarrera}}"
 								}
 							]
 						}
@@ -1175,27 +1130,22 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:3000/api/reply?cuerpo=Prueba postman reply&_id={{commentId}}&idCarrera={{idCarrera}}",
+							"raw": "{{url}}/api/gradeProfile/{{idCarrera}}/comment/{{commentId}}/reply?cuerpo=Prueba postman reply",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
+								"gradeProfile",
+								"{{idCarrera}}",
+								"comment",
+								"{{commentId}}",
 								"reply"
 							],
 							"query": [
 								{
 									"key": "cuerpo",
 									"value": "Prueba postman reply"
-								},
-								{
-									"key": "_id",
-									"value": "{{commentId}}"
-								},
-								{
-									"key": "idCarrera",
-									"value": "{{idCarrera}}"
 								}
 							]
 						}
@@ -1246,29 +1196,17 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:3000/api/upVote?idcom={{commentId}}&idCarrera={{idCarrera}}",
+							"raw": "{{url}}/api/gradeProfile/{{idCarrera}}/comment/{{commentId}}/upVote",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
+								"gradeProfile",
+								"{{idCarrera}}",
+								"comment",
+								"{{commentId}}",
 								"upVote"
-							],
-							"query": [
-								{
-									"key": "idcom",
-									"value": "{{commentId}}"
-								},
-								{
-									"key": "idrep",
-									"value": "{{replyId}}",
-									"disabled": true
-								},
-								{
-									"key": "idCarrera",
-									"value": "{{idCarrera}}"
-								}
 							]
 						}
 					},
@@ -1317,28 +1255,19 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:3000/api/upVote?idcom={{commentId}}&idrep={{replyId}}&idCarrera={{idCarrera}}",
+							"raw": "{{url}}/api/gradeProfile/{{idCarrera}}/comment/{{commentId}}/reply/{{replyId}}/upVote",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
+								"gradeProfile",
+								"{{idCarrera}}",
+								"comment",
+								"{{commentId}}",
+								"reply",
+								"{{replyId}}",
 								"upVote"
-							],
-							"query": [
-								{
-									"key": "idcom",
-									"value": "{{commentId}}"
-								},
-								{
-									"key": "idrep",
-									"value": "{{replyId}}"
-								},
-								{
-									"key": "idCarrera",
-									"value": "{{idCarrera}}"
-								}
 							]
 						}
 					},
@@ -1377,29 +1306,17 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:3000/api/upVote?idcom={{commentId}}&idCarrera={{idCarrera}}",
+							"raw": "{{url}}/api/gradeProfile/{{idCarrera}}/comment/{{commentId}}/upVote",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
+								"gradeProfile",
+								"{{idCarrera}}",
+								"comment",
+								"{{commentId}}",
 								"upVote"
-							],
-							"query": [
-								{
-									"key": "idcom",
-									"value": "{{commentId}}"
-								},
-								{
-									"key": "idrep",
-									"value": "{{replyId}}",
-									"disabled": true
-								},
-								{
-									"key": "idCarrera",
-									"value": "{{idCarrera}}"
-								}
 							]
 						}
 					},
@@ -1438,30 +1355,17 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:3000/api/upVote?idcom={{commentId}}",
+							"raw": "{{url}}/api/gradeProfile/invalidid/comment/{{commentId}}/upVote",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
+								"gradeProfile",
+								"invalidid",
+								"comment",
+								"{{commentId}}",
 								"upVote"
-							],
-							"query": [
-								{
-									"key": "idcom",
-									"value": "{{commentId}}"
-								},
-								{
-									"key": "idrep",
-									"value": "{{replyId}}",
-									"disabled": true
-								},
-								{
-									"key": "idCarrera",
-									"value": "{{idCarrera}}",
-									"disabled": true
-								}
 							]
 						}
 					},
@@ -1500,30 +1404,68 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:3000/api/upVote?idCarrera={{idCarrera}}",
+							"raw": "{{url}}/api/gradeProfile/{{idCarrera}}/comment/invalidid/upVote",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
+								"gradeProfile",
+								"{{idCarrera}}",
+								"comment",
+								"invalidid",
 								"upVote"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "upVote no replyid",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.message).to.eql(\"Respuesta no encontrada\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/api/gradeProfile/{{idCarrera}}/comment/{{commentId}}/reply/invalidid/upVote",
+							"host": [
+								"{{url}}"
 							],
-							"query": [
-								{
-									"key": "idcom",
-									"value": "{{commentId}}",
-									"disabled": true
-								},
-								{
-									"key": "idrep",
-									"value": "{{replyId}}",
-									"disabled": true
-								},
-								{
-									"key": "idCarrera",
-									"value": "{{idCarrera}}"
-								}
+							"path": [
+								"api",
+								"gradeProfile",
+								"{{idCarrera}}",
+								"comment",
+								"{{commentId}}",
+								"reply",
+								"invalidid",
+								"upVote"
 							]
 						}
 					},
@@ -1562,29 +1504,17 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:3000/api/upVote?idcom={{commentId}}&idCarrera={{idCarrera}}",
+							"raw": "{{url}}/api/gradeProfile/{{idCarrera}}/comment/{{commentId}}/upVote",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
+								"gradeProfile",
+								"{{idCarrera}}",
+								"comment",
+								"{{commentId}}",
 								"upVote"
-							],
-							"query": [
-								{
-									"key": "idcom",
-									"value": "{{commentId}}"
-								},
-								{
-									"key": "idrep",
-									"value": "{{replyId}}",
-									"disabled": true
-								},
-								{
-									"key": "idCarrera",
-									"value": "{{idCarrera}}"
-								}
 							]
 						}
 					},
@@ -1633,29 +1563,17 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:3000/api/cancelUpVote?idcom={{commentId}}&idCarrera={{idCarrera}}",
+							"raw": "{{url}}/api/gradeProfile/{{idCarrera}}/comment/{{commentId}}/cancelUpVote",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
+								"gradeProfile",
+								"{{idCarrera}}",
+								"comment",
+								"{{commentId}}",
 								"cancelUpVote"
-							],
-							"query": [
-								{
-									"key": "idcom",
-									"value": "{{commentId}}"
-								},
-								{
-									"key": "idrep",
-									"value": "{{replyId}}",
-									"disabled": true
-								},
-								{
-									"key": "idCarrera",
-									"value": "{{idCarrera}}"
-								}
 							]
 						}
 					},
@@ -1694,29 +1612,17 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:3000/api/cancelUpVote?idcom={{commentId}}&idCarrera={{idCarrera}}",
+							"raw": "{{url}}/api/gradeProfile/{{idCarrera}}/comment/{{commentId}}/cancelUpVote",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
+								"gradeProfile",
+								"{{idCarrera}}",
+								"comment",
+								"{{commentId}}",
 								"cancelUpVote"
-							],
-							"query": [
-								{
-									"key": "idcom",
-									"value": "{{commentId}}"
-								},
-								{
-									"key": "idrep",
-									"value": "{{replyId}}",
-									"disabled": true
-								},
-								{
-									"key": "idCarrera",
-									"value": "{{idCarrera}}"
-								}
 							]
 						}
 					},
@@ -1765,28 +1671,19 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:3000/api/cancelUpVote?idcom={{commentId}}&idrep={{replyId}}&idCarrera={{idCarrera}}",
+							"raw": "{{url}}/api/gradeProfile/{{idCarrera}}/comment/{{commentId}}/reply/{{replyId}}/cancelUpVote",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
+								"gradeProfile",
+								"{{idCarrera}}",
+								"comment",
+								"{{commentId}}",
+								"reply",
+								"{{replyId}}",
 								"cancelUpVote"
-							],
-							"query": [
-								{
-									"key": "idcom",
-									"value": "{{commentId}}"
-								},
-								{
-									"key": "idrep",
-									"value": "{{replyId}}"
-								},
-								{
-									"key": "idCarrera",
-									"value": "{{idCarrera}}"
-								}
 							]
 						}
 					},
@@ -1825,28 +1722,19 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:3000/api/cancelUpVote?idcom={{commentId}}&idrep={{replyId}}&idCarrera={{idCarrera}}",
+							"raw": "{{url}}/api/gradeProfile/{{idCarrera}}/comment/{{commentId}}/reply/{{replyId}}/cancelUpVote",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
+								"gradeProfile",
+								"{{idCarrera}}",
+								"comment",
+								"{{commentId}}",
+								"reply",
+								"{{replyId}}",
 								"cancelUpVote"
-							],
-							"query": [
-								{
-									"key": "idcom",
-									"value": "{{commentId}}"
-								},
-								{
-									"key": "idrep",
-									"value": "{{replyId}}"
-								},
-								{
-									"key": "idCarrera",
-									"value": "{{idCarrera}}"
-								}
 							]
 						}
 					},
@@ -2338,7 +2226,7 @@
 									"\r",
 									"pm.test(\"Profile test\", () => {\r",
 									"  const responseJson = pm.response.json();\r",
-									"  pm.expect(responseJson.message).to.eql(\"Contraseña incorrecta :C\");\r",
+									"  pm.expect(responseJson.message).to.eql(\"El id y el token no coinciden :C\");\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -2356,7 +2244,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\":\"elpruebas@gmail.com\",\r\n    \"password\":\"elpruebazas\",\r\n    \"newPassword\":\"elpruebaso\"\r\n}",
+							"raw": "{\r\n    \"email\":\"elpruebas@gmail.com\",\r\n    \"password\":\"elpruebas\",\r\n    \"newPassword\":\"elpruebaso\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2364,14 +2252,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/api/user/{{userid}}/password",
+							"raw": "{{url}}/api/user/invalidid/password",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"api",
 								"user",
-								"{{userid}}",
+								"invalidid",
 								"password"
 							]
 						}
@@ -2413,20 +2301,15 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:3000/api/ban?username=elpruebas",
+							"raw": "{{url}}/api/user/{{bannedId}}/ban",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
+								"user",
+								"{{bannedId}}",
 								"ban"
-							],
-							"query": [
-								{
-									"key": "username",
-									"value": "elpruebas"
-								}
 							]
 						}
 					},
@@ -2462,14 +2345,14 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:3000/api/conflictiveGrades",
+							"raw": "{{url}}/api/gradeProfile/conflictives",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
-								"conflictiveGrades"
+								"gradeProfile",
+								"conflictives"
 							]
 						}
 					},
@@ -2505,14 +2388,14 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:3000/api/commentedGrades",
+							"raw": "{{url}}/api/gradeProfile/commented",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
-								"commentedGrades"
+								"gradeProfile",
+								"commented"
 							]
 						}
 					},
@@ -2540,7 +2423,7 @@
 						}
 					],
 					"request": {
-						"method": "POST",
+						"method": "DELETE",
 						"header": [
 							{
 								"key": "Authorization",
@@ -2549,28 +2432,17 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:3000/api/deleteComment?degreeId={{idCarrera}}&commentId={{commentId}}&responseId={{replyId}}",
+							"raw": "{{url}}/api/gradeProfile/{{idCarrera}}/comment/{{commentId}}/delete",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
-								"deleteComment"
-							],
-							"query": [
-								{
-									"key": "degreeId",
-									"value": "{{idCarrera}}"
-								},
-								{
-									"key": "commentId",
-									"value": "{{commentId}}"
-								},
-								{
-									"key": "responseId",
-									"value": "{{replyId}}"
-								}
+								"gradeProfile",
+								"{{idCarrera}}",
+								"comment",
+								"{{commentId}}",
+								"delete"
 							]
 						}
 					},
@@ -2615,13 +2487,13 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/api/login",
+							"raw": "{{url}}/api/user/login",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
+								"user",
 								"login"
 							]
 						}
@@ -2658,13 +2530,14 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:3000/api/ban",
+							"raw": "{{url}}/api/user/invalidid/ban",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
+								"user",
+								"invalidid",
 								"ban"
 							],
 							"query": [
@@ -2708,13 +2581,14 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:3000/api/ban",
+							"raw": "{{url}}/api/user/{{bannedId}}/ban",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
+								"user",
+								"{{bannedId}}",
 								"ban"
 							],
 							"query": [
@@ -2754,14 +2628,14 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:3000/api/conflictiveGrades",
+							"raw": "{{url}}/api/gradeProfile/conflictives",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
-								"conflictiveGrades"
+								"gradeProfile",
+								"conflictives"
 							]
 						}
 					},
@@ -2793,14 +2667,14 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:3000/api/commentedGrades",
+							"raw": "{{url}}/api/gradeProfile/commented",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
-								"commentedGrades"
+								"gradeProfile",
+								"commented"
 							]
 						}
 					},
@@ -2828,7 +2702,7 @@
 						}
 					],
 					"request": {
-						"method": "POST",
+						"method": "DELETE",
 						"header": [
 							{
 								"key": "Authorization",
@@ -2837,29 +2711,17 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:3000/api/deleteComment?degreeId={{idCarrera}}&commentId={{commentId}}",
+							"raw": "{{url}}/api/gradeProfile/{{idCarrera}}/comment/{{commentId}}/delete",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
-								"deleteComment"
-							],
-							"query": [
-								{
-									"key": "degreeId",
-									"value": "{{idCarrera}}"
-								},
-								{
-									"key": "commentId",
-									"value": "{{commentId}}"
-								},
-								{
-									"key": "responseId",
-									"value": "{{replyId}}",
-									"disabled": true
-								}
+								"gradeProfile",
+								"{{idCarrera}}",
+								"comment",
+								"{{commentId}}",
+								"delete"
 							]
 						}
 					},
@@ -2887,7 +2749,7 @@
 						}
 					],
 					"request": {
-						"method": "POST",
+						"method": "DELETE",
 						"header": [
 							{
 								"key": "Authorization",
@@ -2896,28 +2758,19 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:3000/api/deleteComment?degreeId={{idCarrera}}&commentId={{commentId}}&responseId={{replyId}}",
+							"raw": "{{url}}/api/gradeProfile/{{idCarrera}}/comment/{{commentId}}/response/{{replyId}}/delete",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
-								"deleteComment"
-							],
-							"query": [
-								{
-									"key": "degreeId",
-									"value": "{{idCarrera}}"
-								},
-								{
-									"key": "commentId",
-									"value": "{{commentId}}"
-								},
-								{
-									"key": "responseId",
-									"value": "{{replyId}}"
-								}
+								"gradeProfile",
+								"{{idCarrera}}",
+								"comment",
+								"{{commentId}}",
+								"response",
+								"{{replyId}}",
+								"delete"
 							]
 						}
 					},
@@ -2946,6 +2799,15 @@
 								],
 								"type": "text/javascript"
 							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.globals.set(\"bannedId\", \"6281757c5535a93250ae2999\")"
+								],
+								"type": "text/javascript"
+							}
 						}
 					],
 					"request": {
@@ -2958,20 +2820,15 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:3000/api/ban?username=baneado",
+							"raw": "{{url}}/api/user/{{bannedId}}/ban",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
+								"user",
+								"{{bannedId}}",
 								"ban"
-							],
-							"query": [
-								{
-									"key": "username",
-									"value": "baneado"
-								}
 							]
 						}
 					},
@@ -3011,13 +2868,13 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/api/login",
+							"raw": "{{url}}/api/user/login",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
+								"user",
 								"login"
 							]
 						}
@@ -3057,23 +2914,20 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:3000/api/comment?cuerpo=Prueba postman&idCarrera={{idCarrera}}",
+							"raw": "{{url}}/api/gradeProfile/{{idCarrera}}/comment?cuerpo=Prueba postman",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
+								"gradeProfile",
+								"{{idCarrera}}",
 								"comment"
 							],
 							"query": [
 								{
 									"key": "cuerpo",
 									"value": "Prueba postman"
-								},
-								{
-									"key": "idCarrera",
-									"value": "{{idCarrera}}"
 								}
 							]
 						}
@@ -3113,28 +2967,17 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:3000/api/reply?cuerpo=Prueba postman reply&_id={{commentId}}&idCarrera={{idCarrera}}",
+							"raw": "{{url}}/api/gradeProfile/{{idCarrera}}/comment/{{commentId}}/reply",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
+								"gradeProfile",
+								"{{idCarrera}}",
+								"comment",
+								"{{commentId}}",
 								"reply"
-							],
-							"query": [
-								{
-									"key": "cuerpo",
-									"value": "Prueba postman reply"
-								},
-								{
-									"key": "_id",
-									"value": "{{commentId}}"
-								},
-								{
-									"key": "idCarrera",
-									"value": "{{idCarrera}}"
-								}
 							]
 						}
 					},
@@ -3173,29 +3016,17 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:3000/api/upVote?idcom={{commentId}}&idCarrera={{idCarrera}}",
+							"raw": "{{url}}/api/gradeProfile/{{idCarrera}}/comment/{{commentId}}/upVote",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
+								"gradeProfile",
+								"{{idCarrera}}",
+								"comment",
+								"{{commentId}}",
 								"upVote"
-							],
-							"query": [
-								{
-									"key": "idcom",
-									"value": "{{commentId}}"
-								},
-								{
-									"key": "idrep",
-									"value": "{{replyId}}",
-									"disabled": true
-								},
-								{
-									"key": "idCarrera",
-									"value": "{{idCarrera}}"
-								}
 							]
 						}
 					},
@@ -3234,29 +3065,17 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:3000/api/cancelUpVote?idcom={{commentId}}&idCarrera={{idCarrera}}",
+							"raw": "{{url}}/api/gradeProfile/{{idCarrera}}/comment/{{commentId}}/cancelUpVote",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
+								"gradeProfile",
+								"{{idCarrera}}",
+								"comment",
+								"{{commentId}}",
 								"cancelUpVote"
-							],
-							"query": [
-								{
-									"key": "idcom",
-									"value": "{{commentId}}"
-								},
-								{
-									"key": "idrep",
-									"value": "{{replyId}}",
-									"disabled": true
-								},
-								{
-									"key": "idCarrera",
-									"value": "{{idCarrera}}"
-								}
 							]
 						}
 					},

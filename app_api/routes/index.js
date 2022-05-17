@@ -726,30 +726,30 @@ router
 /* Delete a comment or response  */
 /**
  * @openapi
- * /deleteComment:
- *   post:
+ * /gradeProfile/{degreeId}/comment/{commentId}/response/{responseId}/delete:
+ *   delete:
  *       description: Delete a comment or response.
  *       security:
  *         - bearerAuth: []
  *       tags:
  *         - DeleteComments
  *       parameters:
- *         - name: degreeId
- *           in: query
- *           description: If of the degree.
+ *         - in: path
+ *           name: degreeId
+ *           description: Id of the degree.
  *           required: true
  *           schema:
  *            type: string
- *         - name: commentId
- *           in: query
+ *         - in: path
+ *           name: commentId
  *           description: Id of the comment.
  *           required: true
  *           schema:
  *            type: string
- *         - name: responseId
- *           in: query
- *           description: Id, if exists, of the response to verify.
- *           required: false
+ *         - in: path
+ *           name: responseId
+ *           description: Id of the response to delete.
+ *           required: true
  *           schema:
  *            type: string
  *       responses:
@@ -761,10 +761,50 @@ router
  *               description: Internal server error
  */
 router
-  .route("/deleteComment")
+  .route(
+    "/gradeProfile/:degreeId/comment/:commentId/response/:responseId/delete"
+  )
   .get(ctrlGradeProfile.httpNotImplemented)
-  .post(jwtHelper.verifyJwtToken, ctrlGradeProfile.deleteComment)
-  .delete(ctrlGradeProfile.httpNotImplemented)
+  .post(ctrlGradeProfile.httpNotImplemented)
+  .delete(jwtHelper.verifyJwtToken, ctrlGradeProfile.deleteComment)
+  .put(ctrlGradeProfile.httpNotImplemented);
+
+/* Delete a comment or response  */
+/**
+ * @openapi
+ * /gradeProfile/{degreeId}/comment/{commentId}/delete:
+ *   delete:
+ *       description: Delete a comment or response.
+ *       security:
+ *         - bearerAuth: []
+ *       tags:
+ *         - DeleteComments
+ *       parameters:
+ *         - in: path
+ *           name: degreeId
+ *           description: Id of the degree.
+ *           required: true
+ *           schema:
+ *            type: string
+ *         - in: path
+ *           name: commentId
+ *           description: Id of the comment to delete.
+ *           required: true
+ *           schema:
+ *            type: string
+ *       responses:
+ *           200:
+ *               description: Comment or response has been deleted
+ *           404:
+ *               description: Auth failed or there was an error while querying data
+ *           500:
+ *               description: Internal server error
+ */
+router
+  .route("/gradeProfile/:degreeId/comment/:commentId/delete")
+  .get(ctrlGradeProfile.httpNotImplemented)
+  .post(ctrlGradeProfile.httpNotImplemented)
+  .delete(jwtHelper.verifyJwtToken, ctrlGradeProfile.deleteComment)
   .put(ctrlGradeProfile.httpNotImplemented);
 
 /* GET Ban user */
