@@ -15,7 +15,7 @@ const serverOptions = {
 
 const gradeProfile = function (req, res, next) {
   GradeProfile.findOne(
-    { idCarrera: req.query.idCarrera },
+    { idCarrera: req.params.degreeId },
     (err, gradeProfile) => {
       if (err) {
         res.status(404).json(err);
@@ -24,7 +24,7 @@ const gradeProfile = function (req, res, next) {
         logger.info("Nuevo perfil");
         Grade.findOne(
           {
-            idCarrera: req.query.idCarrera,
+            idCarrera: req.params.degreeId,
           },
           (err, grade) => {
             if (!grade) {
@@ -49,7 +49,7 @@ const gradeProfile = function (req, res, next) {
       } else {
         Grade.findOne(
           {
-            idCarrera: req.query.idCarrera,
+            idCarrera: req.params.degreeId,
           },
           (err, grade) => {
             if (!grade) {
@@ -214,7 +214,7 @@ const comment = function (req, res, next) {
     } else {
       commentInsert.username = user.username;
       GradeProfile.findOne(
-        { idCarrera: req.query.idCarrera },
+        { idCarrera: req.params.degreeId },
         (err, gradeProfile) => {
           if (!gradeProfile) {
             return res.status(404).json({
@@ -244,7 +244,7 @@ const reply = function (req, res, next) {
     upvotes: 0,
     visible: true,
     body: req.query.cuerpo,
-    commentId: req.query._id,
+    commentId: req.params.commentId,
   };
   User.findOne({ _id: req._id }, (err, user) => {
     if (!user)
@@ -260,7 +260,7 @@ const reply = function (req, res, next) {
     } else {
       replyInsert.username = user.username;
       GradeProfile.findOne(
-        { idCarrera: req.query.idCarrera },
+        { idCarrera: req.params.degreeId },
         (err, gradeProfile) => {
           if (!gradeProfile) {
             return res.status(404).json({
@@ -270,7 +270,7 @@ const reply = function (req, res, next) {
           } else {
             done = -1;
             for (let k in gradeProfile.comments) {
-              if (gradeProfile.comments[k]["_id"] == req.query._id) {
+              if (gradeProfile.comments[k]["_id"] == req.params.commentId) {
                 gradeProfile.comments[k].responses =
                   gradeProfile.comments[k].responses || [];
                 repLength = gradeProfile.comments[k].responses.push(
@@ -319,7 +319,7 @@ const upVote = function (req, res, next) {
     } else {
       username = user.username;
       GradeProfile.findOne(
-        { idCarrera: req.query.idCarrera },
+        { idCarrera: req.params.degreeId },
         (err, gradeProfile) => {
           if (!gradeProfile) {
             return res.status(404).json({
@@ -329,7 +329,7 @@ const upVote = function (req, res, next) {
           } else {
             cIndex = -1;
             for (let k in gradeProfile.comments) {
-              if (gradeProfile.comments[k]["_id"] == req.query.idcom) {
+              if (gradeProfile.comments[k]["_id"] == req.params.commentId) {
                 cIndex = k;
                 break;
               }
@@ -340,7 +340,7 @@ const upVote = function (req, res, next) {
                 message: "Comentario no encontrado",
               });
             }
-            if (!req.query.idrep) {
+            if (!req.params.replyId) {
               handleUpVoteComment(req, res, gradeProfile);
             } else {
               handleUpVoteReply(req, res, gradeProfile);
@@ -372,7 +372,9 @@ function handleUpVoteReply(req, res, gradeProfile) {
   found = false;
   logger.info("Es respuesta");
   for (let k in gradeProfile.comments[cIndex].responses) {
-    if (gradeProfile.comments[cIndex].responses[k]["_id"] == req.query.idrep) {
+    if (
+      gradeProfile.comments[cIndex].responses[k]["_id"] == req.params.replyId
+    ) {
       if (
         userHasUpvoted(
           req._id,
@@ -517,7 +519,7 @@ const cancelUpVote = function (req, res, next) {
     } else {
       username = user.username;
       GradeProfile.findOne(
-        { idCarrera: req.query.idCarrera },
+        { idCarrera: req.params.degreeId },
         (err, gradeProfile) => {
           if (!gradeProfile) {
             return res.status(404).json({
@@ -527,7 +529,7 @@ const cancelUpVote = function (req, res, next) {
           } else {
             cIndex = -1;
             for (let k in gradeProfile.comments) {
-              if (gradeProfile.comments[k]["_id"] == req.query.idcom) {
+              if (gradeProfile.comments[k]["_id"] == req.params.commentId) {
                 cIndex = k;
                 break;
               }
@@ -538,7 +540,7 @@ const cancelUpVote = function (req, res, next) {
                 message: "Comentario no encontrado",
               });
             }
-            if (!req.query.idrep) {
+            if (!req.params.replyId) {
               handleCancelUpVoteComment(req, res, gradeProfile);
             } else {
               handleCancelUpVoteReply(req, res, gradeProfile);
@@ -571,7 +573,9 @@ function handleCancelUpVoteReply(req, res, gradeProfile) {
   found = false;
   console.log("Es respuesta");
   for (let k in gradeProfile.comments[cIndex].responses) {
-    if (gradeProfile.comments[cIndex].responses[k]["_id"] == req.query.idrep) {
+    if (
+      gradeProfile.comments[cIndex].responses[k]["_id"] == req.params.replyId
+    ) {
       l = userHasUpvoted(
         req._id,
         gradeProfile.comments[cIndex].responses[k].upvotedUsers
@@ -774,9 +778,9 @@ const verifyResponse = function (req, res) {
 };
 
 const deleteComment = function (req, res) {
-  const degreeId = req.query.degreeId;
-  const commentId = req.query.commentId;
-  const responseId = req.query.responseId;
+  const degreeId = req.params.degreeId;
+  const commentId = req.params.commentId;
+  const responseId = req.params.responseId;
   var dC = 0;
   User.findOne({ _id: req._id }, (err, user) => {
     if (!user || !user.admin)
