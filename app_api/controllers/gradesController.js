@@ -85,13 +85,21 @@ const getAllDegreeGrades = function (req, res) {
     .exec((err, historical) => {
       if (err) {
         res
-          .status(404)
+          .status(500)
           .json(err);
         return;
       } else {
-        res
-          .status(200)
-          .json(historical);
+        if(typeof historical == 'undefined' || historical.length == 0){
+            res
+              .status(404)
+              .json({
+                "message": "No data was found for that degree"
+              });
+        } else {
+            res
+              .status(200)
+              .json(historical);
+        }
       }
     });
   }

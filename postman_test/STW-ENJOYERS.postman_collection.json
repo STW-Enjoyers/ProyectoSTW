@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "67d26b6f-2fa2-4773-beee-7058072ce43a",
+		"_postman_id": "e7af0bad-69bf-494a-bea4-e8af6c1e0f97",
 		"name": "STW-ENJOYERS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -28,7 +28,17 @@
 									"  const responseJson = pm.response.json();\r",
 									"  pm.expect(responseJson.token).to.be.a('string');\r",
 									"  pm.globals.set(\"token\", responseJson.token)\r",
+									"  pm.globals.set(\"userid\", responseJson._id)\r",
 									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -47,13 +57,13 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/api/login",
+							"raw": "{{url}}/api/user/login",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
+								"user",
 								"login"
 							]
 						}
@@ -93,13 +103,13 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/api/login",
+							"raw": "{{url}}/api/user/login",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
+								"user",
 								"login"
 							]
 						}
@@ -139,13 +149,13 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/api/login",
+							"raw": "{{url}}/api/user/login",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
+								"user",
 								"login"
 							]
 						}
@@ -185,13 +195,13 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/api/login",
+							"raw": "{{url}}/api/user/login",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
+								"user",
 								"login"
 							]
 						}
@@ -240,13 +250,14 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:3000/api/profile",
+							"raw": "{{url}}/api/user/{{userid}}/profile",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
+								"user",
+								"{{userid}}",
 								"profile"
 							]
 						}
@@ -286,13 +297,14 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:3000/api/profile",
+							"raw": "{{url}}/api/user/{{userid}}/profile",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
+								"user",
+								"{{userid}}",
 								"profile"
 							]
 						}
@@ -332,13 +344,61 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:3000/api/profile",
+							"raw": "{{url}}/api/user/{{userid}}/profile",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
+								"user",
+								"{{userid}}",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "profile bad id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Auth test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.message).to.eql(\"El id y el token no coinciden :C\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/api/user/invaliduserid/profile",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"invaliduserid",
 								"profile"
 							]
 						}
@@ -383,13 +443,14 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/api/register",
+							"raw": "localhost:3000/api/user/register",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
 								"api",
+								"user",
 								"register"
 							]
 						}
@@ -429,13 +490,14 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/api/register",
+							"raw": "localhost:3000/api/user/register",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
 								"api",
+								"user",
 								"register"
 							]
 						}
@@ -471,13 +533,14 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/api/register",
+							"raw": "localhost:3000/api/user/register",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
 								"api",
+								"user",
 								"register"
 							]
 						}
@@ -1824,14 +1887,15 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:3000/api/changeUsername?username=elpruebaso",
+							"raw": "{{url}}/api/user/{{userid}}/username?username=elpruebaso",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
-								"changeUsername"
+								"user",
+								"{{userid}}",
+								"username"
 							],
 							"query": [
 								{
@@ -1873,14 +1937,15 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:3000/api/changeUsername?username=elpruebas",
+							"raw": "{{url}}/api/user/{{userid}}/username?username=elpruebas",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
-								"changeUsername"
+								"user",
+								"{{userid}}",
+								"username"
 							],
 							"query": [
 								{
@@ -1922,14 +1987,15 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:3000/api/changeUsername?username=elpruebas",
+							"raw": "{{url}}/api/user/{{userid}}/username?username=elpruebas",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
-								"changeUsername"
+								"user",
+								"{{userid}}",
+								"username"
 							],
 							"query": [
 								{
@@ -1971,20 +2037,71 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:3000/api/changeUsername",
+							"raw": "{{url}}/api/user/{{userid}}/username",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
-								"changeUsername"
+								"user",
+								"{{userid}}",
+								"username"
 							],
 							"query": [
 								{
 									"key": "username",
 									"value": "elpruebas",
 									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "changeUsername bad id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Profile test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.message).to.eql(\"El id y el token no coinciden :C\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/api/user/invalidid/username?username=elpruebaso",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"invalidid",
+								"username"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "elpruebaso"
 								}
 							]
 						}
@@ -2035,14 +2152,15 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/api/changePassword",
+							"raw": "{{url}}/api/user/{{userid}}/password",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
-								"changePassword"
+								"user",
+								"{{userid}}",
+								"password"
 							]
 						}
 					},
@@ -2087,14 +2205,15 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/api/changePassword",
+							"raw": "{{url}}/api/user/{{userid}}/password",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
-								"changePassword"
+								"user",
+								"{{userid}}",
+								"password"
 							]
 						}
 					},
@@ -2139,14 +2258,15 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/api/changePassword",
+							"raw": "{{url}}/api/user/{{userid}}/password",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
-								"changePassword"
+								"user",
+								"{{userid}}",
+								"password"
 							]
 						}
 					},
@@ -2191,14 +2311,68 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/api/changePassword",
+							"raw": "{{url}}/api/user/{{userid}}/password",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
-								"changePassword"
+								"user",
+								"{{userid}}",
+								"password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "changePassword wrong passwd Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Profile test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.message).to.eql(\"Contraseña incorrecta :C\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"elpruebas@gmail.com\",\r\n    \"password\":\"elpruebazas\",\r\n    \"newPassword\":\"elpruebaso\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/user/{{userid}}/password",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"{{userid}}",
+								"password"
 							]
 						}
 					},
@@ -2748,6 +2922,788 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "monthly users GET",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Message test\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson.length).to.eql(12);",
+									"  for (let comm of responseJson){",
+									"        pm.expect(comm.users).to.gte(0);",
+									"  }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/user/yearly",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"yearly"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "monthly users GET (No token)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});",
+									"",
+									"pm.test(\"Message test\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson.message).to.eql(\"No se ha enviado ningún token :C\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/user/yearly",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"yearly"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "monthly users POST",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/user/yearly",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"yearly"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "monthly users PUT",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/user/yearly",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"yearly"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "monthly users DELETE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/user/yearly",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"yearly"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "check comments",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Message test\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  for (let comm of responseJson){",
+									"        pm.expect(comm).to.have.property('body');",
+									"        pm.expect(comm).to.have.property('username');",
+									"        pm.expect(comm).to.have.property('type');",
+									"        pm.expect(comm).to.have.property('commentId');",
+									"        pm.expect(comm).to.have.property('degreeId');",
+									"",
+									"        if(comm.type == \"response\") {",
+									"            pm.globals.set(\"responseId\", comm.responseId);",
+									"            pm.globals.set(\"commentResponseId\", comm.commentId);",
+									"            pm.globals.set(\"degreeResponseId\", comm.degreeId);",
+									"        } else {",
+									"            pm.globals.set(\"commentId\", comm.commentId);",
+									"            pm.globals.set(\"degreeId\", comm.degreeId);",
+									"        }",
+									"",
+									"  }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/gradeProfile/comments/check",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"gradeProfile",
+								"comments",
+								"check"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "check comments POST",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/gradeProfile/comments/check",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"gradeProfile",
+								"comments",
+								"check"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "check comments PUT",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/gradeProfile/comments/check",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"gradeProfile",
+								"comments",
+								"check"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "check comments DELETE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/gradeProfile/comments/check",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"gradeProfile",
+								"comments",
+								"check"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "check comments GET(No token)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});",
+									"",
+									"pm.test(\"Message test\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson.message).to.eql(\"No se ha enviado ningún token :C\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/gradeProfile/comments/check",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"gradeProfile",
+								"comments",
+								"check"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "verify comment (No token) POST",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});",
+									"",
+									"pm.test(\"Message test\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson.message).to.eql(\"No se ha enviado ningún token :C\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/gradeProfile/prueba/comment/noexiste/verify",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"gradeProfile",
+								"prueba",
+								"comment",
+								"noexiste",
+								"verify"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "verify comment POST",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/gradeProfile/{{degreeId}}/comment/{{commentId}}/verify",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"gradeProfile",
+								"{{degreeId}}",
+								"comment",
+								"{{commentId}}",
+								"verify"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "verify comment GET",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/gradeProfile/{{degreeId}}/comment/{{commentId}}/verify",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"gradeProfile",
+								"{{degreeId}}",
+								"comment",
+								"{{commentId}}",
+								"verify"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "verify comment PUT",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/gradeProfile/{{degreeId}}/comment/{{commentId}}/verify",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"gradeProfile",
+								"{{degreeId}}",
+								"comment",
+								"{{commentId}}",
+								"verify"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "verify comment DELETE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/gradeProfile/{{degreeId}}/comment/{{commentId}}/verify",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"gradeProfile",
+								"{{degreeId}}",
+								"comment",
+								"{{commentId}}",
+								"verify"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "verify response (No token) POST",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});",
+									"",
+									"pm.test(\"Message test\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson.message).to.eql(\"No se ha enviado ningún token :C\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/gradeProfile/prueba/comment/mensaje/response/respuesta/verify",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"gradeProfile",
+								"prueba",
+								"comment",
+								"mensaje",
+								"response",
+								"respuesta",
+								"verify"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "verify response POST",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/gradeProfile/{{degreeResponseId}}/comment/{{commentResponseId}}/response/{{responseId}}/verify",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"gradeProfile",
+								"{{degreeResponseId}}",
+								"comment",
+								"{{commentResponseId}}",
+								"response",
+								"{{responseId}}",
+								"verify"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "verify response GET",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/gradeProfile/{{degreeResponseId}}/comment/{{commentResponseId}}/response/{{responseId}}/verify",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"gradeProfile",
+								"{{degreeResponseId}}",
+								"comment",
+								"{{commentResponseId}}",
+								"response",
+								"{{responseId}}",
+								"verify"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "verify response PUT",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/gradeProfile/{{degreeResponseId}}/comment/{{commentResponseId}}/response/{{responseId}}/verify",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"gradeProfile",
+								"{{degreeResponseId}}",
+								"comment",
+								"{{commentResponseId}}",
+								"response",
+								"{{responseId}}",
+								"verify"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "verify response DELETE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/gradeProfile/{{degreeResponseId}}/comment/{{commentResponseId}}/response/{{responseId}}/verify",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"gradeProfile",
+								"{{degreeResponseId}}",
+								"comment",
+								"{{commentResponseId}}",
+								"response",
+								"{{responseId}}",
+								"verify"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -3089,6 +4045,1067 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "admissionGrades",
+			"item": [
+				{
+					"name": "last year grades GET",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Year test\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  for (let comm of responseJson){",
+									"        pm.expect(comm.curso).to.eql(pm.globals.get('curso'));",
+									"  }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.globals.set(\"curso\", 2021)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/grades/last",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"grades",
+								"last"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "last year grades POST",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.globals.set(\"curso\", 2021)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/grades/last",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"grades",
+								"last"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "last year grades PUT",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.globals.set(\"curso\", 2021)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/grades/last",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"grades",
+								"last"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "last year grades PUT DELETE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.globals.set(\"curso\", 2021)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/grades/last",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"grades",
+								"last"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2017 admission grades GET",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.globals.set(\"curso\", 2017)"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Year test\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  for (let comm of responseJson){",
+									"        pm.expect(comm.curso).to.eql(pm.globals.get('curso'));",
+									"  }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/grades/2017",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"grades",
+								"2017"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2017 admission grades POST",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/grades/2017",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"grades",
+								"2017"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2017 admission grades PUT",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/grades/2017",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"grades",
+								"2017"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2017 admission grades DELETE",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/grades/2017",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"grades",
+								"2017"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Year with no admission grades GET",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.globals.set(\"curso\", 2011)"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"pm.test(\"Message test\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson.message).to.eql(\"Year not saved\")",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/grades/2011",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"grades",
+								"2011"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Historical admission grades for existing degree GET",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.globals.set(\"degree\", \"f954c8f5be85667d91b17b0ffe6f2bc3\")",
+									"pm.globals.set(\"estudio\", \"Ciencias Ambientales\")",
+									"pm.globals.set(\"estudioAnt\", \"Grado: Ciencias Ambientales\")",
+									"pm.globals.set(\"localidad\", \"Huesca\")"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Degree test\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  for (let comm of responseJson){",
+									"        pm.expect(comm.estudio).to.be.oneOf([pm.globals.get('estudio'), pm.globals.get('estudioAntiguo')]);",
+									"        pm.expect(comm.localidad).to.eql(pm.globals.get('localidad'));",
+									"         pm.expect(comm.idCarrera).to.eql(pm.globals.get('degree'));",
+									"  }",
+									"",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/grades/historical/{{degree}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"grades",
+								"historical",
+								"{{degree}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Historical admission grades for existing degree GET Copy",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.globals.set(\"degree\", \"f954c8f5be85667d91b17b0ffe6f2bc3\")",
+									"pm.globals.set(\"estudio\", \"Ciencias Ambientales\")",
+									"pm.globals.set(\"estudioAnt\", \"Grado: Ciencias Ambientales\")",
+									"pm.globals.set(\"localidad\", \"Huesca\")"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/grades/historical/{{degree}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"grades",
+								"historical",
+								"{{degree}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Historical admission grades for existing degree GET Copy 2",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.globals.set(\"degree\", \"f954c8f5be85667d91b17b0ffe6f2bc3\")",
+									"pm.globals.set(\"estudio\", \"Ciencias Ambientales\")",
+									"pm.globals.set(\"estudioAnt\", \"Grado: Ciencias Ambientales\")",
+									"pm.globals.set(\"localidad\", \"Huesca\")"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/grades/historical/{{degree}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"grades",
+								"historical",
+								"{{degree}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Historical admission grades for existing degree GET Copy 3",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.globals.set(\"degree\", \"f954c8f5be85667d91b17b0ffe6f2bc3\")",
+									"pm.globals.set(\"estudio\", \"Ciencias Ambientales\")",
+									"pm.globals.set(\"estudioAnt\", \"Grado: Ciencias Ambientales\")",
+									"pm.globals.set(\"localidad\", \"Huesca\")"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/grades/historical/{{degree}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"grades",
+								"historical",
+								"{{degree}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Historical admission grades for NON existing degree GET Copy",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.globals.set(\"degree\", \"inventado\")"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(404);",
+									"    ",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/grades/historical/{{degree}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"grades",
+								"historical",
+								"{{degree}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "erasmus",
+			"item": [
+				{
+					"name": "Erasmus in GET",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Number of students test\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  for (let comm of responseJson){",
+									"        pm.expect(comm.plazas).to.gte(0);",
+									"  }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/erasmus/in",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"erasmus",
+								"in"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Erasmus in POST",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/erasmus/in",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"erasmus",
+								"in"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Erasmus in PUT",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/erasmus/in",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"erasmus",
+								"in"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Erasmus in DELETE",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/erasmus/in",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"erasmus",
+								"in"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Erasmus out GET",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Number of students test\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  for (let comm of responseJson){",
+									"        pm.expect(comm.plazas).to.gte(0);",
+									"  }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/erasmus/out",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"erasmus",
+								"out"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Erasmus out GET Copy",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/erasmus/out",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"erasmus",
+								"out"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Erasmus out GET Copy 2",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/erasmus/out",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"erasmus",
+								"out"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Erasmus out GET Copy 3",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(501);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/erasmus/out",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"erasmus",
+								"out"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.globals.set(\"url\", \"localhost:3000\")"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		}
 	]
 }
