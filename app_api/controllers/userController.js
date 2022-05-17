@@ -52,32 +52,38 @@ const login = function (req, res, next) {
 };
 
 const changeName = function (req, res, next) {
-  User.findOne({ _id: req._id }, (err, user) => {
-    if (!user)
-      return res
-        .status(404)
-        .json({ status: false, message: "No se encontró el usuario :C" });
-    else {
-      if (user.username != req.query.username && req.query.username) {
-        User.findOne({ username: req.query.username }, (err, newuser) => {
-          if (!newuser) {
-            user.username = req.query.username;
-            user.save();
-            if (user.comments.length > 0) handleCommentsChange(user, res);
-            res.send(
-              _.pick(user, ["_id", "username", "email", "admin", "banned"])
-            );
-          } else {
-            res
-              .status(404)
-              .json({ status: false, message: "Ya existe ese usuario." });
-          }
-        });
-      } else {
-        res.status(404).json({ status: false, message: "No hay cambio." });
+  if (req._id === req.params.userid)
+    User.findOne({ _id: req._id }, (err, user) => {
+      if (!user)
+        return res
+          .status(404)
+          .json({ status: false, message: "No se encontró el usuario :C" });
+      else {
+        if (user.username != req.query.username && req.query.username) {
+          User.findOne({ username: req.query.username }, (err, newuser) => {
+            if (!newuser) {
+              user.username = req.query.username;
+              user.save();
+              if (user.comments.length > 0) handleCommentsChange(user, res);
+              res.send(
+                _.pick(user, ["_id", "username", "email", "admin", "banned"])
+              );
+            } else {
+              res
+                .status(404)
+                .json({ status: false, message: "Ya existe ese usuario." });
+            }
+          });
+        } else {
+          res.status(404).json({ status: false, message: "No hay cambio." });
+        }
       }
-    }
-  });
+    });
+  else
+    return res.status(404).json({
+      status: false,
+      message: "El id y el token no coinciden :C",
+    });
 };
 
 function handleCommentsChange(user, res) {
@@ -122,42 +128,54 @@ const changePassword = function (req, res, next) {
   passport.authenticate("local", (err, user, info) => {
     if (err) return res.status(400).json(err);
     else if (user) {
-      User.findOne({ _id: req._id }, (err, user) => {
-        if (!user)
-          return res
-            .status(404)
-            .json({ status: false, message: "No se encontró el usuario :C" });
-        else if (!req.body.newPassword || req.body.newPassword.length < 5) {
-          return res.status(404).json({
-            status: false,
-            message: "La nueva contraseña es muy corta",
-          });
-        } else {
-          user.password = req.body.newPassword;
-          console.log(req.body.newPassword);
-          user.regen = true;
-          user.save();
-          res.send(
-            _.pick(user, ["_id", "username", "email", "admin", "banned"])
-          );
-        }
-      });
+      if (req._id === req.params.userid)
+        User.findOne({ _id: req._id }, (err, user) => {
+          if (!user)
+            return res.status(404).json({
+              status: false,
+              message: "No se encontró el usuario :C",
+            });
+          else if (!req.body.newPassword || req.body.newPassword.length < 5) {
+            return res.status(404).json({
+              status: false,
+              message: "La nueva contraseña es muy corta",
+            });
+          } else {
+            user.password = req.body.newPassword;
+            console.log(req.body.newPassword);
+            user.regen = true;
+            user.save();
+            res.send(
+              _.pick(user, ["_id", "username", "email", "admin", "banned"])
+            );
+          }
+        });
+      else
+        return res.status(404).json({
+          status: false,
+          message: "El id y el token no coinciden :C",
+        });
     } else return res.status(404).json(info);
   })(req, res);
 };
 
 const profile = function (req, res, next) {
-  User.findOne({ _id: req._id }, (err, user) => {
-    if (!user)
-      return res
-        .status(404)
-        .json({ status: false, message: "No se encontró el usuario :C" });
-    else
-      return res.status(200).json({
-        status: true,
-        user: _.pick(user, ["_id", "username", "email", "admin", "banned"]),
-      });
-  });
+  if (req._id === req.params.userid)
+    User.findOne({ _id: req._id }, (err, user) => {
+      if (!user)
+        return res
+          .status(404)
+          .json({ status: false, message: "No se encontró el usuario :C" });
+      else
+        return res.status(200).json({
+          status: true,
+          user: _.pick(user, ["_id", "username", "email", "admin", "banned"]),
+        });
+    });
+  else
+    return res
+      .status(404)
+      .json({ status: false, message: "El id y el token no coinciden :C" });
 };
 
 const ban = function (req, res, next) {

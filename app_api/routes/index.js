@@ -139,11 +139,11 @@ router
 /* POST new registered User. */
 /**
  * @openapi
- * /register:
+ * /user/register:
  *   post:
  *       description: Post new registered User.
  *       tags:
- *         - Register
+ *         - User
  *       requestBody:
  *           required: true
  *           description: User to create
@@ -173,7 +173,7 @@ router
  *               description: Internal server error
  */
 router
-  .route("/register")
+  .route("/user/register")
   .post(controlUser.register)
   .get(controlUser.httpNotImplemented)
   .delete(controlUser.httpNotImplemented)
@@ -182,11 +182,11 @@ router
 /* POST logged user */
 /**
  * @openapi
- * /login:
+ * /user/login:
  *   post:
  *       description: Post user email and password and get the token.
  *       tags:
- *         - Login
+ *         - User
  *       requestBody:
  *           required: true
  *           description: User to create
@@ -211,7 +211,7 @@ router
  *               description: Internal server error
  */
 router
-  .route("/login")
+  .route("/user/login")
   .post(controlUser.login)
   .get(controlUser.httpNotImplemented)
   .delete(controlUser.httpNotImplemented)
@@ -220,14 +220,20 @@ router
 /* GET change username */
 /**
  * @openapi
- * /changeUsername:
+ * /user/{userid}/username:
  *   get:
  *       description: Change username given a token and new username.
  *       security:
  *         - bearerAuth: []
  *       tags:
- *         - Change username
+ *         - User
  *       parameters:
+ *         - name: userid
+ *           in: path
+ *           description: User id.
+ *           required: true
+ *           schema:
+ *            type: string
  *         - name: username
  *           in: query
  *           description: New username.
@@ -243,7 +249,7 @@ router
  *               description: Internal server error
  */
 router
-  .route("/changeUsername")
+  .route("/user/:userid/username")
   .get(jwtHelper.verifyJwtToken, controlUser.changeName)
   .post(controlUser.httpNotImplemented)
   .delete(controlUser.httpNotImplemented)
@@ -252,13 +258,13 @@ router
 /* POST change password */
 /**
  * @openapi
- * /changePassword:
+ * /user/{userid}/password:
  *   post:
  *       description: Change password given a token and new password.
  *       security:
  *         - bearerAuth: []
  *       tags:
- *         - Change password
+ *         - User
  *       requestBody:
  *           required: true
  *           description: User to create
@@ -274,6 +280,13 @@ router
  *                  example:
  *                    password: "password"
  *                    newPassword: "newPassword"
+ *       parameters:
+ *         - name: userid
+ *           in: path
+ *           description: User id.
+ *           required: true
+ *           schema:
+ *            type: string
  *       responses:
  *           200:
  *               description: User profile data
@@ -283,7 +296,7 @@ router
  *               description: Internal server error
  */
 router
-  .route("/changePassword")
+  .route("/user/:userid/password")
   .get(controlUser.httpNotImplemented)
   .post(jwtHelper.verifyJwtToken, controlUser.changePassword)
   .delete(controlUser.httpNotImplemented)
@@ -292,13 +305,20 @@ router
 /* GET user profile */
 /**
  * @openapi
- * /profile:
+ * /user/{userid}/profile:
  *   get:
  *       description: Get user profile given a token.
  *       security:
  *         - bearerAuth: []
  *       tags:
- *         - Login
+ *         - User
+ *       parameters:
+ *         - in: path
+ *           name: userid
+ *           required: true
+ *           description: User id
+ *           schema:
+ *            type: string
  *       responses:
  *           200:
  *               description: User profile data
@@ -308,7 +328,7 @@ router
  *               description: Internal server error
  */
 router
-  .route("/profile")
+  .route("/user/:userid/profile")
   .get(jwtHelper.verifyJwtToken, controlUser.profile)
   .post(controlUser.httpNotImplemented)
   .delete(controlUser.httpNotImplemented)
