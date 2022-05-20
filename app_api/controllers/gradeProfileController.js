@@ -195,6 +195,7 @@ function processGraduatesOne(data, gradeProfile, res, next, gradeData) {
 const comment = function (req, res, next) {
   commentInsert = {
     username: "",
+    userid: "",
     upvotes: 0,
     visible: true,
     body: req.query.cuerpo,
@@ -213,6 +214,7 @@ const comment = function (req, res, next) {
       });
     } else {
       commentInsert.username = user.username;
+      commentInsert.userid = user._id;
       GradeProfile.findOne(
         { idCarrera: req.params.degreeId },
         (err, gradeProfile) => {
@@ -241,6 +243,7 @@ const comment = function (req, res, next) {
 const reply = function (req, res, next) {
   replyInsert = {
     username: "",
+    userid: "",
     upvotes: 0,
     visible: true,
     body: req.query.cuerpo,
@@ -259,6 +262,7 @@ const reply = function (req, res, next) {
       });
     } else {
       replyInsert.username = user.username;
+      replyInsert.userid = user._id;
       GradeProfile.findOne(
         { idCarrera: req.params.degreeId },
         (err, gradeProfile) => {

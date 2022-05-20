@@ -9,6 +9,7 @@ const graduatedSchema = new Mongoose.Schema({
 
 const responseSchema = new Mongoose.Schema({
   username: String,
+  userid: String,
   upvotes: Number,
   upvotedUsers: [String],
   visible: Boolean,
@@ -21,6 +22,7 @@ const responseSchema = new Mongoose.Schema({
 
 const commentSchema = new Mongoose.Schema({
   username: String,
+  userid: String,
   upvotes: Number,
   upvotedUsers: [String],
   visible: Boolean,
