@@ -1,0 +1,3606 @@
+{
+	"id": "9d2ce439-969a-4a6b-a54f-4f66fb23942b",
+	"name": "STW-ENJOYERS",
+	"timestamp": "2022-05-22T19:27:00.493Z",
+	"collection_id": "15672654-67d26b6f-2fa2-4773-beee-7058072ce43a",
+	"folder_id": 0,
+	"environment_id": "0",
+	"totalPass": 173,
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "23d3fc10-5651-4ac9-95a9-0834312b6beb",
+			"name": "login",
+			"url": "http://unizapp-backend.herokuapp.com/api/user/login",
+			"time": 237,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status test": true,
+				"Constant id": true,
+				"Given token": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Constant id": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Given token": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				237
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Constant id": true,
+					"Given token": true
+				}
+			]
+		},
+		{
+			"id": "900f3878-ba59-4029-a3ca-8feb78fc0909",
+			"name": "login email not registered",
+			"url": "http://unizapp-backend.herokuapp.com/api/user/login",
+			"time": 74,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status test": true,
+				"Message test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Message test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				74
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Message test": true
+				}
+			]
+		},
+		{
+			"id": "e15532dd-a211-4a30-82a2-3e4df208c684",
+			"name": "login invalid password",
+			"url": "http://unizapp-backend.herokuapp.com/api/user/login",
+			"time": 340,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status test": true,
+				"Message test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Message test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				340
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Message test": true
+				}
+			]
+		},
+		{
+			"id": "998c69f5-db73-4c1e-9faf-22b6576f1625",
+			"name": "login empty strings",
+			"url": "http://unizapp-backend.herokuapp.com/api/user/login",
+			"time": 51,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status test": true,
+				"Message test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Message test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				51
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Message test": true
+				}
+			]
+		},
+		{
+			"id": "46080145-90d1-42c6-abd0-25112ca20147",
+			"name": "profile",
+			"url": "http://unizapp-backend.herokuapp.com/api/user/627e4b437dca7b721b68947f/profile",
+			"time": 75,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status test": true,
+				"Profile test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Profile test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				75
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Profile test": true
+				}
+			]
+		},
+		{
+			"id": "9ceee6d3-77dc-4488-a06c-05d533300fb7",
+			"name": "profile no token",
+			"url": "http://unizapp-backend.herokuapp.com/api/user/627e4b437dca7b721b68947f/profile",
+			"time": 55,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {
+				"Status test": true,
+				"Auth test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Auth test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				55
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Auth test": true
+				}
+			]
+		},
+		{
+			"id": "e3d0133e-ac47-4794-935c-d888c1312519",
+			"name": "profile invalid token",
+			"url": "http://unizapp-backend.herokuapp.com/api/user/627e4b437dca7b721b68947f/profile",
+			"time": 55,
+			"responseCode": {
+				"code": 500,
+				"name": "Internal Server Error"
+			},
+			"tests": {
+				"Status test": true,
+				"Auth test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Auth test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				55
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Auth test": true
+				}
+			]
+		},
+		{
+			"id": "65772eff-9666-4af2-b277-30da5c047130",
+			"name": "profile bad id",
+			"url": "http://unizapp-backend.herokuapp.com/api/user/invaliduserid/profile",
+			"time": 51,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status test": true,
+				"Auth test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Auth test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				51
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Auth test": true
+				}
+			]
+		},
+		{
+			"id": "54e9a7c9-b7c7-46d6-a319-4ce38b1f50ca",
+			"name": "register duplicate username",
+			"url": "http://unizapp-backend.herokuapp.com/api/user/register",
+			"time": 70,
+			"responseCode": {
+				"code": 422,
+				"name": "Unprocessable Entity"
+			},
+			"tests": {
+				"Status test": true,
+				"Message test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Message test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				70
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Message test": true
+				}
+			]
+		},
+		{
+			"id": "bf1739a2-54f4-44ff-a489-303c9ef2a1ec",
+			"name": "register duplicate email",
+			"url": "http://unizapp-backend.herokuapp.com/api/user/register",
+			"time": 189,
+			"responseCode": {
+				"code": 422,
+				"name": "Unprocessable Entity"
+			},
+			"tests": {
+				"Status test": true,
+				"Message test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Message test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				189
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Message test": true
+				}
+			]
+		},
+		{
+			"id": "133d193a-eb5d-4204-a2ee-fbd356bdc335",
+			"name": "register short password",
+			"url": "http://unizapp-backend.herokuapp.com/api/user/register",
+			"time": 71,
+			"responseCode": {
+				"code": 500,
+				"name": "Internal Server Error"
+			},
+			"tests": {
+				"Status test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				71
+			],
+			"allTests": [
+				{
+					"Status test": true
+				}
+			]
+		},
+		{
+			"id": "7c4a3864-b7b7-4363-af63-fcfc3e3e0f77",
+			"name": "gradeProfile",
+			"url": "http://unizapp-backend.herokuapp.com/api/gradeProfile/b4f577c2c7404051e3629b47cafab77e/info",
+			"time": 106,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status test": true,
+				"Id test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Id test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				106
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Id test": true
+				}
+			]
+		},
+		{
+			"id": "dca3f440-2aec-4c60-85bd-311ed108beea",
+			"name": "gradeProfile no idCarrera",
+			"url": "http://unizapp-backend.herokuapp.com/api/gradeProfile/invalidid/info",
+			"time": 91,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status test": true,
+				"Message test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Message test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				91
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Message test": true
+				}
+			]
+		},
+		{
+			"id": "796ae7da-da5b-4550-ac2f-01103204b9e8",
+			"name": "comment",
+			"url": "http://unizapp-backend.herokuapp.com/api/gradeProfile/b4f577c2c7404051e3629b47cafab77e/comment?cuerpo=Prueba%20postman",
+			"time": 112,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status test": true,
+				"Body comment test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body comment test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				112
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Body comment test": true
+				}
+			]
+		},
+		{
+			"id": "fe1274c3-1a8a-46f1-850b-c94c0e31f13c",
+			"name": "comment no idCarrera",
+			"url": "http://unizapp-backend.herokuapp.com/api/gradeProfile/invalidid/comment?cuerpo=Prueba%20postman",
+			"time": 91,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status test": true,
+				"Message test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Message test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				91
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Message test": true
+				}
+			]
+		},
+		{
+			"id": "39caf689-d0bf-4d30-a68e-769d618c3173",
+			"name": "comment no token",
+			"url": "http://unizapp-backend.herokuapp.com/api/gradeProfile/b4f577c2c7404051e3629b47cafab77e/comment?cuerpo=Prueba%20postman",
+			"time": 56,
+			"responseCode": {
+				"code": 500,
+				"name": "Internal Server Error"
+			},
+			"tests": {
+				"Status test": true,
+				"Message test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Message test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				56
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Message test": true
+				}
+			]
+		},
+		{
+			"id": "14560f5d-e214-42ad-b7e1-c0ee3f9e27d3",
+			"name": "comment invalid token",
+			"url": "http://unizapp-backend.herokuapp.com/api/gradeProfile/b4f577c2c7404051e3629b47cafab77e/comment?cuerpo=Prueba%20postman",
+			"time": 50,
+			"responseCode": {
+				"code": 500,
+				"name": "Internal Server Error"
+			},
+			"tests": {
+				"Status test": true,
+				"Message test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Message test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				50
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Message test": true
+				}
+			]
+		},
+		{
+			"id": "a85a37c9-9384-4203-8744-c18172ba1f43",
+			"name": "reply",
+			"url": "http://unizapp-backend.herokuapp.com/api/gradeProfile/b4f577c2c7404051e3629b47cafab77e/comment/628a8e70331baa6022943d91/reply?cuerpo=Prueba%20postman%20reply",
+			"time": 98,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status test": true,
+				"Body comment test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body comment test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				98
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Body comment test": true
+				}
+			]
+		},
+		{
+			"id": "07a11cdb-63e1-496d-9e88-be1d78110f90",
+			"name": "reply no idCarrera",
+			"url": "http://unizapp-backend.herokuapp.com/api/gradeProfile/invalidid/comment/628a8e70331baa6022943d91/reply?cuerpo=Prueba%20postman%20reply",
+			"time": 86,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status test": true,
+				"Message test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Message test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				86
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Message test": true
+				}
+			]
+		},
+		{
+			"id": "0339136e-da4a-49e0-bc6a-d6500e51141a",
+			"name": "reply no commId",
+			"url": "http://unizapp-backend.herokuapp.com/api/gradeProfile/b4f577c2c7404051e3629b47cafab77e/comment/invalidid/reply?cuerpo=Prueba%20postman%20reply",
+			"time": 99,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status test": true,
+				"Message test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Message test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				99
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Message test": true
+				}
+			]
+		},
+		{
+			"id": "90e4dbe0-51e3-47bd-9cb3-7f93e33d9047",
+			"name": "reply no token",
+			"url": "http://unizapp-backend.herokuapp.com/api/gradeProfile/b4f577c2c7404051e3629b47cafab77e/comment/628a8e70331baa6022943d91/reply?cuerpo=Prueba%20postman%20reply",
+			"time": 49,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {
+				"Status test": true,
+				"Message test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Message test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				49
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Message test": true
+				}
+			]
+		},
+		{
+			"id": "eb8fb2a3-8842-4780-af28-88c07dac21ef",
+			"name": "reply invalid token",
+			"url": "http://unizapp-backend.herokuapp.com/api/gradeProfile/b4f577c2c7404051e3629b47cafab77e/comment/628a8e70331baa6022943d91/reply?cuerpo=Prueba%20postman%20reply",
+			"time": 54,
+			"responseCode": {
+				"code": 500,
+				"name": "Internal Server Error"
+			},
+			"tests": {
+				"Status test": true,
+				"Message test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Message test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				54
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Message test": true
+				}
+			]
+		},
+		{
+			"id": "5aca433a-5165-44c3-9f6f-d332a01992c8",
+			"name": "upVote",
+			"url": "http://unizapp-backend.herokuapp.com/api/gradeProfile/b4f577c2c7404051e3629b47cafab77e/comment/628a8e70331baa6022943d91/upVote",
+			"time": 95,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status test": true,
+				"Body comment test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body comment test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				95
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Body comment test": true
+				}
+			]
+		},
+		{
+			"id": "7515be38-405c-47d6-bde5-98cc3207e808",
+			"name": "upVote reply",
+			"url": "http://unizapp-backend.herokuapp.com/api/gradeProfile/b4f577c2c7404051e3629b47cafab77e/comment/628a8e70331baa6022943d91/reply/628a8e71331baa6022943da4/upVote",
+			"time": 98,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status test": true,
+				"Body comment test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body comment test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				98
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Body comment test": true
+				}
+			]
+		},
+		{
+			"id": "8c61c35c-a234-42eb-a097-89f688f35b77",
+			"name": "upVote reupvote",
+			"url": "http://unizapp-backend.herokuapp.com/api/gradeProfile/b4f577c2c7404051e3629b47cafab77e/comment/628a8e70331baa6022943d91/upVote",
+			"time": 94,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status test": true,
+				"Message test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Message test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				94
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Message test": true
+				}
+			]
+		},
+		{
+			"id": "843dca8f-8c0b-43cc-8a6b-56f5b0425efa",
+			"name": "upVote no idCarrera",
+			"url": "http://unizapp-backend.herokuapp.com/api/gradeProfile/invalidid/comment/628a8e70331baa6022943d91/upVote",
+			"time": 89,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status test": true,
+				"Message test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Message test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				89
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Message test": true
+				}
+			]
+		},
+		{
+			"id": "323fe3b7-27cc-4911-a254-635a11d70506",
+			"name": "upVote no idcom",
+			"url": "http://unizapp-backend.herokuapp.com/api/gradeProfile/b4f577c2c7404051e3629b47cafab77e/comment/invalidid/upVote",
+			"time": 1486,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status test": true,
+				"Message test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Message test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				1486
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Message test": true
+				}
+			]
+		},
+		{
+			"id": "9f0b3bfb-d975-4939-b780-f7fe4160be03",
+			"name": "upVote no replyid",
+			"url": "http://unizapp-backend.herokuapp.com/api/gradeProfile/b4f577c2c7404051e3629b47cafab77e/comment/628a8e70331baa6022943d91/reply/invalidid/upVote",
+			"time": 1053,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status test": true,
+				"Message test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Message test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				1053
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Message test": true
+				}
+			]
+		},
+		{
+			"id": "fcb1773a-8653-4929-95ac-2aa0c3defcc9",
+			"name": "upVote no token",
+			"url": "http://unizapp-backend.herokuapp.com/api/gradeProfile/b4f577c2c7404051e3629b47cafab77e/comment/628a8e70331baa6022943d91/upVote",
+			"time": 51,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {
+				"Status test": true,
+				"Message test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Message test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				51
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Message test": true
+				}
+			]
+		},
+		{
+			"id": "b426d6c8-3051-4697-8ea2-f33f7c2a0a79",
+			"name": "cancelUpVote comment",
+			"url": "http://unizapp-backend.herokuapp.com/api/gradeProfile/b4f577c2c7404051e3629b47cafab77e/comment/628a8e70331baa6022943d91/cancelUpVote",
+			"time": 171,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status test": true,
+				"Body comment test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body comment test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				171
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Body comment test": true
+				}
+			]
+		},
+		{
+			"id": "1ba8dffe-92eb-49cb-ae9c-98941f11beff",
+			"name": "cancelUpVote recancel comment",
+			"url": "http://unizapp-backend.herokuapp.com/api/gradeProfile/b4f577c2c7404051e3629b47cafab77e/comment/628a8e70331baa6022943d91/cancelUpVote",
+			"time": 227,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status test": true,
+				"Message test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Message test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				227
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Message test": true
+				}
+			]
+		},
+		{
+			"id": "747b7730-a84c-4d25-a333-6bc8be123c15",
+			"name": "cancelUpVote reply",
+			"url": "http://unizapp-backend.herokuapp.com/api/gradeProfile/b4f577c2c7404051e3629b47cafab77e/comment/628a8e70331baa6022943d91/reply/628a8e71331baa6022943da4/cancelUpVote",
+			"time": 321,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status test": true,
+				"Body comment test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body comment test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				321
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Body comment test": true
+				}
+			]
+		},
+		{
+			"id": "b88d5e2e-ec46-4901-b8e4-af7f3a2e9c1c",
+			"name": "cancelUpVote recancel reply",
+			"url": "http://unizapp-backend.herokuapp.com/api/gradeProfile/b4f577c2c7404051e3629b47cafab77e/comment/628a8e70331baa6022943d91/reply/628a8e71331baa6022943da4/cancelUpVote",
+			"time": 91,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status test": true,
+				"Message test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Message test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				91
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Message test": true
+				}
+			]
+		},
+		{
+			"id": "2cdcc872-15b8-4b94-9e85-38012543d0d7",
+			"name": "changeUsername",
+			"url": "http://unizapp-backend.herokuapp.com/api/user/627e4b437dca7b721b68947f/username?username=elpruebaso",
+			"time": 177,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status test": true,
+				"Profile test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Profile test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				177
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Profile test": true
+				}
+			]
+		},
+		{
+			"id": "be1fd120-0353-4995-bddc-29f885e9d4e7",
+			"name": "changeUsername back",
+			"url": "http://unizapp-backend.herokuapp.com/api/user/627e4b437dca7b721b68947f/username?username=elpruebas",
+			"time": 554,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status test": true,
+				"Profile test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Profile test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				554
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Profile test": true
+				}
+			]
+		},
+		{
+			"id": "30ae7353-5e5c-46ef-b4f4-9a6ad3dfc063",
+			"name": "changeUsername same",
+			"url": "http://unizapp-backend.herokuapp.com/api/user/627e4b437dca7b721b68947f/username?username=elpruebas",
+			"time": 1400,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status test": true,
+				"Profile test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Profile test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				1400
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Profile test": true
+				}
+			]
+		},
+		{
+			"id": "cedbd273-9204-49de-8f91-309cf3346037",
+			"name": "changeUsername no username",
+			"url": "http://unizapp-backend.herokuapp.com/api/user/627e4b437dca7b721b68947f/username",
+			"time": 72,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status test": true,
+				"Profile test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Profile test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				72
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Profile test": true
+				}
+			]
+		},
+		{
+			"id": "24b9bef1-c05b-438d-98a3-528952abd8b4",
+			"name": "changeUsername bad id",
+			"url": "http://unizapp-backend.herokuapp.com/api/user/invalidid/username?username=elpruebaso",
+			"time": 48,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status test": true,
+				"Profile test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Profile test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				48
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Profile test": true
+				}
+			]
+		},
+		{
+			"id": "87899d6a-3966-401d-a617-3ebc90b1ef92",
+			"name": "changePassword",
+			"url": "http://unizapp-backend.herokuapp.com/api/user/627e4b437dca7b721b68947f/password",
+			"time": 219,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status test": true,
+				"Profile test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Profile test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				219
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Profile test": true
+				}
+			]
+		},
+		{
+			"id": "19522845-0a42-4293-89d5-a66f230b61e6",
+			"name": "changePassword wrong passwd",
+			"url": "http://unizapp-backend.herokuapp.com/api/user/627e4b437dca7b721b68947f/password",
+			"time": 182,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status test": true,
+				"Profile test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Profile test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				182
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Profile test": true
+				}
+			]
+		},
+		{
+			"id": "3c409395-5bb9-4f0a-bbde-0a96b79e47b0",
+			"name": "changePassword back",
+			"url": "http://unizapp-backend.herokuapp.com/api/user/627e4b437dca7b721b68947f/password",
+			"time": 200,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status test": true,
+				"Profile test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Profile test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				200
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Profile test": true
+				}
+			]
+		},
+		{
+			"id": "4ceb89b9-794f-484a-8c34-b7d0229dac95",
+			"name": "changePassword empty password",
+			"url": "http://unizapp-backend.herokuapp.com/api/user/627e4b437dca7b721b68947f/password",
+			"time": 220,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status test": true,
+				"Profile test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Profile test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				220
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Profile test": true
+				}
+			]
+		},
+		{
+			"id": "ac53ebdd-6a84-423b-94da-9e6bece4e331",
+			"name": "changePassword wrong passwd Copy",
+			"url": "http://unizapp-backend.herokuapp.com/api/user/invalidid/password",
+			"time": 190,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status test": true,
+				"Profile test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Profile test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				190
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Profile test": true
+				}
+			]
+		},
+		{
+			"id": "3d89e1ff-6bb3-4412-a674-854fcf58a895",
+			"name": "ban no admin",
+			"url": "http://unizapp-backend.herokuapp.com/api/user/6281757c5535a93250ae2999/ban",
+			"time": 72,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status test": true,
+				"Message test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Message test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				72
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Message test": true
+				}
+			]
+		},
+		{
+			"id": "faa9e649-98ed-4a50-a999-ac21b67f9432",
+			"name": "conflictive no admin",
+			"url": "http://unizapp-backend.herokuapp.com/api/gradeProfile/conflictives",
+			"time": 101,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status test": true,
+				"Message test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Message test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				101
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Message test": true
+				}
+			]
+		},
+		{
+			"id": "80fcd334-d65c-475c-a2d9-277fdb437f74",
+			"name": "commentedGrades no admin",
+			"url": "http://unizapp-backend.herokuapp.com/api/gradeProfile/commented",
+			"time": 93,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status test": true,
+				"Message test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Message test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				93
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Message test": true
+				}
+			]
+		},
+		{
+			"id": "aea60a53-ed3f-45aa-a11e-dd5f49862d38",
+			"name": "deleteComment no admin",
+			"url": "http://unizapp-backend.herokuapp.com/api/gradeProfile/b4f577c2c7404051e3629b47cafab77e/comment/628a8e70331baa6022943d91/delete",
+			"time": 71,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status test": true,
+				"Message test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Message test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				71
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Message test": true
+				}
+			]
+		},
+		{
+			"id": "ac799989-6663-4e28-a211-e490a366b485",
+			"name": "login admin",
+			"url": "http://unizapp-backend.herokuapp.com/api/user/login",
+			"time": 160,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status test": true,
+				"Constant id": true,
+				"Given token": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Constant id": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Given token": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				160
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Constant id": true,
+					"Given token": true
+				}
+			]
+		},
+		{
+			"id": "92cc658d-1d75-42e7-b2d7-70e6e8638020",
+			"name": "ban no username",
+			"url": "http://unizapp-backend.herokuapp.com/api/user/invalidid/ban",
+			"time": 72,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status test": true,
+				"Message test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Message test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				72
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Message test": true
+				}
+			]
+		},
+		{
+			"id": "a8b614fe-e492-4aa2-9fe1-188524ca9b0e",
+			"name": "ban no token",
+			"url": "http://unizapp-backend.herokuapp.com/api/user/6281757c5535a93250ae2999/ban",
+			"time": 48,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {
+				"Status test": true,
+				"Message test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Message test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				48
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Message test": true
+				}
+			]
+		},
+		{
+			"id": "f2e61b5e-fccc-4c7e-8669-c43e766e6415",
+			"name": "conflictive",
+			"url": "http://unizapp-backend.herokuapp.com/api/gradeProfile/conflictives",
+			"time": 346,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				346
+			],
+			"allTests": [
+				{
+					"Status test": true
+				}
+			]
+		},
+		{
+			"id": "92856d5d-3ba9-4944-ba2d-1fac10b30df8",
+			"name": "commentedGrades",
+			"url": "http://unizapp-backend.herokuapp.com/api/gradeProfile/commented",
+			"time": 288,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				288
+			],
+			"allTests": [
+				{
+					"Status test": true
+				}
+			]
+		},
+		{
+			"id": "b5c3beb7-0ec6-4f49-a2de-3244e95c69be",
+			"name": "deleteComment",
+			"url": "http://unizapp-backend.herokuapp.com/api/gradeProfile/b4f577c2c7404051e3629b47cafab77e/comment/628a8e70331baa6022943d91/delete",
+			"time": 124,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status test": true,
+				"Body comment test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body comment test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				124
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Body comment test": true
+				}
+			]
+		},
+		{
+			"id": "050ad3dc-f501-4ad4-bf1e-0273f4e166f4",
+			"name": "deleteComment reply",
+			"url": "http://unizapp-backend.herokuapp.com/api/gradeProfile/b4f577c2c7404051e3629b47cafab77e/comment/628a8e70331baa6022943d91/response/628a8e71331baa6022943da4/delete",
+			"time": 126,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status test": true,
+				"Body comment test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body comment test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				126
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Body comment test": true
+				}
+			]
+		},
+		{
+			"id": "1573cacf-b38d-4207-a50c-ba1365e9d429",
+			"name": "monthly users GET",
+			"url": "http://unizapp-backend.herokuapp.com/api/user/yearly",
+			"time": 97,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status test": true,
+				"Message test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Message test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				97
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Message test": true
+				}
+			]
+		},
+		{
+			"id": "296d7f61-a2c3-477f-bac5-a99c81b491cd",
+			"name": "monthly users GET (No token)",
+			"url": "http://unizapp-backend.herokuapp.com/api/user/yearly",
+			"time": 49,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {
+				"Status test": true,
+				"Message test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Message test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				49
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Message test": true
+				}
+			]
+		},
+		{
+			"id": "c5d5a1cd-f25d-4851-ac5c-4754a672801f",
+			"name": "monthly users POST",
+			"url": "http://unizapp-backend.herokuapp.com/api/user/yearly",
+			"time": 51,
+			"responseCode": {
+				"code": 501,
+				"name": "Not Implemented"
+			},
+			"tests": {
+				"Status test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				51
+			],
+			"allTests": [
+				{
+					"Status test": true
+				}
+			]
+		},
+		{
+			"id": "93f23d42-414a-4222-8de0-da6dc53d1aff",
+			"name": "monthly users PUT",
+			"url": "http://unizapp-backend.herokuapp.com/api/user/yearly",
+			"time": 48,
+			"responseCode": {
+				"code": 501,
+				"name": "Not Implemented"
+			},
+			"tests": {
+				"Status test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				48
+			],
+			"allTests": [
+				{
+					"Status test": true
+				}
+			]
+		},
+		{
+			"id": "4ea71b7f-f287-4652-96b6-758c78769d96",
+			"name": "monthly users DELETE",
+			"url": "http://unizapp-backend.herokuapp.com/api/user/yearly",
+			"time": 51,
+			"responseCode": {
+				"code": 501,
+				"name": "Not Implemented"
+			},
+			"tests": {
+				"Status test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				51
+			],
+			"allTests": [
+				{
+					"Status test": true
+				}
+			]
+		},
+		{
+			"id": "2256248a-9784-40e4-9300-99d3fbb5705b",
+			"name": "check comments",
+			"url": "http://unizapp-backend.herokuapp.com/api/gradeProfile/comments/check",
+			"time": 96,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status test": true,
+				"Message test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Message test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				96
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Message test": true
+				}
+			]
+		},
+		{
+			"id": "d4c4006c-3fd6-4b51-ac8a-b2f627866b0f",
+			"name": "check comments POST",
+			"url": "http://unizapp-backend.herokuapp.com/api/gradeProfile/comments/check",
+			"time": 51,
+			"responseCode": {
+				"code": 501,
+				"name": "Not Implemented"
+			},
+			"tests": {
+				"Status test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				51
+			],
+			"allTests": [
+				{
+					"Status test": true
+				}
+			]
+		},
+		{
+			"id": "2366494e-2c9a-456b-ad4f-9f31ab127102",
+			"name": "check comments PUT",
+			"url": "http://unizapp-backend.herokuapp.com/api/gradeProfile/comments/check",
+			"time": 47,
+			"responseCode": {
+				"code": 501,
+				"name": "Not Implemented"
+			},
+			"tests": {
+				"Status test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				47
+			],
+			"allTests": [
+				{
+					"Status test": true
+				}
+			]
+		},
+		{
+			"id": "38032cfe-8fcd-44c7-a188-a29c77c021c8",
+			"name": "check comments DELETE",
+			"url": "http://unizapp-backend.herokuapp.com/api/gradeProfile/comments/check",
+			"time": 51,
+			"responseCode": {
+				"code": 501,
+				"name": "Not Implemented"
+			},
+			"tests": {
+				"Status test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				51
+			],
+			"allTests": [
+				{
+					"Status test": true
+				}
+			]
+		},
+		{
+			"id": "7de6e1f5-c2e0-4f14-bf0e-2e460669dda2",
+			"name": "check comments GET(No token)",
+			"url": "http://unizapp-backend.herokuapp.com/api/gradeProfile/comments/check",
+			"time": 49,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {
+				"Status test": true,
+				"Message test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Message test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				49
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Message test": true
+				}
+			]
+		},
+		{
+			"id": "3a10638c-0be1-412b-ab24-87d41de5e0b4",
+			"name": "verify comment (No token) POST",
+			"url": "http://unizapp-backend.herokuapp.com/api/gradeProfile/prueba/comment/noexiste/verify",
+			"time": 51,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {
+				"Status test": true,
+				"Message test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Message test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				51
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Message test": true
+				}
+			]
+		},
+		{
+			"id": "6e573163-a9e4-42e1-ba7c-d4d05e27107a",
+			"name": "verify comment POST",
+			"url": "http://unizapp-backend.herokuapp.com/api/gradeProfile/3bee8fc9a9261e13db43af8a57367ab6/comment/627ae9a62fc718598b11fd54/verify",
+			"time": 183,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				183
+			],
+			"allTests": [
+				{
+					"Status test": true
+				}
+			]
+		},
+		{
+			"id": "f8ff5901-ac31-42b8-a42c-6fc52dcadc05",
+			"name": "verify comment GET",
+			"url": "http://unizapp-backend.herokuapp.com/api/gradeProfile/3bee8fc9a9261e13db43af8a57367ab6/comment/627ae9a62fc718598b11fd54/verify",
+			"time": 50,
+			"responseCode": {
+				"code": 501,
+				"name": "Not Implemented"
+			},
+			"tests": {
+				"Status test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				50
+			],
+			"allTests": [
+				{
+					"Status test": true
+				}
+			]
+		},
+		{
+			"id": "c4dbf6da-55f4-404e-b645-d0e0fefffd2f",
+			"name": "verify comment PUT",
+			"url": "http://unizapp-backend.herokuapp.com/api/gradeProfile/3bee8fc9a9261e13db43af8a57367ab6/comment/627ae9a62fc718598b11fd54/verify",
+			"time": 53,
+			"responseCode": {
+				"code": 501,
+				"name": "Not Implemented"
+			},
+			"tests": {
+				"Status test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				53
+			],
+			"allTests": [
+				{
+					"Status test": true
+				}
+			]
+		},
+		{
+			"id": "b5bebc49-6670-4cc9-a3c9-55a67751a3cd",
+			"name": "verify comment DELETE",
+			"url": "http://unizapp-backend.herokuapp.com/api/gradeProfile/3bee8fc9a9261e13db43af8a57367ab6/comment/627ae9a62fc718598b11fd54/verify",
+			"time": 50,
+			"responseCode": {
+				"code": 501,
+				"name": "Not Implemented"
+			},
+			"tests": {
+				"Status test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				50
+			],
+			"allTests": [
+				{
+					"Status test": true
+				}
+			]
+		},
+		{
+			"id": "d6107f80-1081-467f-9615-f7d66cb26faf",
+			"name": "verify response (No token) POST",
+			"url": "http://unizapp-backend.herokuapp.com/api/gradeProfile/prueba/comment/mensaje/response/respuesta/verify",
+			"time": 51,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {
+				"Status test": true,
+				"Message test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Message test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				51
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Message test": true
+				}
+			]
+		},
+		{
+			"id": "33df1f80-dc05-4b19-9f73-44c82bed23ad",
+			"name": "verify response POST",
+			"url": "http://unizapp-backend.herokuapp.com/api/gradeProfile/e8f2130a50c99554e5dda610636a9605/comment/6286ca30ab5fab9f8d859010/response/6286ca3eab5fab9f8d859021/verify",
+			"time": 100,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				100
+			],
+			"allTests": [
+				{
+					"Status test": true
+				}
+			]
+		},
+		{
+			"id": "d522c81b-61f9-4260-9906-3542ffb360bb",
+			"name": "verify response GET",
+			"url": "http://unizapp-backend.herokuapp.com/api/gradeProfile/e8f2130a50c99554e5dda610636a9605/comment/6286ca30ab5fab9f8d859010/response/6286ca3eab5fab9f8d859021/verify",
+			"time": 53,
+			"responseCode": {
+				"code": 501,
+				"name": "Not Implemented"
+			},
+			"tests": {
+				"Status test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				53
+			],
+			"allTests": [
+				{
+					"Status test": true
+				}
+			]
+		},
+		{
+			"id": "7c3c5c7d-971b-4d36-b5fe-f03f573bf870",
+			"name": "verify response PUT",
+			"url": "http://unizapp-backend.herokuapp.com/api/gradeProfile/e8f2130a50c99554e5dda610636a9605/comment/6286ca30ab5fab9f8d859010/response/6286ca3eab5fab9f8d859021/verify",
+			"time": 52,
+			"responseCode": {
+				"code": 501,
+				"name": "Not Implemented"
+			},
+			"tests": {
+				"Status test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				52
+			],
+			"allTests": [
+				{
+					"Status test": true
+				}
+			]
+		},
+		{
+			"id": "41f9adbb-47b0-422f-8557-7e1cbc3c3650",
+			"name": "verify response DELETE",
+			"url": "http://unizapp-backend.herokuapp.com/api/gradeProfile/e8f2130a50c99554e5dda610636a9605/comment/6286ca30ab5fab9f8d859010/response/6286ca3eab5fab9f8d859021/verify",
+			"time": 88,
+			"responseCode": {
+				"code": 501,
+				"name": "Not Implemented"
+			},
+			"tests": {
+				"Status test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				88
+			],
+			"allTests": [
+				{
+					"Status test": true
+				}
+			]
+		},
+		{
+			"id": "872bddd5-9eb3-4801-8a7b-e212fe3919ef",
+			"name": "ban",
+			"url": "http://unizapp-backend.herokuapp.com/api/user/6281757c5535a93250ae2999/ban",
+			"time": 93,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status test": true,
+				"Profile test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Profile test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				93
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Profile test": true
+				}
+			]
+		},
+		{
+			"id": "311c2ab9-2937-4274-b917-52a30221887c",
+			"name": "login banned",
+			"url": "http://unizapp-backend.herokuapp.com/api/user/login",
+			"time": 159,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status test": true,
+				"Given token": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Given token": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				159
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Given token": true
+				}
+			]
+		},
+		{
+			"id": "82fd158f-d774-4075-bc3b-aa1ff9204ac1",
+			"name": "comment banned",
+			"url": "http://unizapp-backend.herokuapp.com/api/gradeProfile/b4f577c2c7404051e3629b47cafab77e/comment?cuerpo=Prueba%20postman",
+			"time": 68,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status test": true,
+				"Body comment test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body comment test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				68
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Body comment test": true
+				}
+			]
+		},
+		{
+			"id": "04d2079d-10d4-4bab-8896-6f613b34aad8",
+			"name": "reply banned",
+			"url": "http://unizapp-backend.herokuapp.com/api/gradeProfile/b4f577c2c7404051e3629b47cafab77e/comment/627ae9a62fc718598b11fd54/reply",
+			"time": 76,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status test": true,
+				"Body comment test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body comment test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				76
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Body comment test": true
+				}
+			]
+		},
+		{
+			"id": "9cfff0dc-e145-443b-9772-173334fcbcd5",
+			"name": "upVote banned",
+			"url": "http://unizapp-backend.herokuapp.com/api/gradeProfile/b4f577c2c7404051e3629b47cafab77e/comment/627ae9a62fc718598b11fd54/upVote",
+			"time": 70,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status test": true,
+				"Body comment test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body comment test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				70
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Body comment test": true
+				}
+			]
+		},
+		{
+			"id": "e1f997fd-818a-425b-bda3-0e6210e438bd",
+			"name": "cancelUpVote banned",
+			"url": "http://unizapp-backend.herokuapp.com/api/gradeProfile/b4f577c2c7404051e3629b47cafab77e/comment/627ae9a62fc718598b11fd54/cancelUpVote",
+			"time": 72,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status test": true,
+				"Body comment test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body comment test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				72
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Body comment test": true
+				}
+			]
+		},
+		{
+			"id": "696a09bf-9ad6-4182-bba4-78040a55f5c3",
+			"name": "last year grades GET",
+			"url": "http://unizapp-backend.herokuapp.com/api/grades/last",
+			"time": 240,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status test": true,
+				"Year test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Year test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				240
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Year test": true
+				}
+			]
+		},
+		{
+			"id": "20e6e8fc-4252-43d3-b7b0-7824b61a6589",
+			"name": "last year grades POST",
+			"url": "http://unizapp-backend.herokuapp.com/api/grades/last",
+			"time": 48,
+			"responseCode": {
+				"code": 501,
+				"name": "Not Implemented"
+			},
+			"tests": {
+				"Status test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				48
+			],
+			"allTests": [
+				{
+					"Status test": true
+				}
+			]
+		},
+		{
+			"id": "138fd62f-f706-40b0-8c90-eff613934f76",
+			"name": "last year grades PUT",
+			"url": "http://unizapp-backend.herokuapp.com/api/grades/last",
+			"time": 47,
+			"responseCode": {
+				"code": 501,
+				"name": "Not Implemented"
+			},
+			"tests": {
+				"Status test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				47
+			],
+			"allTests": [
+				{
+					"Status test": true
+				}
+			]
+		},
+		{
+			"id": "d68e7325-053e-4aef-a9e1-518f7dee0da0",
+			"name": "last year grades PUT DELETE",
+			"url": "http://unizapp-backend.herokuapp.com/api/grades/last",
+			"time": 55,
+			"responseCode": {
+				"code": 501,
+				"name": "Not Implemented"
+			},
+			"tests": {
+				"Status test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				55
+			],
+			"allTests": [
+				{
+					"Status test": true
+				}
+			]
+		},
+		{
+			"id": "023f0a8e-f0e2-4196-b44c-c482d62f5dd1",
+			"name": "2017 admission grades GET",
+			"url": "http://unizapp-backend.herokuapp.com/api/grades/2017",
+			"time": 272,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status test": true,
+				"Year test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Year test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				272
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Year test": true
+				}
+			]
+		},
+		{
+			"id": "08d93999-c925-4b80-900c-00cab772bf06",
+			"name": "2017 admission grades POST",
+			"url": "http://unizapp-backend.herokuapp.com/api/grades/2017",
+			"time": 48,
+			"responseCode": {
+				"code": 501,
+				"name": "Not Implemented"
+			},
+			"tests": {
+				"Status test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				48
+			],
+			"allTests": [
+				{
+					"Status test": true
+				}
+			]
+		},
+		{
+			"id": "a69445f4-f646-4925-8b01-7ca1d9fff494",
+			"name": "2017 admission grades PUT",
+			"url": "http://unizapp-backend.herokuapp.com/api/grades/2017",
+			"time": 50,
+			"responseCode": {
+				"code": 501,
+				"name": "Not Implemented"
+			},
+			"tests": {
+				"Status test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				50
+			],
+			"allTests": [
+				{
+					"Status test": true
+				}
+			]
+		},
+		{
+			"id": "1ba6591e-51b5-4022-a5d9-a68339870da0",
+			"name": "2017 admission grades DELETE",
+			"url": "http://unizapp-backend.herokuapp.com/api/grades/2017",
+			"time": 47,
+			"responseCode": {
+				"code": 501,
+				"name": "Not Implemented"
+			},
+			"tests": {
+				"Status test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				47
+			],
+			"allTests": [
+				{
+					"Status test": true
+				}
+			]
+		},
+		{
+			"id": "59d3f5dd-64f3-4fad-9e52-a1a1d37b8d2a",
+			"name": "Year with no admission grades GET",
+			"url": "http://unizapp-backend.herokuapp.com/api/grades/2011",
+			"time": 356,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status test": true,
+				"Message test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Message test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				356
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Message test": true
+				}
+			]
+		},
+		{
+			"id": "93ae24ad-434a-462b-aac2-b591c8760e17",
+			"name": "Historical admission grades for existing degree GET",
+			"url": "http://unizapp-backend.herokuapp.com/api/grades/historical/f954c8f5be85667d91b17b0ffe6f2bc3",
+			"time": 74,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status test": true,
+				"Degree test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Degree test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				74
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Degree test": true
+				}
+			]
+		},
+		{
+			"id": "5ad02c5b-9022-4803-89d9-3f993f43de68",
+			"name": "Historical admission grades for existing degree GET Copy",
+			"url": "http://unizapp-backend.herokuapp.com/api/grades/historical/f954c8f5be85667d91b17b0ffe6f2bc3",
+			"time": 55,
+			"responseCode": {
+				"code": 501,
+				"name": "Not Implemented"
+			},
+			"tests": {
+				"Status test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				55
+			],
+			"allTests": [
+				{
+					"Status test": true
+				}
+			]
+		},
+		{
+			"id": "c9430f00-9b6e-4246-b5ff-1acc9185c00b",
+			"name": "Historical admission grades for existing degree GET Copy 2",
+			"url": "http://unizapp-backend.herokuapp.com/api/grades/historical/f954c8f5be85667d91b17b0ffe6f2bc3",
+			"time": 51,
+			"responseCode": {
+				"code": 501,
+				"name": "Not Implemented"
+			},
+			"tests": {
+				"Status test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				51
+			],
+			"allTests": [
+				{
+					"Status test": true
+				}
+			]
+		},
+		{
+			"id": "2b5d1737-8487-49c6-adf4-e4ef99aebfc1",
+			"name": "Historical admission grades for existing degree GET Copy 3",
+			"url": "http://unizapp-backend.herokuapp.com/api/grades/historical/f954c8f5be85667d91b17b0ffe6f2bc3",
+			"time": 47,
+			"responseCode": {
+				"code": 501,
+				"name": "Not Implemented"
+			},
+			"tests": {
+				"Status test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				47
+			],
+			"allTests": [
+				{
+					"Status test": true
+				}
+			]
+		},
+		{
+			"id": "4970947a-d15f-408c-abce-ab8c6bb25530",
+			"name": "Historical admission grades for NON existing degree GET Copy",
+			"url": "http://unizapp-backend.herokuapp.com/api/grades/historical/inventado",
+			"time": 72,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				72
+			],
+			"allTests": [
+				{
+					"Status test": true
+				}
+			]
+		},
+		{
+			"id": "969e9b3a-cc6b-45a0-a0de-9c045ffecdc7",
+			"name": "Erasmus in GET",
+			"url": "http://unizapp-backend.herokuapp.com/api/erasmus/in",
+			"time": 330,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status test": true,
+				"Number of students test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Number of students test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				330
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Number of students test": true
+				}
+			]
+		},
+		{
+			"id": "d3703f93-a40d-4541-bdfa-3c45f2d74aff",
+			"name": "Erasmus in POST",
+			"url": "http://unizapp-backend.herokuapp.com/api/erasmus/in",
+			"time": 49,
+			"responseCode": {
+				"code": 501,
+				"name": "Not Implemented"
+			},
+			"tests": {
+				"Status test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				49
+			],
+			"allTests": [
+				{
+					"Status test": true
+				}
+			]
+		},
+		{
+			"id": "4efb924f-1a35-49e6-91ae-390a9b92301f",
+			"name": "Erasmus in PUT",
+			"url": "http://unizapp-backend.herokuapp.com/api/erasmus/in",
+			"time": 47,
+			"responseCode": {
+				"code": 501,
+				"name": "Not Implemented"
+			},
+			"tests": {
+				"Status test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				47
+			],
+			"allTests": [
+				{
+					"Status test": true
+				}
+			]
+		},
+		{
+			"id": "31696ec0-34ca-4f9a-8bd3-1a3cf8e8da6b",
+			"name": "Erasmus in DELETE",
+			"url": "http://unizapp-backend.herokuapp.com/api/erasmus/in",
+			"time": 47,
+			"responseCode": {
+				"code": 501,
+				"name": "Not Implemented"
+			},
+			"tests": {
+				"Status test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				47
+			],
+			"allTests": [
+				{
+					"Status test": true
+				}
+			]
+		},
+		{
+			"id": "da237ecb-5493-4d1d-9d7b-8572486cc545",
+			"name": "Erasmus out GET",
+			"url": "http://unizapp-backend.herokuapp.com/api/erasmus/out",
+			"time": 371,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status test": true,
+				"Number of students test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Number of students test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				371
+			],
+			"allTests": [
+				{
+					"Status test": true,
+					"Number of students test": true
+				}
+			]
+		},
+		{
+			"id": "4801592c-ed11-47f9-a72f-301372b940ae",
+			"name": "Erasmus out GET Copy",
+			"url": "http://unizapp-backend.herokuapp.com/api/erasmus/out",
+			"time": 48,
+			"responseCode": {
+				"code": 501,
+				"name": "Not Implemented"
+			},
+			"tests": {
+				"Status test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				48
+			],
+			"allTests": [
+				{
+					"Status test": true
+				}
+			]
+		},
+		{
+			"id": "f63a94b3-24b0-486a-94de-37c441ad7f31",
+			"name": "Erasmus out GET Copy 2",
+			"url": "http://unizapp-backend.herokuapp.com/api/erasmus/out",
+			"time": 45,
+			"responseCode": {
+				"code": 501,
+				"name": "Not Implemented"
+			},
+			"tests": {
+				"Status test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				45
+			],
+			"allTests": [
+				{
+					"Status test": true
+				}
+			]
+		},
+		{
+			"id": "f2e3ebd5-c00c-48be-918d-135e11971f0a",
+			"name": "Erasmus out GET Copy 3",
+			"url": "http://unizapp-backend.herokuapp.com/api/erasmus/out",
+			"time": 45,
+			"responseCode": {
+				"code": 501,
+				"name": "Not Implemented"
+			},
+			"tests": {
+				"Status test": true
+			},
+			"testPassFailCounts": {
+				"Status test": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				45
+			],
+			"allTests": [
+				{
+					"Status test": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 15002,
+	"collection": {
+		"requests": [
+			{
+				"id": "23d3fc10-5651-4ac9-95a9-0834312b6beb",
+				"method": "POST"
+			},
+			{
+				"id": "900f3878-ba59-4029-a3ca-8feb78fc0909",
+				"method": "POST"
+			},
+			{
+				"id": "e15532dd-a211-4a30-82a2-3e4df208c684",
+				"method": "POST"
+			},
+			{
+				"id": "998c69f5-db73-4c1e-9faf-22b6576f1625",
+				"method": "POST"
+			},
+			{
+				"id": "46080145-90d1-42c6-abd0-25112ca20147",
+				"method": "GET"
+			},
+			{
+				"id": "9ceee6d3-77dc-4488-a06c-05d533300fb7",
+				"method": "GET"
+			},
+			{
+				"id": "e3d0133e-ac47-4794-935c-d888c1312519",
+				"method": "GET"
+			},
+			{
+				"id": "65772eff-9666-4af2-b277-30da5c047130",
+				"method": "GET"
+			},
+			{
+				"id": "54e9a7c9-b7c7-46d6-a319-4ce38b1f50ca",
+				"method": "POST"
+			},
+			{
+				"id": "bf1739a2-54f4-44ff-a489-303c9ef2a1ec",
+				"method": "POST"
+			},
+			{
+				"id": "133d193a-eb5d-4204-a2ee-fbd356bdc335",
+				"method": "POST"
+			},
+			{
+				"id": "7c4a3864-b7b7-4363-af63-fcfc3e3e0f77",
+				"method": "GET"
+			},
+			{
+				"id": "dca3f440-2aec-4c60-85bd-311ed108beea",
+				"method": "GET"
+			},
+			{
+				"id": "796ae7da-da5b-4550-ac2f-01103204b9e8",
+				"method": "POST"
+			},
+			{
+				"id": "fe1274c3-1a8a-46f1-850b-c94c0e31f13c",
+				"method": "POST"
+			},
+			{
+				"id": "39caf689-d0bf-4d30-a68e-769d618c3173",
+				"method": "POST"
+			},
+			{
+				"id": "14560f5d-e214-42ad-b7e1-c0ee3f9e27d3",
+				"method": "POST"
+			},
+			{
+				"id": "a85a37c9-9384-4203-8744-c18172ba1f43",
+				"method": "POST"
+			},
+			{
+				"id": "07a11cdb-63e1-496d-9e88-be1d78110f90",
+				"method": "POST"
+			},
+			{
+				"id": "0339136e-da4a-49e0-bc6a-d6500e51141a",
+				"method": "POST"
+			},
+			{
+				"id": "90e4dbe0-51e3-47bd-9cb3-7f93e33d9047",
+				"method": "POST"
+			},
+			{
+				"id": "eb8fb2a3-8842-4780-af28-88c07dac21ef",
+				"method": "POST"
+			},
+			{
+				"id": "5aca433a-5165-44c3-9f6f-d332a01992c8",
+				"method": "POST"
+			},
+			{
+				"id": "7515be38-405c-47d6-bde5-98cc3207e808",
+				"method": "POST"
+			},
+			{
+				"id": "8c61c35c-a234-42eb-a097-89f688f35b77",
+				"method": "POST"
+			},
+			{
+				"id": "843dca8f-8c0b-43cc-8a6b-56f5b0425efa",
+				"method": "POST"
+			},
+			{
+				"id": "323fe3b7-27cc-4911-a254-635a11d70506",
+				"method": "POST"
+			},
+			{
+				"id": "9f0b3bfb-d975-4939-b780-f7fe4160be03",
+				"method": "POST"
+			},
+			{
+				"id": "fcb1773a-8653-4929-95ac-2aa0c3defcc9",
+				"method": "POST"
+			},
+			{
+				"id": "b426d6c8-3051-4697-8ea2-f33f7c2a0a79",
+				"method": "POST"
+			},
+			{
+				"id": "1ba8dffe-92eb-49cb-ae9c-98941f11beff",
+				"method": "POST"
+			},
+			{
+				"id": "747b7730-a84c-4d25-a333-6bc8be123c15",
+				"method": "POST"
+			},
+			{
+				"id": "b88d5e2e-ec46-4901-b8e4-af7f3a2e9c1c",
+				"method": "POST"
+			},
+			{
+				"id": "2cdcc872-15b8-4b94-9e85-38012543d0d7",
+				"method": "GET"
+			},
+			{
+				"id": "be1fd120-0353-4995-bddc-29f885e9d4e7",
+				"method": "GET"
+			},
+			{
+				"id": "30ae7353-5e5c-46ef-b4f4-9a6ad3dfc063",
+				"method": "GET"
+			},
+			{
+				"id": "cedbd273-9204-49de-8f91-309cf3346037",
+				"method": "GET"
+			},
+			{
+				"id": "24b9bef1-c05b-438d-98a3-528952abd8b4",
+				"method": "GET"
+			},
+			{
+				"id": "87899d6a-3966-401d-a617-3ebc90b1ef92",
+				"method": "POST"
+			},
+			{
+				"id": "19522845-0a42-4293-89d5-a66f230b61e6",
+				"method": "POST"
+			},
+			{
+				"id": "3c409395-5bb9-4f0a-bbde-0a96b79e47b0",
+				"method": "POST"
+			},
+			{
+				"id": "4ceb89b9-794f-484a-8c34-b7d0229dac95",
+				"method": "POST"
+			},
+			{
+				"id": "ac53ebdd-6a84-423b-94da-9e6bece4e331",
+				"method": "POST"
+			},
+			{
+				"id": "3d89e1ff-6bb3-4412-a674-854fcf58a895",
+				"method": "GET"
+			},
+			{
+				"id": "faa9e649-98ed-4a50-a999-ac21b67f9432",
+				"method": "GET"
+			},
+			{
+				"id": "80fcd334-d65c-475c-a2d9-277fdb437f74",
+				"method": "GET"
+			},
+			{
+				"id": "aea60a53-ed3f-45aa-a11e-dd5f49862d38",
+				"method": "DELETE"
+			},
+			{
+				"id": "ac799989-6663-4e28-a211-e490a366b485",
+				"method": "POST"
+			},
+			{
+				"id": "92cc658d-1d75-42e7-b2d7-70e6e8638020",
+				"method": "GET"
+			},
+			{
+				"id": "a8b614fe-e492-4aa2-9fe1-188524ca9b0e",
+				"method": "GET"
+			},
+			{
+				"id": "f2e61b5e-fccc-4c7e-8669-c43e766e6415",
+				"method": "GET"
+			},
+			{
+				"id": "92856d5d-3ba9-4944-ba2d-1fac10b30df8",
+				"method": "GET"
+			},
+			{
+				"id": "b5c3beb7-0ec6-4f49-a2de-3244e95c69be",
+				"method": "DELETE"
+			},
+			{
+				"id": "050ad3dc-f501-4ad4-bf1e-0273f4e166f4",
+				"method": "DELETE"
+			},
+			{
+				"id": "1573cacf-b38d-4207-a50c-ba1365e9d429",
+				"method": "GET"
+			},
+			{
+				"id": "296d7f61-a2c3-477f-bac5-a99c81b491cd",
+				"method": "GET"
+			},
+			{
+				"id": "c5d5a1cd-f25d-4851-ac5c-4754a672801f",
+				"method": "POST"
+			},
+			{
+				"id": "93f23d42-414a-4222-8de0-da6dc53d1aff",
+				"method": "PUT"
+			},
+			{
+				"id": "4ea71b7f-f287-4652-96b6-758c78769d96",
+				"method": "DELETE"
+			},
+			{
+				"id": "2256248a-9784-40e4-9300-99d3fbb5705b",
+				"method": "GET"
+			},
+			{
+				"id": "d4c4006c-3fd6-4b51-ac8a-b2f627866b0f",
+				"method": "POST"
+			},
+			{
+				"id": "2366494e-2c9a-456b-ad4f-9f31ab127102",
+				"method": "DELETE"
+			},
+			{
+				"id": "38032cfe-8fcd-44c7-a188-a29c77c021c8",
+				"method": "PUT"
+			},
+			{
+				"id": "7de6e1f5-c2e0-4f14-bf0e-2e460669dda2",
+				"method": "GET"
+			},
+			{
+				"id": "3a10638c-0be1-412b-ab24-87d41de5e0b4",
+				"method": "POST"
+			},
+			{
+				"id": "6e573163-a9e4-42e1-ba7c-d4d05e27107a",
+				"method": "POST"
+			},
+			{
+				"id": "f8ff5901-ac31-42b8-a42c-6fc52dcadc05",
+				"method": "GET"
+			},
+			{
+				"id": "c4dbf6da-55f4-404e-b645-d0e0fefffd2f",
+				"method": "PUT"
+			},
+			{
+				"id": "b5bebc49-6670-4cc9-a3c9-55a67751a3cd",
+				"method": "DELETE"
+			},
+			{
+				"id": "d6107f80-1081-467f-9615-f7d66cb26faf",
+				"method": "POST"
+			},
+			{
+				"id": "33df1f80-dc05-4b19-9f73-44c82bed23ad",
+				"method": "POST"
+			},
+			{
+				"id": "d522c81b-61f9-4260-9906-3542ffb360bb",
+				"method": "GET"
+			},
+			{
+				"id": "7c3c5c7d-971b-4d36-b5fe-f03f573bf870",
+				"method": "PUT"
+			},
+			{
+				"id": "41f9adbb-47b0-422f-8557-7e1cbc3c3650",
+				"method": "GET"
+			},
+			{
+				"id": "872bddd5-9eb3-4801-8a7b-e212fe3919ef",
+				"method": "GET"
+			},
+			{
+				"id": "311c2ab9-2937-4274-b917-52a30221887c",
+				"method": "POST"
+			},
+			{
+				"id": "82fd158f-d774-4075-bc3b-aa1ff9204ac1",
+				"method": "POST"
+			},
+			{
+				"id": "04d2079d-10d4-4bab-8896-6f613b34aad8",
+				"method": "POST"
+			},
+			{
+				"id": "9cfff0dc-e145-443b-9772-173334fcbcd5",
+				"method": "POST"
+			},
+			{
+				"id": "e1f997fd-818a-425b-bda3-0e6210e438bd",
+				"method": "POST"
+			},
+			{
+				"id": "696a09bf-9ad6-4182-bba4-78040a55f5c3",
+				"method": "GET"
+			},
+			{
+				"id": "20e6e8fc-4252-43d3-b7b0-7824b61a6589",
+				"method": "POST"
+			},
+			{
+				"id": "138fd62f-f706-40b0-8c90-eff613934f76",
+				"method": "PUT"
+			},
+			{
+				"id": "d68e7325-053e-4aef-a9e1-518f7dee0da0",
+				"method": "DELETE"
+			},
+			{
+				"id": "023f0a8e-f0e2-4196-b44c-c482d62f5dd1",
+				"method": "GET"
+			},
+			{
+				"id": "08d93999-c925-4b80-900c-00cab772bf06",
+				"method": "POST"
+			},
+			{
+				"id": "a69445f4-f646-4925-8b01-7ca1d9fff494",
+				"method": "PUT"
+			},
+			{
+				"id": "1ba6591e-51b5-4022-a5d9-a68339870da0",
+				"method": "DELETE"
+			},
+			{
+				"id": "59d3f5dd-64f3-4fad-9e52-a1a1d37b8d2a",
+				"method": "GET"
+			},
+			{
+				"id": "93ae24ad-434a-462b-aac2-b591c8760e17",
+				"method": "GET"
+			},
+			{
+				"id": "5ad02c5b-9022-4803-89d9-3f993f43de68",
+				"method": "POST"
+			},
+			{
+				"id": "c9430f00-9b6e-4246-b5ff-1acc9185c00b",
+				"method": "PUT"
+			},
+			{
+				"id": "2b5d1737-8487-49c6-adf4-e4ef99aebfc1",
+				"method": "DELETE"
+			},
+			{
+				"id": "4970947a-d15f-408c-abce-ab8c6bb25530",
+				"method": "GET"
+			},
+			{
+				"id": "969e9b3a-cc6b-45a0-a0de-9c045ffecdc7",
+				"method": "GET"
+			},
+			{
+				"id": "d3703f93-a40d-4541-bdfa-3c45f2d74aff",
+				"method": "POST"
+			},
+			{
+				"id": "4efb924f-1a35-49e6-91ae-390a9b92301f",
+				"method": "PUT"
+			},
+			{
+				"id": "31696ec0-34ca-4f9a-8bd3-1a3cf8e8da6b",
+				"method": "DELETE"
+			},
+			{
+				"id": "da237ecb-5493-4d1d-9d7b-8572486cc545",
+				"method": "GET"
+			},
+			{
+				"id": "4801592c-ed11-47f9-a72f-301372b940ae",
+				"method": "POST"
+			},
+			{
+				"id": "f63a94b3-24b0-486a-94de-37c441ad7f31",
+				"method": "PUT"
+			},
+			{
+				"id": "f2e3ebd5-c00c-48be-918d-135e11971f0a",
+				"method": "DELETE"
+			}
+		]
+	}
+}
