@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "67d26b6f-2fa2-4773-beee-7058072ce43a",
+		"_postman_id": "2dda9442-5c30-4fdc-befa-fe79b897e82b",
 		"name": "STW-ENJOYERS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -38,7 +38,7 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"pm.globals.set(\"url\", \"localhost:3000\")"
+									"pm.globals.set(\"url\", \"https://unizapp-backend.herokuapp.com\")"
 								],
 								"type": "text/javascript"
 							}
@@ -2692,102 +2692,6 @@
 					"response": []
 				},
 				{
-					"name": "deleteComment",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status test\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"\r",
-									"\r",
-									"pm.test(\"Body comment test\", () => {\r",
-									"  const responseJson = pm.response.json();\r",
-									"  pm.expect(responseJson.modifiedCount).to.eql(1);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{url}}/api/gradeProfile/{{idCarrera}}/comment/{{commentId}}/delete",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"api",
-								"gradeProfile",
-								"{{idCarrera}}",
-								"comment",
-								"{{commentId}}",
-								"delete"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "deleteComment reply",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status test\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"\r",
-									"\r",
-									"pm.test(\"Body comment test\", () => {\r",
-									"  const responseJson = pm.response.json();\r",
-									"  pm.expect(responseJson.modifiedCount).to.eql(1);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{url}}/api/gradeProfile/{{idCarrera}}/comment/{{commentId}}/response/{{replyId}}/delete",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"api",
-								"gradeProfile",
-								"{{idCarrera}}",
-								"comment",
-								"{{commentId}}",
-								"response",
-								"{{replyId}}",
-								"delete"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "monthly users GET",
 					"event": [
 						{
@@ -3588,6 +3492,102 @@
 								"response",
 								"{{responseId}}",
 								"verify"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteComment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Body comment test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.modifiedCount).to.eql(1);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/api/gradeProfile/{{idCarrera}}/comment/{{commentId}}/delete",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"gradeProfile",
+								"{{idCarrera}}",
+								"comment",
+								"{{commentId}}",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteComment reply",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Body comment test\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.modifiedCount).to.eql(1);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/api/gradeProfile/{{idCarrera}}/comment/{{commentId}}/response/{{replyId}}/delete",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"gradeProfile",
+								"{{idCarrera}}",
+								"comment",
+								"{{commentId}}",
+								"response",
+								"{{replyId}}",
+								"delete"
 							]
 						}
 					},
