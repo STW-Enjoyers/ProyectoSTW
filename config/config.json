@@ -1,0 +1,14 @@
+{
+    "development": {
+      "PORT": 3000,
+      "MONGODB_URI": "mongodb+srv://unizApp:5AqBcDrm8IUy35d2@unizapp.mrqu2.mongodb.net/unizaApp?retryWrites=true&w=majority",
+      "JWT_SECRET": "NOMEHACKEEEEEES#345678",
+      "JWT_EXP": "1h"
+    },
+    "production": {
+      "PORT": 80,
+      "MONGODB_URI": "mongodb+srv://unizApp:5AqBcDrm8IUy35d2@unizapp.mrqu2.mongodb.net/unizaApp?retryWrites=true&w=majority",
+      "JWT_SECRET": "NOMEHACKEEEEEES#345678",
+      "JWT_EXP": "1h"
+    }
+  }
