@@ -634,6 +634,7 @@ const checkComments = function (req, res) {
               "comments.username": 1,
               "comments.body": 1,
               "comments.adminCheck": 1,
+              "comments.userid" : 1,
               "comments.responses.body": 1,
               "comments.responses.username": 1,
               "comments.responses.commentId": 1,
@@ -653,6 +654,7 @@ const checkComments = function (req, res) {
               if (!result[k]["comments"]["adminCheck"]) {
                 currentComment = {
                   type: "comment",
+                  userid: result[k]["comments"]["userid"],
                   username: result[k]["comments"]["username"],
                   body: result[k]["comments"]["body"],
                   commentId: result[k]["comments"]["_id"],
@@ -666,6 +668,7 @@ const checkComments = function (req, res) {
                   if (!responsesArr[j]["adminCheck"]) {
                     currentResponse = {
                       type: "response",
+                      userid: responsesArr[j]["userid"],
                       username: responsesArr[j]["username"],
                       body: responsesArr[j]["body"],
                       commentId: responsesArr[j]["commentId"],
