@@ -363,6 +363,7 @@ function handleCommentsBan(user, res) {
                 );
                 gradeProfile.comments[cIndex].responses[m].visible = false;
                 gradeProfile.comments[cIndex].responses[m].status = "banned";
+                gradeProfile.comments[cIndex].responses[m].adminCheck = true;
               }
             }
           } else {
@@ -370,6 +371,7 @@ function handleCommentsBan(user, res) {
             logger.info("Comentario baneado" + gradeProfile.comments[cIndex]);
             gradeProfile.comments[cIndex].visible = false;
             gradeProfile.comments[cIndex].status = "banned";
+            gradeProfile.comments[cIndex].adminCheck = true;
           }
           gradeProfile.save();
         }
